@@ -33,44 +33,48 @@ public class TapToPlace : MonoBehaviour
         if (Input.touchCount > 0 && !m_instanciated)
         {
             Touch touch = Input.GetTouch(0);
-
-            if (m_RaycastManager.Raycast(touch.position, m_Hits))
+            debugText.text = touch.rawPosition.ToString();
+            // Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            if (m_RaycastManager.Raycast(touch.rawPosition, m_Hits))
+             {
+                // debugText.text = "Raycast hit count " + m_Hits.Count;
+            //     // m_instanciated = true;
+            String newString = "";
+            foreach(ARRaycastHit hit in m_Hits)
             {
-                m_instanciated = true;
-                foreach(ARRaycastHit hit in m_Hits)
-                {
-                    HandleRaycast(hit);
-                }
+            // HandleRaycast(hit);
+            newString += "| "  + hit.trackable;
             }
-            else
-            {
-                m_Hits.Clear();
-            }
+            debugText.text = newString;
+             }
+             else
+             {
+            //     //m_Hits.Clear();
+                 debugText.text = "No Plane touched";
+             }
         } 
     }
     
     void HandleRaycast(ARRaycastHit hit)
     {
-        if (hit.trackable is ARPlane plane)
-        {
-            debugText.text = "PLANE = " + plane.alignment;
-            Debug.Log($"Hit a plane with alignment {plane.alignment}");
-            position = plane.transform.position;
-            rotation = plane.transform.rotation;
-
-            m_instance = Instantiate(original);
-            m_instance.transform.position = position;
-            m_instance.transform.rotation = rotation;
-            
-            m_PlaneManager.SetTrackablesActive(false);
-            m_PlaneManager.enabled = false;
-            
-        }
-        else
-        {
-            debugText.text = "Raycast hi a " + hit.hitType;
-            // What type of thing did we hit?
-            Debug.Log($"Raycast hit a {hit.hitType}");
-        }
+        // if (hit.trackable is ARPlane plane)
+        // {
+        //     debugText.text = "PLANE = " + plane.alignment;
+        //     Debug.Log($"Hit a plane with alignment {plane.alignment}");
+        //     position = plane.transform.position;
+        //     rotation = plane.transform.rotation;
+        //
+        //     m_instance = Instantiate(original);
+        //     m_instance.transform.position = position;
+        //     m_instance.transform.rotation = rotation;
+        //     
+        //     m_PlaneManager.SetTrackablesActive(false);
+        //     m_PlaneManager.enabled = false;
+        //     
+        // }
+        // else
+        // {
+            debugText.text = "Raycast hit count " + m_Hits.Count;
+        //}
     }
 }
