@@ -75,4 +75,17 @@ public class TapToPlace : MonoBehaviour
             debugText.text = "Raycast hit count " + m_Hits.Count;
         }
     }
+    
+    public void Reset()
+    {
+        if (m_instance != null)
+        {
+            Destroy(m_instance);
+            m_instance = null;
+        }
+        debugText.text = "Drücke um zu plazieren.";
+        m_instanciated = false;
+        m_PlaneManager.SetTrackablesActive(true);
+        m_PlaneManager.enabled = true;
+    }
 }
