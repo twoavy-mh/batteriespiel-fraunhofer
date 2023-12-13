@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -13,6 +14,8 @@ public class TapToPlace : MonoBehaviour
     
     [SerializeField]
     ARPlaneManager m_PlaneManager;
+
+    public GameObject resetButton;
     
     List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
     private Boolean m_instanciated = false;
@@ -25,7 +28,7 @@ public class TapToPlace : MonoBehaviour
     
     void Awake()
     {
-        
+        resetButton.GetComponent<Button>().onClick.AddListener(Reset);
     }
 
     // Update is called once per frame
@@ -64,6 +67,7 @@ public class TapToPlace : MonoBehaviour
             rotation = plane.transform.rotation;
              
             m_instance = Instantiate(original);
+            m_instance.transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
             m_instance.transform.position = position;
             m_instance.transform.rotation = rotation;
              
@@ -84,8 +88,8 @@ public class TapToPlace : MonoBehaviour
             m_instance = null;
         }
         debugText.text = "Drücke um zu plazieren.";
-        m_instanciated = false;
         m_PlaneManager.SetTrackablesActive(true);
         m_PlaneManager.enabled = true;
+        m_instanciated = false;
     }
 }
