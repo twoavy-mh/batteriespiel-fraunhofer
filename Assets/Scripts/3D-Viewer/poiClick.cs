@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class poiClick : MonoBehaviour
 {
+    public ShowPoiContent showPoiContentScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,7 @@ public class poiClick : MonoBehaviour
 
     private void OnMouseDown()
     {
+        showPoiContentScript.ShowPoiCanvas();
         Debug.Log("Clicked POI");
     }
 }
