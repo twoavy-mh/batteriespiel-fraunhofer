@@ -1,14 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Events;
 using Helpers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private float _speed;
     private bool _isJumping = false;
+    public bool isColliding = false;
 
     private Animator _animator;
     
@@ -39,17 +42,17 @@ public class PlayerController : MonoBehaviour
     {
         if (other.isTrigger)
         {
-            Debug.Log("is trigger???");
-        }
-        else
-        {
-            
+            switch (other.tag)
+            {
+                case "SmallLightning":
+                    SceneController.Instance.regenerateEvent.Invoke(new RegenerationInstance(5f, 2f));
+                    break;
+            }
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log(other.transform.tag);
         if (other.transform.tag.Equals("Obstacle"))
         {
             StartCoroutine(Boink());
@@ -61,12 +64,14 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Boink()
     {
+        isColliding = true;
         _animator.SetTrigger("bounce");
         _speed *= -1;
         yield return new WaitForSeconds(0.2f);
         _speed = 0;
         yield return new WaitForSeconds(1f);
         _speed = Settings.MovementSpeed;
+        isColliding = false;
         yield return null;
     }
 }
