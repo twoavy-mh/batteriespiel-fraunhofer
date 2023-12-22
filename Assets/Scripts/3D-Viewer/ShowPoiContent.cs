@@ -1,53 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShowPoiContent : MonoBehaviour
 {
-    public GameObject closeButton;
-
     private InstantiationHelper instantiationHelper;
+    private TextMeshProUGUI headline;
+    private TextMeshProUGUI body;
     private CanvasGroup poiCanvasGroup;
     
     // Start is called before the first frame update
     void Start()
     {
-        // closeButton.GetComponent<Button>().onClick.AddListener(HidePoiCanvas);
-        
         instantiationHelper = gameObject.AddComponent<InstantiationHelper>();
         
         GameObject poiCanvas = instantiationHelper.AddNewCanvas();
         
+        float scaleFactor = poiCanvas.GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         Padding padding = new Padding(24f, 24f, 24f, 24f);
-        GameObject poiPanel = instantiationHelper.AddNewPopupLayer(poiCanvas.GetComponent<CanvasScaler>().scaleFactor,padding, true);
+        GameObject poiPanel = instantiationHelper.AddNewPopupLayer(scaleFactor, padding, true);
         poiCanvasGroup = poiPanel.GetComponent<CanvasGroup>();
         poiPanel.transform.SetParent(poiCanvas.transform);
 
         GameObject textContainer = instantiationHelper.AddTextWithHeadlineAndBody();
         textContainer.transform.SetParent(poiPanel.transform);
-        
-        textContainer.transform.Find("Headline").GetComponent<TextMeshProUGUI>().text = "Headline";
-        textContainer.transform.Find("Body").GetComponent<TextMeshProUGUI>().text = "Some Lorem Ipsum Text";
+        headline = textContainer.transform.Find("Headline").GetComponent<TextMeshProUGUI>();
+        body = textContainer.transform.Find("Body").GetComponent<TextMeshProUGUI>();
+
+        GameObject closeGameObject = instantiationHelper.AddNewButton("close", "justIcon", "close", "", false);
+        closeGameObject.transform.SetParent(poiPanel.transform);
+        closeGameObject.GetComponent<Button>().onClick.AddListener(HidePoiCanvas);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowPoiCanvas(string a_Headline, string a_Body)
     {
+        headline.text = a_Headline;
+        body.text = a_Body;
         
-    }
-
-    public void ShowPoiCanvas()
-    {
-        poiCanvasGroup.alpha = 1;
+        poiCanvasGroup.DOFade(1, .5f).SetEase(Ease.InCubic);
         poiCanvasGroup.blocksRaycasts = true;
         poiCanvasGroup.interactable = true;
     }
 
     public void HidePoiCanvas()
     {
-        poiCanvasGroup.alpha = 0;
+        poiCanvasGroup.DOFade(0, .5f).SetEase(Ease.InCubic);
         poiCanvasGroup.blocksRaycasts = false;
         poiCanvasGroup.interactable = false;
     }

@@ -20,7 +20,7 @@ public class poiClick : MonoBehaviour
 
     private void OnMouseDown()
     {
-        showPoiContentScript.ShowPoiCanvas();
+        showPoiContentScript.ShowPoiCanvas("POI Inhalt", "Die ist ein Text \n" + "leider ohne Inhalt \n"+"aber mit Zeilenumbruch");
         Debug.Log("Clicked POI");
     }
 }

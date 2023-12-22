@@ -18,11 +18,22 @@ public class MainMenuHandler : MonoBehaviour
     private float PADDING_LEFT = 16f;
     private float PADDING_RIGHT = 34f;
     
+    private InstantiationHelper instantiationHelper;
+    
     // Start is called before the first frame update
     void Start()
     {
+        instantiationHelper = gameObject.AddComponent<InstantiationHelper>();
+        
         m_MainMenuButton.onClick.AddListener(toggleMenu);
         SetMenuTransform();
+        
+        
+        for (int index = 1; index <= 5; index++)
+        {
+            GameObject btn = instantiationHelper.AddMicroGameButton(index);
+            btn.transform.SetParent( GameObject.Find("MicroGames").transform);
+        }
     }
 
     // Update is called once per frame
