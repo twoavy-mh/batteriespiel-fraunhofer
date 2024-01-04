@@ -1,20 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Events;
 using Helpers;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private float _speed;
-    private bool _isJumping = false;
     public bool isColliding = false;
 
+    private bool _isGrounded = true;
+    private bool _mustFall = false;
+    private bool _isJumping = false;
+    private float _jumpTimeCounter;
+    private float _jumpTime = 0.6f;
+
     private Animator _animator;
-    
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -30,14 +33,45 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Space)) && !_isJumping)
+        if ((Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButtonDown(0))) && !_mustFall)
         {
+            if (!_isGrounded) _mustFall = true;
+            _isGrounded = false;
             _isJumping = true;
-            _rb.AddForce(Vector2.up * 6, ForceMode2D.Impulse);
-            _animator.SetTrigger("jump");
+            _jumpTimeCounter = _jumpTime;
+            StartCoroutine(Utility.AnimateAnything(0.5f, _speed, _speed * 0.7f,
+                (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+            _rb.velocity = Vector2.up * 8f;
+        }
+
+        if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButton(0))) && _isJumping)
+        {
+            if (_jumpTimeCounter > 0)
+            {
+                _rb.velocity = Vector2.up * 6f;
+                _jumpTimeCounter -= Time.deltaTime;
+                SceneController.Instance.decayEvent.Invoke(new DecayInstance(0.1f, -10));
+            }
+            else
+            {
+                NowFalling();
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) || (Input.touchCount == 0 && Input.GetMouseButtonUp(0)))
+        {
+            NowFalling();
         }
     }
 
+    private void NowFalling()
+    {
+        StartCoroutine(Utility.AnimateAnything(0.5f, _speed, Settings.MovementSpeed,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+        _isJumping = false;
+        _rb.gravityScale = 2f;
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.isTrigger)
@@ -56,9 +90,13 @@ public class PlayerController : MonoBehaviour
         if (other.transform.tag.Equals("Obstacle"))
         {
             StartCoroutine(Boink());
-        } else if (other.transform.tag.Equals("Floor"))
+        }
+        else if (other.transform.tag.Equals("Floor"))
         {
-            _isJumping = false;
+            _isGrounded = true;
+            _rb.gravityScale = 1f;
+            _mustFall = false;
+            _speed = Settings.MovementSpeed;
         }
     }
 

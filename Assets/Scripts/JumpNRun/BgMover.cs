@@ -32,7 +32,7 @@ public class BgMover : MonoBehaviour
            Image img = go.AddComponent<Image>();
            img.sprite = Sprites[i];
            rt.sizeDelta = new Vector2(img.sprite.rect.width, img.sprite.rect.height);
-           rt.localScale = new Vector3(2, 2, 2);
+           rt.localScale = new Vector3(1, 1, 1);
            rt.localPosition = new Vector3(i * img.sprite.rect.width, isUpper ? -300 : -450, 0);
            _children[i] = rt;
         }

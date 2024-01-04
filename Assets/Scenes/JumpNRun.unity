@@ -350,6 +350,7 @@ MonoBehaviour:
   ObstacleTile: {fileID: 8118821519371790681, guid: 5d7e533a44c584e2ba56b45518254993,
     type: 3}
   Count: 500
+  Distances: 05000000070000000800000006000000040000000a00000009000000
 --- !u!4 &189344144
 Transform:
   m_ObjectHideFlags: 0
@@ -620,23 +621,23 @@ MonoBehaviour:
   Root: {fileID: 365614192}
   Player: {fileID: 1216477828}
   PlayerController: {fileID: 1216477830}
-  ParallaxFactor: 2
+  ParallaxFactor: 3
   Sprites:
-  - {fileID: -231623665, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 1941679633, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 2048878953, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: -1932620876, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 2001507056, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 1806891552, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: 707786988, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -180434, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: 1460733399, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -372792321, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -146174002, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 951498442, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: -178932243, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 442840430, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 996734967, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
+  - {fileID: 482630468, guid: 4797ee47592724a66aba5a7111458297, type: 3}
+  - {fileID: -752575813, guid: 4797ee47592724a66aba5a7111458297, type: 3}
+  - {fileID: -2103411703, guid: 4797ee47592724a66aba5a7111458297, type: 3}
+  - {fileID: 869555547, guid: 4797ee47592724a66aba5a7111458297, type: 3}
+  - {fileID: -676817863, guid: 4797ee47592724a66aba5a7111458297, type: 3}
+  - {fileID: 861325631, guid: d306bc16927a84d1e9bc9c25855db491, type: 3}
+  - {fileID: 770546263, guid: d306bc16927a84d1e9bc9c25855db491, type: 3}
+  - {fileID: 1141626799, guid: d306bc16927a84d1e9bc9c25855db491, type: 3}
+  - {fileID: 1822858179, guid: d306bc16927a84d1e9bc9c25855db491, type: 3}
+  - {fileID: 1413133564, guid: d306bc16927a84d1e9bc9c25855db491, type: 3}
+  - {fileID: 1998528915, guid: 2716195700b154b3a9b8e02bfeea4040, type: 3}
+  - {fileID: 388655417, guid: 2716195700b154b3a9b8e02bfeea4040, type: 3}
+  - {fileID: -321489174, guid: 2716195700b154b3a9b8e02bfeea4040, type: 3}
+  - {fileID: -1046535368, guid: 2716195700b154b3a9b8e02bfeea4040, type: 3}
+  - {fileID: 1481965922, guid: 2716195700b154b3a9b8e02bfeea4040, type: 3}
 --- !u!1 &676482198
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +709,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1347089271}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -1211,7 +1212,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 33.3}
-  m_SizeDelta: {x: 31.3, y: 66.6}
+  m_SizeDelta: {x: 331.38, y: 66.6}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1396384234
 MonoBehaviour:
@@ -1274,7 +1275,7 @@ GameObject:
   - component: {fileID: 1569085198}
   - component: {fileID: 1569085199}
   m_Layer: 6
-  m_Name: FG (1)
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1317,21 +1318,21 @@ MonoBehaviour:
   PlayerController: {fileID: 1216477830}
   ParallaxFactor: 1
   Sprites:
-  - {fileID: -231623665, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 1941679633, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 2048878953, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: -1932620876, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 2001507056, guid: 2a4e48a7676c14f118e038405d6ead19, type: 3}
-  - {fileID: 1806891552, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: 707786988, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -180434, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: 1460733399, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -372792321, guid: ec2197f4712f84e2c8156c5032271f1d, type: 3}
-  - {fileID: -146174002, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 951498442, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: -178932243, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 442840430, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
-  - {fileID: 996734967, guid: c2ae72bbef5a342ad9f97e55d09e8259, type: 3}
+  - {fileID: -1015972379, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1381875112, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: -944581606, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1384778602, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1920317977, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: -1015972379, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1381875112, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: -944581606, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1384778602, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1920317977, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: -1015972379, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1381875112, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: -944581606, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1384778602, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
+  - {fileID: 1920317977, guid: 384753f873a2f4886a8af5cd451f1264, type: 3}
 --- !u!1 &1796717955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,6 +1508,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SmallLightning
+      objectReference: {fileID: 0}
+    - target: {fileID: 812346815476440774, guid: 9c499b8482e024b5b9825c2cae8b120f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4941221447436682155, guid: 9c499b8482e024b5b9825c2cae8b120f,
         type: 3}

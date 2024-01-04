@@ -8,6 +8,7 @@ public class SceneController : MonoBehaviour
     private static SceneController _instance;
 
     public RegenerateEvent regenerateEvent;
+    public DecayEvent decayEvent;
     
     public static SceneController Instance
     {
@@ -22,16 +23,7 @@ public class SceneController : MonoBehaviour
     private void Awake()
     {
         regenerateEvent ??= new RegenerateEvent();
+        decayEvent ??= new DecayEvent();
         _instance = this;
-    }
-
-    private void Start()
-    {
-        
-    }
-    
-    private void Update()
-    {
-        
     }
 }

@@ -8,14 +8,20 @@ public class FloorTilePlacer : MonoBehaviour
     public GameObject FloorTile;
     public GameObject ObstacleTile;
     public int Count;
+    public int[] Distances;
     
     void Start()
     {
+        int nextMod = Helpers.Utility.GetRandom(Distances);
+        int deduct = 0;
+        float offset = CalculateOffset();
+        Debug.Log(offset);
         for (int i = 0; i < Count; i++)
         {
-            if (i % 10 != 0)
+            if (i - deduct % nextMod != 0)
             {
-                GameObject tile = Instantiate(FloorTile, new Vector3(i * 3.42f, -4.19f, 0), Quaternion.identity);
+                Vector3 position = new Vector3((i - 1) * offset, 0f, 0f);
+                GameObject tile = Instantiate(FloorTile, position, Quaternion.identity);
                 tile.transform.SetParent(transform);
                 tile.transform.GetChild(0).tag = "Floor";
                 tile.layer = 6;
@@ -28,6 +34,21 @@ public class FloorTilePlacer : MonoBehaviour
                     obstacle.transform.GetChild(0).tag = "Obstacle";
                 }
             }
+            else
+            {
+                nextMod = Helpers.Utility.GetRandom(Distances);
+                deduct += i;
+            }
         }   
+    }
+
+    private float CalculateOffset()
+    {
+        GameObject tile = Instantiate(FloorTile, Vector3.one, transform.rotation);
+        Vector3[] bounds = Helpers.Utility.SpriteLocalToWorld(tile.transform, tile.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite);
+        float d = bounds[1].x - bounds[0].x;
+        Debug.Log(d);
+        Destroy(tile);
+        return d;
     }
 }

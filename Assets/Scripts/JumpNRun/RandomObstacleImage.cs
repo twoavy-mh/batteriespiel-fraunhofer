@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class RandomObstacleImage : MonoBehaviour
@@ -10,8 +11,6 @@ public class RandomObstacleImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        System.Random random = new System.Random();
-        int r = random.Next(0, ObstacleImages.Length);
-        GetComponent<SpriteRenderer>().sprite = ObstacleImages[r];
+        GetComponent<SpriteRenderer>().sprite = Helpers.Utility.GetRandom(ObstacleImages);
     }
 }
