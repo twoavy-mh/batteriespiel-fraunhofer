@@ -12,13 +12,11 @@ public class FloorTilePlacer : MonoBehaviour
     
     void Start()
     {
-        int nextMod = Helpers.Utility.GetRandom(Distances);
-        int deduct = 0;
         float offset = CalculateOffset();
         Debug.Log(offset);
         for (int i = 0; i < Count; i++)
         {
-            if (i - deduct % nextMod != 0)
+            if (i % 10 != 0)
             {
                 Vector3 position = new Vector3((i - 1) * offset, -4f, 0f);
                 GameObject tile = Instantiate(FloorTile, position, Quaternion.identity);
@@ -33,11 +31,6 @@ public class FloorTilePlacer : MonoBehaviour
                     obstacle.transform.SetParent(tile.transform);
                     obstacle.transform.GetChild(0).tag = "Obstacle";
                 }
-            }
-            else
-            {
-                nextMod = Helpers.Utility.GetRandom(Distances);
-                deduct += i;
             }
         }   
     }

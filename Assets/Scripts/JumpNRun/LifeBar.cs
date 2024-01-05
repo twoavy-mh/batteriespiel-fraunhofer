@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
@@ -13,6 +14,7 @@ public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEve
     private float _decayMultiplier = 1f;
     
     private Coroutine _regenerationCoroutine;
+    private Coroutine _decayCoroutine;
     
     void Awake()
     {
@@ -32,7 +34,7 @@ public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEve
             _rt.sizeDelta = new Vector2(_rt.sizeDelta.x + Time.deltaTime * _regenerationMultiplier, _rt.sizeDelta.y);    
         } else if (_isBoosting)
         {
-            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x + Time.deltaTime * _decayMultiplier, _rt.sizeDelta.y);
+            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x + (Time.deltaTime * _decayMultiplier), _rt.sizeDelta.y);
         }
         
     }
@@ -66,22 +68,22 @@ public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEve
 
     public void UseRegeneration(RegenerationInstance settings)
     {
-        Debug.Log("Regenerating");
         Regenerate(settings);
     }
     
-    private IEnumerator WaitForDecay(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-    }
-    
-    public void UseDecay(DecayInstance settings)
+    private IEnumerator WaitForDecay(DecayInstance settings, Action callback)
     {
         _isDecaying = false;
         _decayMultiplier = settings.multiplier;
         _isBoosting = true;
-        StartCoroutine(WaitForDecay(settings.duration));
+        yield return new WaitForSeconds(settings.duration);
         _isBoosting = false;
         _isDecaying = true;
+        callback.Invoke();
+    }
+    
+    public void UseDecay(DecayInstance settings)
+    {
+        _decayCoroutine = StartCoroutine(WaitForDecay(settings, (() => _decayCoroutine = null)));
     }
 }

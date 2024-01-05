@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private float _jumpTime = 0.6f;
 
     private Animator _animator;
+    private Coroutine _boink = null;
 
     void Awake()
     {
@@ -33,6 +34,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isColliding)
+        {
+            return;
+        }
+
         if ((Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButtonDown(0))) && !_mustFall)
         {
             if (!_isGrounded) _mustFall = true;
@@ -71,7 +77,7 @@ public class PlayerController : MonoBehaviour
         _isJumping = false;
         _rb.gravityScale = 2f;
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.isTrigger)
@@ -87,29 +93,49 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.transform.tag.Equals("Obstacle"))
+        switch (other.transform.tag)
         {
-            StartCoroutine(Boink());
-        }
-        else if (other.transform.tag.Equals("Floor"))
-        {
-            _isGrounded = true;
-            _rb.gravityScale = 1f;
-            _mustFall = false;
-            _speed = Settings.MovementSpeed;
+            case "Obstacle":
+                if (_boink != null)
+                {
+                    return;
+                }
+
+                _boink = StartCoroutine(Boink(other.collider, () => _boink = null));
+                break;
+            case "Floor":
+                _isGrounded = true;
+                _rb.gravityScale = 1f;
+                _mustFall = false;
+                _speed = Settings.MovementSpeed;
+                break;
+            case "Killzone":
+                _speed = 0;
+                Destroy(_rb);
+                Debug.Log("DIEDIEDIE");
+                _rb.velocity = Vector2.down * 8f;
+                _animator.SetTrigger("die");
+                break;
         }
     }
+    
 
-    private IEnumerator Boink()
+    private IEnumerator Boink(Collider2D obstacle, Action cb = null)
     {
+        obstacle.isTrigger = true;
         isColliding = true;
         _animator.SetTrigger("bounce");
-        _speed *= -1;
-        yield return new WaitForSeconds(0.2f);
-        _speed = 0;
+        StartCoroutine(Utility.AnimateAnything(0.5f, 0, -4,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(Utility.AnimateAnything(1f, _speed, 0,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
         yield return new WaitForSeconds(1f);
-        _speed = Settings.MovementSpeed;
         isColliding = false;
-        yield return null;
+        obstacle.isTrigger = false;
+        StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+        
+        cb?.Invoke();
     }
 }

@@ -33,20 +33,21 @@ public class BgMover : MonoBehaviour
            img.sprite = Sprites[i];
            rt.sizeDelta = new Vector2(img.sprite.rect.width, img.sprite.rect.height);
            rt.localScale = new Vector3(1, 1, 1);
-           rt.localPosition = new Vector3(i * img.sprite.rect.width, isUpper ? -300 : -450, 0);
+           rt.localPosition = new Vector3(2048*i, isUpper ? -300 : -450, 0);
            _children[i] = rt;
         }
     }
 
     void Update()
     {
+        float dt = Time.deltaTime;
         if (!PlayerController.isColliding)
         {
             for (var i = 0; i < _children.Length; i++)
             {
                 _children[i].position =
                     new Vector3(_children[i].position.x -
-                                (1f * ParallaxFactor * Time.deltaTime),
+                                (1f * ParallaxFactor * dt),
                         _children[i].position.y, _children[i].position.z);
             } 
         }
