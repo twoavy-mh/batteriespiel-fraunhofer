@@ -20,7 +20,7 @@ public class FloorTilePlacer : MonoBehaviour
         {
             if (i - deduct % nextMod != 0)
             {
-                Vector3 position = new Vector3((i - 1) * offset, 0f, 0f);
+                Vector3 position = new Vector3((i - 1) * offset, -4f, 0f);
                 GameObject tile = Instantiate(FloorTile, position, Quaternion.identity);
                 tile.transform.SetParent(transform);
                 tile.transform.GetChild(0).tag = "Floor";
@@ -46,7 +46,7 @@ public class FloorTilePlacer : MonoBehaviour
     {
         GameObject tile = Instantiate(FloorTile, Vector3.one, transform.rotation);
         Vector3[] bounds = Helpers.Utility.SpriteLocalToWorld(tile.transform, tile.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite);
-        float d = bounds[1].x - bounds[0].x;
+        float d = bounds[1].x - bounds[0].x - 2.69f;
         Debug.Log(d);
         Destroy(tile);
         return d;

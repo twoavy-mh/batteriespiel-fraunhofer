@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class RandomObstacleImage : MonoBehaviour
@@ -12,5 +10,8 @@ public class RandomObstacleImage : MonoBehaviour
     void Start()
     {
         GetComponent<SpriteRenderer>().sprite = Helpers.Utility.GetRandom(ObstacleImages);
+        List<Vector2> points = new List<Vector2>();
+        GetComponent<SpriteRenderer>().sprite.GetPhysicsShape(0, points);
+        GetComponent<PolygonCollider2D>().SetPath(0, points.ToArray());
     }
 }
