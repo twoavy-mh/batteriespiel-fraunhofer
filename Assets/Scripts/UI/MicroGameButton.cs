@@ -18,15 +18,18 @@ public class MicroGameButton : MonoBehaviour
         _index = a_Index;
     }
     
-    public void SetStatus(bool a_Status)
+    public async void SetStatus(bool a_Status)
     {
+        Debug.Log(_index);
         
-        Image buttonImage = GameObject.Find("ButtonImage").GetComponent<Image>();
+        Image buttonImage = GameObject.Find("ButtonImage" + _index).GetComponent<Image>();
         
         if (a_Status)
         {
             Debug.Log("Set active btn id " + _index);
-            buttonImage.sprite = Resources.Load<Sprite>("Images/UI/game" + _index + "-active");
+            Debug.Log("Images/UI/game" + _index + "-active");
+            
+            buttonImage.sprite = Resources.Load("Images/UI/game" + _index + "-active", typeof(Sprite)) as Sprite;
         }
         else
         {

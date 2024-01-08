@@ -28,11 +28,11 @@ public class InstantiationHelper : MonoBehaviour
 
       microGameButtonGameObject.AddComponent<Button>();
       
-      GameObject buttonLabel = NewTextGameObject("ButtonLabel", 13, false);
+      GameObject buttonLabel = NewTextGameObject("ButtonLabel" + a_Index, 13, false);
       buttonLabel.GetComponent<TextMeshProUGUI>().text = "Micro Game "+ a_Index ;
       buttonLabel.transform.SetParent(microGameButtonGameObject.transform);
          
-      GameObject buttonImage = new GameObject("ButtonImage");
+      GameObject buttonImage = new GameObject("ButtonImage" + a_Index);
       buttonImage.transform.SetParent(microGameButtonGameObject.transform);
       buttonImage.AddComponent<Image>();
       
