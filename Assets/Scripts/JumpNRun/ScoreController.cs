@@ -21,7 +21,7 @@ public class ScoreController : MonoBehaviour
         CollectableDelegate c = callback =>
         {
             _score += callback.value;
-            _scoreText.text = _score.ToString();
+            _scoreText.text = _score.ToString().PadLeft(5, '0');
         };
         DataStore.Instance.collectablesScore[Collectable.Lithium].AddListener(c);
         DataStore.Instance.collectablesScore[Collectable.BlueLightning].AddListener(c);
