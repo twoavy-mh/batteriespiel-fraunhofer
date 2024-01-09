@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isColliding)
         {
+            Debug.Log("we are returning");       
             return;
         }
 
@@ -87,8 +88,31 @@ public class PlayerController : MonoBehaviour
                 case "SmallLightning":
                     SceneController.Instance.regenerateEvent.Invoke(new RegenerationInstance(5f, 2f));
                     break;
+                case "Killzone":
+                    _speed = 0;
+                    Debug.Log("DIEDIEDIE");
+                    _rb.velocity = Vector2.down * 8f;
+                    _animator.SetTrigger("die");
+                    break;
+                case "Lithium":
+                    FadeCollectable(other.GetComponent<SpriteRenderer>());
+                    SceneController.Instance.collectEvent.Invoke(Collectable.Lithium);
+                    break;
+                case "BlueLightning":
+                    FadeCollectable(other.GetComponent<SpriteRenderer>());
+                    SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
+                    break;
+                case "YellowLightning":
+                    FadeCollectable(other.GetComponent<SpriteRenderer>());
+                    SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
+                    break;
             }
         }
+    }
+
+    private void FadeCollectable(SpriteRenderer s)
+    {
+        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f, (progress, start, end) => s.color = new Color(1f, 1f, 1f, Mathf.Lerp(start, end, progress))));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -108,13 +132,6 @@ public class PlayerController : MonoBehaviour
                 _rb.gravityScale = 1f;
                 _mustFall = false;
                 _speed = Settings.MovementSpeed;
-                break;
-            case "Killzone":
-                _speed = 0;
-                Destroy(_rb);
-                Debug.Log("DIEDIEDIE");
-                _rb.velocity = Vector2.down * 8f;
-                _animator.SetTrigger("die");
                 break;
         }
     }

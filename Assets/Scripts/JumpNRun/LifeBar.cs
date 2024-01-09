@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Models;
 using UnityEngine;
 
 public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEvent.IUseDecay
@@ -21,6 +22,7 @@ public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEve
         _rt = GetComponent<RectTransform>();
         SceneController.Instance.regenerateEvent.AddListener(UseRegeneration);
         SceneController.Instance.decayEvent.AddListener(UseDecay);
+        AddScoreListeners();
     }
 
     // Update is called once per frame
@@ -85,5 +87,16 @@ public class LifeBar : MonoBehaviour, RegenerateEvent.IUseRegeneration, DecayEve
     public void UseDecay(DecayInstance settings)
     {
         _decayCoroutine = StartCoroutine(WaitForDecay(settings, (() => _decayCoroutine = null)));
+    }
+
+    private void AddScoreListeners()
+    {
+        CollectableDelegate cb = callback =>
+        {
+            Debug.Log(callback.collectable + " " + callback.count);
+        };
+        DataStore.Instance.collectablesScore[Collectable.Lithium].AddListener(cb);
+        DataStore.Instance.collectablesScore[Collectable.BlueLightning].AddListener(cb);
+        DataStore.Instance.collectablesScore[Collectable.YellowLightning].AddListener(cb);
     }
 }

@@ -9,6 +9,8 @@ public class SceneController : MonoBehaviour
 
     public RegenerateEvent regenerateEvent;
     public DecayEvent decayEvent;
+    public CollectedEvent collectEvent;
+    
     
     public static SceneController Instance
     {
@@ -24,6 +26,8 @@ public class SceneController : MonoBehaviour
     {
         regenerateEvent ??= new RegenerateEvent();
         decayEvent ??= new DecayEvent();
+        collectEvent ??= new CollectedEvent();
         _instance = this;
+        DataStore.Instance.Init();
     }
 }
