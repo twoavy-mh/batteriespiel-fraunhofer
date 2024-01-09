@@ -7,6 +7,7 @@ namespace Helpers
 {
     public enum Tailwind
     {
+        None,
         Blue1,
         Blue2,
         Blue3,
@@ -45,10 +46,24 @@ namespace Helpers
         Gray1,
     }
 
+    public enum FontType
+    {
+        Mono,
+        Condensed,
+    }
+    
+    public enum FontWeight
+    {
+        Bold700,
+        Medium500,
+        Regular400
+    }
+
     class Settings
     {
         public static Dictionary<Tailwind, Color> ColorMap = new Dictionary<Tailwind, Color>
         {
+            { Tailwind.None, new Color(0, 0, 0, 0) },
             { Tailwind.Blue1, new Color(212 / 255f, 230 / 255f, 244 / 255f, 1) },
             { Tailwind.Blue2, new Color(136 / 255f, 188 / 255f, 226 / 255f, 1) },
             { Tailwind.Blue3, new Color(31 / 255f, 130 / 255f, 192 / 255f, 1) },
