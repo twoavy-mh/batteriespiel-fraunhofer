@@ -6,8 +6,7 @@ using Debug = UnityEngine.Debug;
 public class SceneController : MonoBehaviour
 {
     private static SceneController _instance;
-
-    public RegenerateEvent regenerateEvent;
+    
     public DecayEvent decayEvent;
     public CollectedEvent collectEvent;
     
@@ -24,7 +23,6 @@ public class SceneController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        regenerateEvent ??= new RegenerateEvent();
         decayEvent ??= new DecayEvent();
         collectEvent ??= new CollectedEvent();
         _instance = this;

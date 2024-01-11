@@ -32,7 +32,7 @@ public class LightningMover : MonoBehaviour
         {
             nextHeight += _dir;
         }
-        StartCoroutine(Helpers.Utility.AnimateAnything(0.5f, currentHeight, nextHeight,
+        StartCoroutine(Helpers.Utility.AnimateAnything(1f, currentHeight, nextHeight,
             (progress, start, end) => transform.position = new Vector3(transform.position.x,
                 Mathf.Lerp(start, end, progress), transform.position.z)));
     }

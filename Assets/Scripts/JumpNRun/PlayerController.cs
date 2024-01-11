@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private float _speed;
     public bool isColliding = false;
+    public bool isStill = false;
 
     private bool _isGrounded = true;
     private bool _mustFall = false;
@@ -36,7 +37,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isColliding)
         {
-            Debug.Log("we are returning");       
             return;
         }
 
@@ -85,9 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             switch (other.tag)
             {
-                case "SmallLightning":
-                    SceneController.Instance.regenerateEvent.Invoke(new RegenerationInstance(5f, 2f));
-                    break;
                 case "Killzone":
                     _speed = 0;
                     Debug.Log("DIEDIEDIE");
@@ -125,7 +122,12 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
 
-                _boink = StartCoroutine(Boink(other.collider, () => _boink = null));
+                _boink = StartCoroutine(Boink(other.collider, () =>
+                {
+                    _boink = null;
+                    StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
+                        (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+                }));
                 break;
             case "Floor":
                 _isGrounded = true;
@@ -135,24 +137,21 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+
     
 
     private IEnumerator Boink(Collider2D obstacle, Action cb = null)
     {
-        obstacle.isTrigger = true;
         isColliding = true;
         _animator.SetTrigger("bounce");
         StartCoroutine(Utility.AnimateAnything(0.5f, 0, -4,
             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(Utility.AnimateAnything(1f, _speed, 0,
-            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress), () => isStill = true));
         yield return new WaitForSeconds(1f);
+        isStill = false;
         isColliding = false;
-        obstacle.isTrigger = false;
-        StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
-            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
-        
         cb?.Invoke();
     }
 }
