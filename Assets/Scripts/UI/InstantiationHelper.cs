@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
+using Nobi.UiRoundedCorners;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,8 +25,8 @@ public class InstantiationHelper : MonoBehaviour
       microGameButtonVerticalLayoutGroupComponent.childControlHeight = false;
       microGameButtonVerticalLayoutGroupComponent.childScaleWidth = false;
       microGameButtonVerticalLayoutGroupComponent.childScaleHeight = false;
-      microGameButtonVerticalLayoutGroupComponent.childForceExpandWidth = true;
-      microGameButtonVerticalLayoutGroupComponent.childForceExpandHeight = true;
+      microGameButtonVerticalLayoutGroupComponent.childForceExpandWidth = false;
+      microGameButtonVerticalLayoutGroupComponent.childForceExpandHeight = false;
 
       microGameButtonGameObject.AddComponent<Button>();
       
@@ -39,9 +41,13 @@ public class InstantiationHelper : MonoBehaviour
       MicroGameButton microGameButtonScript = microGameButtonGameObject.AddComponent<MicroGameButton>();
       microGameButtonScript.SetIndex(a_Index);
       microGameButtonScript.SetStatus(true);
+      
+      ClickToChangeSzene clickToChangeSzeneScript = microGameButtonGameObject.AddComponent<ClickToChangeSzene>();
+      clickToChangeSzeneScript.jumpScene = "MicroGame" + a_Index;
 
       return microGameButtonGameObject;
    }
+   
    
    public GameObject AddNewCanvas()
    {
@@ -177,15 +183,18 @@ public class InstantiationHelper : MonoBehaviour
       return buttonGameObject;
    }
 
-   public GameObject NewTextGameObject(String a_GameObjectTitle, float a_FontSize, Boolean a_PrimaryColor)
+   public GameObject NewTextGameObject(String a_GameObjectTitle, int a_FontSize, Boolean a_PrimaryColor)
    {
       GameObject textGameObject = new GameObject(a_GameObjectTitle);
       
-      TextMeshProUGUI textTMP = textGameObject.AddComponent<TextMeshProUGUI>();
-      textTMP.fontStyle = FontStyles.Normal;
-      textTMP.fontSize = a_FontSize;
-      textTMP.color = a_PrimaryColor ? Color.yellow : Color.gray;
-      textTMP.spriteAsset = Resources.Load<TMP_SpriteAsset>("Fonts/Roboto/Roboto-Regular SDF");
+      textGameObject.AddComponent<TextMeshProUGUI>();
+      
+      FontStyler fontStyler = textGameObject.AddComponent<FontStyler>();
+      fontStyler.fontType = FontType.Condensed;
+      fontStyler.fontSize = a_FontSize;
+      fontStyler.fontColor = a_PrimaryColor ? Tailwind.Yellow4 : Tailwind.Gray1;
+      fontStyler.fontWeight = Helpers.FontWeight.Medium500;
+      
      
       return textGameObject;
    }

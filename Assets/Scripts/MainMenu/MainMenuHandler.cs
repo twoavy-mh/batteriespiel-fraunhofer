@@ -33,6 +33,7 @@ public class MainMenuHandler : MonoBehaviour
         {
             GameObject btn = instantiationHelper.AddMicroGameButton(index);
             btn.transform.SetParent( GameObject.Find("MicroGames").transform);
+            btn.transform.localScale = Vector3.one;
         }
     }
 
