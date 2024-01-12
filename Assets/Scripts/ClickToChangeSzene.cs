@@ -17,6 +17,6 @@ public class ClickToChangeSzene : MonoBehaviour
     private void LoadScene()
     {
         Debug.Log("SZENE = " + jumpScene);
-        SceneManager.LoadScene(jumpScene);
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -57,7 +57,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         if (!_finished && !fakeBelow)
         {
-            _rt.anchoredPosition += eventData.delta;
+            float screenAdjustedX = eventData.delta.x * (1920f / Screen.width);
+            float screenAdjustedY = eventData.delta.y * (1080f / Screen.height);
+            _rt.anchoredPosition += new Vector2(screenAdjustedX, screenAdjustedY);
         }
     }
 
