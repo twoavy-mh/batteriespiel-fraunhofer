@@ -3,6 +3,7 @@ using System.Collections;
 using Events;
 using Helpers;
 using UnityEngine;
+using JumpNRun;
 
 public class PlayerController : MonoBehaviour
 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Events;
 using Models;
+using JumpNRun;
 using UnityEngine;
 
 public class DataStore : CollectedEvent.IUseCollectable

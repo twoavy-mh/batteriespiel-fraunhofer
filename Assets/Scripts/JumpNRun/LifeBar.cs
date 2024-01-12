@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Events;
 using Models;
 using UnityEngine;
+using JumpNRun;
 
 public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DecayEvent.IUseDecay
 {
