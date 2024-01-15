@@ -1,13 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using Helpers;
-using Minigame2;
-using Nobi.UiRoundedCorners;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Settings;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -18,11 +14,20 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public string displayName;
     public string requiredDropZone;
     private bool _finished = false;
-
+    public GameObject modalGo;
+    
     public bool fakeBelow = false;
 
     void Start()
     {
+        GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
+        foreach (GameObject go in all)
+        {
+            if (go.name.Equals("Modal"))
+            {
+                modalGo = go;
+            }
+        }
         _rt = GetComponent<RectTransform>();
         _initialPosition = new Vector3(_rt.position.x, _rt.position.y, _rt.position.z);
 
@@ -44,7 +49,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     private void InfoButton()
     {
-        Debug.Log("nsdfgnlosf");
+        modalGo.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
+        modalGo.SetActive(true);
     }
     
     private IEnumerator ToFake(Color tmpColor)

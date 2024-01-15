@@ -8,10 +8,14 @@ public class ImageColorSetter : MonoBehaviour
 {
 
     public Tailwind ImageColor;
+    [Range(0f, 1f)]
+    public float opacity = 1f;
     
     // Fake Tailwind
     void Start()
     {
-        GetComponent<Image>().color = Settings.ColorMap[ImageColor];
+        Color tmp = Settings.ColorMap[ImageColor];
+        tmp.a = opacity;
+        GetComponent<Image>().color = tmp;
     }
 }

@@ -10,7 +10,6 @@ namespace Minigame2
         // Start is called before the first frame update
         private static SceneController _instance;
         private Dictionary<string, bool> _dropzones = new Dictionary<string, bool>();
-        public MultiLang UiTexts = new MultiLang();
         
         public static SceneController Instance
         {
@@ -30,35 +29,6 @@ namespace Minigame2
             _dropzones.Add("separator", false);
             _dropzones.Add("electrode", false);
             _dropzones.Add("electrolyte", false);
-
-            UiTexts.AddMultiple(new[] { "kathode", "anode", "lithium", "separator", "elektrode", "electrolyte" }, new[]
-            {
-                new Dictionary<Language, string>()
-                {
-                    { Language.De, "Kathode" },
-                    { Language.En, "Cathode" }
-                },
-                new Dictionary<Language, string>(){
-                    {Language.De, "Anode"},
-                    {Language.En, "Anode"}
-                },
-                new Dictionary<Language, string>(){
-                    {Language.De, "Lithium"},
-                    {Language.En, "Lithium"}
-                },
-                new Dictionary<Language, string>(){
-                    {Language.De, "Separator"},
-                    {Language.En, "Separator"}
-                },
-                new Dictionary<Language, string>(){
-                    {Language.De, "Elektrode"},
-                    {Language.En, "Electrode"}
-                },
-                new Dictionary<Language, string>(){
-                    {Language.De, "Elektrolyte"},
-                    {Language.En, "Electrolytes"}
-                }
-            });
             
             _instance = this;
         }
@@ -66,6 +36,10 @@ namespace Minigame2
         public void DroppedCorrectly(string field)
         {
             _dropzones[field] = true;
+            if (_dropzones["kathode"] && _dropzones["anode"] && _dropzones["lithium"] && _dropzones["separator"] && _dropzones["electrode"] && _dropzones["electrolyte"])
+            {
+                Debug.Log("all dropped correctly");
+            }
         }
         
     }   
