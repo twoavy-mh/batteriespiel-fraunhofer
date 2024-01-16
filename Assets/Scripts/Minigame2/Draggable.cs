@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using Helpers;
 using TMPro;
 using UnityEngine;
@@ -95,13 +96,14 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             GetComponent<CanvasGroup>().interactable = true;
             GetComponent<Image>().raycastTarget = true;
-            _rt.position = _initialPosition;
+            //_rt.position = _initialPosition;
+            _rt.DOMove(_initialPosition, 0.5f, false);
         }
     }
 
     public void ResetPosition()
     {
-        _rt.position = _initialPosition;
+        _rt.DOMove(_initialPosition, 0.5f, false);
     }
 
     public void Lock()

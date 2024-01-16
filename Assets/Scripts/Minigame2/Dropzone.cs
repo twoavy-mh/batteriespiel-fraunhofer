@@ -22,6 +22,7 @@ public class Dropzone : MonoBehaviour, IDropHandler
             }
             else
             {
+                SceneController.Instance.fails++;
                 d.ResetPosition();
             }
         }

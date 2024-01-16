@@ -102,7 +102,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -150,10 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fontColorAlpha: 1
   _fontColor: 6
-  _fontType: 0
-  _fontWeight: 0
-  _fontSize: 14
   _borderColor: 0
+  _fontDetails: 5
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
@@ -187,6 +185,7 @@ GameObject:
   - component: {fileID: 8191227759061236948}
   - component: {fileID: 932836013912440088}
   - component: {fileID: 1401990124836835185}
+  - component: {fileID: 8650627290985845508}
   m_Layer: 5
   m_Name: IconLabelFilledButton
   m_TagString: Untagged
@@ -323,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImageColor: 19
+  opacity: 1
 --- !u!114 &932836013912440088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,12 +357,24 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8650627290985845508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718011558117772448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93343a66f3b43481fa3d0c41c03b29ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3829223489315721272
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,3 +522,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImageColor: 19
+  opacity: 1
