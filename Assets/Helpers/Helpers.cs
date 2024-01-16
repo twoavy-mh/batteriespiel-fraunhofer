@@ -79,6 +79,8 @@ namespace Helpers
     
     class Settings
     {
+        public static float RESIZE_FACTOR = 1920f / 812f;
+        
         public static Dictionary<Tailwind, Color> ColorMap = new Dictionary<Tailwind, Color>
         {
             { Tailwind.None, new Color(0, 0, 0, 0) },
