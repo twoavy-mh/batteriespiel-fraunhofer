@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Application = UnityEngine.Device.Application;
 
 namespace Helpers
 {
@@ -64,7 +65,7 @@ namespace Helpers
     {
         Desktop, Mobile
     }
-
+    
     class Settings
     {
         public static Dictionary<Tailwind, Color> ColorMap = new Dictionary<Tailwind, Color>
@@ -149,5 +150,10 @@ namespace Helpers
         }
 
         public delegate void AnimationProgress(float progress, float start, float end);
+        
+        public static Device GetDevice()
+        {
+            return Application.isMobilePlatform? Device.Mobile : Device.Desktop;
+        }
     }
 }
