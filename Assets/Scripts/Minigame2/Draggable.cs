@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private Vector3 _initialPosition;
+    private Canvas canvas;
 
     private RectTransform _rt;
     public string displayName;
@@ -20,6 +21,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     void Start()
     {
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        
         GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
         foreach (GameObject go in all)
         {
@@ -63,9 +66,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         if (!_finished && !fakeBelow)
         {
-            float screenAdjustedX = eventData.delta.x * (1920f / Screen.width);
-            float screenAdjustedY = eventData.delta.y * (1080f / Screen.height);
-            _rt.anchoredPosition += new Vector2(screenAdjustedX, screenAdjustedY);
+            _rt.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
         }
     }
 
