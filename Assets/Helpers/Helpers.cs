@@ -59,6 +59,11 @@ namespace Helpers
         Medium500,
         Regular400
     }
+    
+    public enum Device
+    {
+        Desktop, Mobile
+    }
 
     class Settings
     {
