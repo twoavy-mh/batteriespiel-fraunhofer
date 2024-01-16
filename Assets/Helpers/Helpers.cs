@@ -65,6 +65,17 @@ namespace Helpers
     {
         Desktop, Mobile
     }
+
+    public enum FontStyles
+    {
+        Headline,
+        SubheadlineCondensed,
+        SubheadlineMono,
+        FließtextMedium,
+        FließtextRegular,
+        Button,
+        Credit
+    }
     
     class Settings
     {
@@ -110,8 +121,41 @@ namespace Helpers
             { Tailwind.Gray1, new Color(199 / 255f, 202 / 255f, 204 / 255f, 1) }
         };
 
+        public static Dictionary<FontStyles, FontDetails> FontMap = new Dictionary<FontStyles, FontDetails>()
+        {
+            { FontStyles.Headline, new FontDetails(40, 80, FontType.Condensed, FontWeight.Bold700) },
+            { FontStyles.SubheadlineMono, new FontDetails(30, 40, FontType.Mono, FontWeight.Medium500) },
+            { FontStyles.SubheadlineCondensed, new FontDetails(30, 40, FontType.Condensed, FontWeight.Medium500) },
+            { FontStyles.FließtextMedium, new FontDetails(24, 30, FontType.Mono, FontWeight.Medium500) },
+            { FontStyles.FließtextRegular, new FontDetails(18, 24, FontType.Mono, FontWeight.Regular400) },
+            { FontStyles.Button, new FontDetails(14, 14, FontType.Condensed, FontWeight.Bold700) },
+            { FontStyles.Credit, new FontDetails(14, 14, FontType.Condensed, FontWeight.Regular400) },
+        };
+
         public static float MovementSpeed = 8f;
     }
+
+    public class FontDetails
+    {
+        private float _mobileTextSize;
+        private float _desktopTextSize;
+        public FontType fontType;
+        public FontWeight fontWeight;
+        
+        public FontDetails(int mobileTextSize, int desktopTextSize, FontType fontType, FontWeight fontWeight)
+        {
+            this._mobileTextSize = mobileTextSize * (1920f / 812f);
+            this._desktopTextSize = desktopTextSize;
+            this.fontWeight = fontWeight;
+            this.fontType = fontType;
+        }
+        
+        public float GetFontSizeByScreen()
+        {
+            return Utility.GetDevice() == Device.Mobile ? _mobileTextSize : _desktopTextSize;
+        }
+        
+    } 
 
     class Utility
     {

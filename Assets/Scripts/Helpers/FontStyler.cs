@@ -2,6 +2,7 @@ using System;
 using Helpers;
 using TMPro;
 using UnityEngine;
+using FontStyles = Helpers.FontStyles;
 using FontWeight = Helpers.FontWeight;
 
 public class FontStyler : MonoBehaviour
@@ -31,41 +32,6 @@ public class FontStyler : MonoBehaviour
     }
     
     [SerializeField]
-    private FontType _fontType;
-    public FontType fontType {
-        get {
-            return _fontType;
-        } set {
-            _fontType = value;
-            SetFont();
-        }
-    }
-    
-    [SerializeField]
-    private FontWeight _fontWeight;
-    public FontWeight fontWeight {
-        get {
-            return _fontWeight;
-        } set {
-            _fontWeight = value;
-            SetFont();
-        }
-    }
-    
-    [SerializeField]
-    private int _fontSize;
-    public int fontSize
-    {
-        get {
-            return _fontSize;
-        } set {
-            _fontSize = value;
-            _text.fontSize = _fontSize;
-            
-        }
-    }
-    
-    [SerializeField]
     private  Tailwind _borderColor;
     public Tailwind borderColor{
         get {
@@ -73,6 +39,17 @@ public class FontStyler : MonoBehaviour
         } set {
             _borderColor = value;
             SetBorder();
+        }
+    }
+    
+    [SerializeField]
+    private FontStyles _fontDetails;
+    public FontStyles fontDetails {
+        get {
+            return _fontDetails;
+        } set {
+            _fontDetails = value;
+            SetFont();
         }
     }
     
@@ -120,10 +97,8 @@ public class FontStyler : MonoBehaviour
     private void Init(){
         fontColor = _fontColor;
         fontColorAlpha = _fontColorAlpha;
-        fontType = _fontType;
-        fontWeight = _fontWeight;
-        fontSize = _fontSize;
         glowColor = _glowColor;
+        fontDetails = _fontDetails;
         glowSizeOutwards = _glowSizeOutwards;
         
         if (borderSize > 0)
@@ -135,8 +110,9 @@ public class FontStyler : MonoBehaviour
     
     private void SetFont()
     {
-        string path = $"Fonts/Roboto_{fontType}/Roboto{fontType}-{WeightToString()}";
+        string path = $"Fonts/Roboto_{Settings.FontMap[fontDetails].fontType}/Roboto{Settings.FontMap[fontDetails].fontType}-{WeightToString(Settings.FontMap[fontDetails].fontWeight)}";
         _text.font = Resources.Load(path, typeof(TMP_FontAsset)) as TMP_FontAsset;
+        _text.fontSize = Settings.FontMap[fontDetails].GetFontSizeByScreen();
     }
 
     private void SetGlow()
@@ -166,9 +142,9 @@ public class FontStyler : MonoBehaviour
         }
     }
 
-    private string WeightToString()
+    private string WeightToString(FontWeight f)
     {
-        switch (fontWeight)
+        switch (f)
         {
             case FontWeight.Bold700:
                 return "Bold";

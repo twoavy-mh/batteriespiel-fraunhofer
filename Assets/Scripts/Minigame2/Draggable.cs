@@ -95,6 +95,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             GetComponent<CanvasGroup>().interactable = true;
             GetComponent<Image>().raycastTarget = true;
+            _rt.position = _initialPosition;
         }
     }
 
@@ -106,6 +107,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public void Lock()
     {
         _finished = true;
+        Debug.Log("finished");
     }
 
     public void SwitchToWhite()

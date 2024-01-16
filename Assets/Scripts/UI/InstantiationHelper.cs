@@ -190,10 +190,7 @@ public class InstantiationHelper : MonoBehaviour
       textGameObject.AddComponent<TextMeshProUGUI>();
       
       FontStyler fontStyler = textGameObject.AddComponent<FontStyler>();
-      fontStyler.fontType = FontType.Condensed;
-      fontStyler.fontSize = a_FontSize;
       fontStyler.fontColor = a_PrimaryColor ? Tailwind.Yellow4 : Tailwind.Gray1;
-      fontStyler.fontWeight = Helpers.FontWeight.Medium500;
       
      
       return textGameObject;
