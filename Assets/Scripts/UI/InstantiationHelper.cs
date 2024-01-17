@@ -6,6 +6,7 @@ using Nobi.UiRoundedCorners;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FontStyles = Helpers.FontStyles;
 
 public class InstantiationHelper : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class InstantiationHelper : MonoBehaviour
       GameObject microGameButtonGameObject = new GameObject("microGameButton" + a_Index);
       
       RectTransform microGameButtonRectTransformComponent = microGameButtonGameObject.AddComponent<RectTransform>();
-      microGameButtonRectTransformComponent.sizeDelta = new Vector2(116f ,105f);
+      microGameButtonRectTransformComponent.sizeDelta =  Utility.GetDevice() == Device.Mobile? new Vector2(Settings.RESIZE_FACTOR*116f ,Settings.RESIZE_FACTOR*105f):new Vector2(175f ,189f);
       
       VerticalLayoutGroup microGameButtonVerticalLayoutGroupComponent = microGameButtonGameObject.AddComponent<VerticalLayoutGroup>();
       microGameButtonVerticalLayoutGroupComponent.padding = new RectOffset(0, 0, 0, 0);
-      microGameButtonVerticalLayoutGroupComponent.spacing = 12;
+      microGameButtonVerticalLayoutGroupComponent.spacing = 0;
       microGameButtonVerticalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
       microGameButtonVerticalLayoutGroupComponent.reverseArrangement = false;
       microGameButtonVerticalLayoutGroupComponent.childControlWidth = true;
@@ -30,8 +31,10 @@ public class InstantiationHelper : MonoBehaviour
 
       microGameButtonGameObject.AddComponent<Button>();
       
-      GameObject buttonLabel = NewTextGameObject("ButtonLabel" + a_Index, 13, false);
+      GameObject buttonLabel = NewTextGameObject("ButtonLabel" + a_Index, FontStyles.Button, false);
       buttonLabel.GetComponent<TextMeshProUGUI>().text = "Micro Game "+ a_Index ;
+      buttonLabel.GetComponent<TextMeshProUGUI>().fontStyle = TMPro.FontStyles.UpperCase;
+      buttonLabel.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
       buttonLabel.transform.SetParent(microGameButtonGameObject.transform);
          
       GameObject buttonImage = new GameObject("ButtonImage" + a_Index);
@@ -41,13 +44,47 @@ public class InstantiationHelper : MonoBehaviour
       MicroGameButton microGameButtonScript = microGameButtonGameObject.AddComponent<MicroGameButton>();
       microGameButtonScript.SetIndex(a_Index);
       microGameButtonScript.SetStatus(true);
+      buttonImage.GetComponent<RectTransform>().sizeDelta = Utility.GetDevice() == Device.Mobile? new Vector2(Settings.RESIZE_FACTOR*116f ,Settings.RESIZE_FACTOR*116f):new Vector2(175f ,175f);
       
       ClickToChangeSzene clickToChangeSzeneScript = microGameButtonGameObject.AddComponent<ClickToChangeSzene>();
       clickToChangeSzeneScript.jumpScene = "MicroGame" + a_Index;
 
       return microGameButtonGameObject;
    }
-   
+
+   public void AddMenuItemsLayout(GameObject menuItemsGameObject)
+   {
+      if (Utility.GetDevice() == Device.Mobile )
+      {
+         VerticalLayoutGroup menuItemsVerticalLayoutGroupComponent = menuItemsGameObject.AddComponent<VerticalLayoutGroup>();
+         menuItemsVerticalLayoutGroupComponent.padding = new RectOffset(30, 36, 35, 12);
+         menuItemsVerticalLayoutGroupComponent.spacing = 13;
+         menuItemsVerticalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
+         menuItemsVerticalLayoutGroupComponent.reverseArrangement = false;
+         menuItemsVerticalLayoutGroupComponent.childControlWidth = true;
+         menuItemsVerticalLayoutGroupComponent.childControlHeight = true;
+         menuItemsVerticalLayoutGroupComponent.childScaleWidth = false;
+         menuItemsVerticalLayoutGroupComponent.childScaleHeight = false;
+         menuItemsVerticalLayoutGroupComponent.childForceExpandWidth = false;
+         menuItemsVerticalLayoutGroupComponent.childForceExpandHeight = false;
+      }
+      else
+      {
+         HorizontalLayoutGroup menuItemsHorizontalLayoutGroupComponent = menuItemsGameObject.AddComponent<HorizontalLayoutGroup>();
+         menuItemsHorizontalLayoutGroupComponent.padding = new RectOffset(0, 0, 0, 0);
+         menuItemsHorizontalLayoutGroupComponent.spacing = 130;
+         menuItemsHorizontalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
+         menuItemsHorizontalLayoutGroupComponent.reverseArrangement = true;
+         menuItemsHorizontalLayoutGroupComponent.childControlWidth = false;
+         menuItemsHorizontalLayoutGroupComponent.childControlHeight = false;
+         menuItemsHorizontalLayoutGroupComponent.childScaleWidth = false;
+         menuItemsHorizontalLayoutGroupComponent.childScaleHeight = false;
+         menuItemsHorizontalLayoutGroupComponent.childForceExpandWidth = false;
+         menuItemsHorizontalLayoutGroupComponent.childForceExpandHeight = false;
+         
+         
+      }
+   }
    
    public GameObject AddNewCanvas()
    {
@@ -61,7 +98,7 @@ public class InstantiationHelper : MonoBehaviour
       
       CanvasScaler canvasScalerComponent = canvasGameObject.AddComponent<CanvasScaler>();
       canvasScalerComponent.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-      canvasScalerComponent.referenceResolution = new Vector2(812,375);
+      canvasScalerComponent.referenceResolution = new Vector2(1920,1080);
       canvasScalerComponent.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
       canvasScalerComponent.matchWidthOrHeight = 0;
       canvasScalerComponent.referencePixelsPerUnit = 100;
@@ -144,10 +181,10 @@ public class InstantiationHelper : MonoBehaviour
       textVerticalLayoutGroupComponent.childForceExpandWidth = true;
       textVerticalLayoutGroupComponent.childForceExpandHeight = false;
       
-      GameObject headlineGameObject = NewTextGameObject("Headline",24, true);
+      GameObject headlineGameObject = NewTextGameObject("Headline", FontStyles.Headline, true);
       headlineGameObject.transform.SetParent(textGameObject.transform);
       
-      GameObject bodyGameObject = NewTextGameObject("Body",18, false);
+      GameObject bodyGameObject = NewTextGameObject("Body",FontStyles.FließtextMedium, false);
       bodyGameObject.transform.SetParent(textGameObject.transform);
       
       return textGameObject;
@@ -173,7 +210,7 @@ public class InstantiationHelper : MonoBehaviour
 
       if (!string.IsNullOrEmpty(a_Label))
       {
-         GameObject buttonLabel = NewTextGameObject("buttonLabel", 18, a_PrimaryColor);
+         GameObject buttonLabel = NewTextGameObject("buttonLabel", FontStyles.Button, a_PrimaryColor);
          buttonLabel.GetComponent<TextMeshProUGUI>().text = a_Label;
          buttonGameObject.transform.SetParent(buttonLabel.transform);
       }
@@ -183,13 +220,14 @@ public class InstantiationHelper : MonoBehaviour
       return buttonGameObject;
    }
 
-   public GameObject NewTextGameObject(String a_GameObjectTitle, int a_FontSize, Boolean a_PrimaryColor)
+   public GameObject NewTextGameObject(String a_GameObjectTitle, FontStyles a_FontStyle, Boolean a_PrimaryColor)
    {
       GameObject textGameObject = new GameObject(a_GameObjectTitle);
       
       textGameObject.AddComponent<TextMeshProUGUI>();
       
       FontStyler fontStyler = textGameObject.AddComponent<FontStyler>();
+      fontStyler.fontDetails = a_FontStyle;
       fontStyler.fontColor = a_PrimaryColor ? Tailwind.Yellow4 : Tailwind.Gray1;
       
      
