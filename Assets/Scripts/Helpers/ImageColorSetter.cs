@@ -18,4 +18,13 @@ public class ImageColorSetter : MonoBehaviour
         tmp.a = opacity;
         GetComponent<Image>().color = tmp;
     }
+
+    public void UpdateColor(Tailwind newColor, float newOpacity = 1f)
+    {
+        ImageColor = newColor;
+        Color tmp = Settings.ColorMap[ImageColor];
+        tmp.a = newOpacity;
+        
+        GetComponent<Image>().color = tmp;
+    }
 }

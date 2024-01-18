@@ -4,8 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
-
-namespace Minigame2
+namespace Minigame4
 {
     public class SelfTranslatingTest : MonoBehaviour
     {

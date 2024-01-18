@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
-namespace Minigame2
+
+namespace Minigame4
 {
     public class ModalManager : MonoBehaviour
     {
@@ -29,6 +30,6 @@ namespace Minigame2
             transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString(header);
             transform.GetChild(2).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString(text);
         }
-    }
-   
+    }    
 }
+

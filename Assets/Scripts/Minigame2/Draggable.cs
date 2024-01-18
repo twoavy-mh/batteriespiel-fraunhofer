@@ -7,7 +7,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+namespace Minigame2
+{
+ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private Vector3 _initialPosition;
     private Canvas canvas;
@@ -132,4 +134,5 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
         
     }
+}   
 }

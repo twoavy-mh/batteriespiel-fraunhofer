@@ -4,27 +4,30 @@ using Minigame2;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Dropzone : MonoBehaviour, IDropHandler
+namespace Minigame2
 {
-    public string requires;
-
-    public void OnDrop(PointerEventData eventData)
+    public class Dropzone : MonoBehaviour, IDropHandler
     {
-        if (LayerMask.NameToLayer("Player").Equals(eventData.pointerDrag.layer))
+        public string requires;
+
+        public void OnDrop(PointerEventData eventData)
         {
-            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-            if (d.requiredDropZone.Equals(requires))
+            if (LayerMask.NameToLayer("Player").Equals(eventData.pointerDrag.layer))
             {
-                SceneController.Instance.DroppedCorrectly(requires);
-                eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
-                d.Lock();
-                d.SwitchToWhite();
-            }
-            else
-            {
-                SceneController.Instance.fails++;
-                d.ResetPosition();
+                Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
+                if (d.requiredDropZone.Equals(requires))
+                {
+                    SceneController.Instance.DroppedCorrectly(requires);
+                    eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
+                    d.Lock();
+                    d.SwitchToWhite();
+                }
+                else
+                {
+                    SceneController.Instance.fails++;
+                    d.ResetPosition();
+                }
             }
         }
-    }
+    }   
 }

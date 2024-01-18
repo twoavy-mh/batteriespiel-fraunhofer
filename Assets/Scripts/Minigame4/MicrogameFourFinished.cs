@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-namespace Minigame2
+namespace Minigame4
 {
-    public class MicrogameTwoFinished : MonoBehaviour
+    public class MicrogameFourFinished : MonoBehaviour
     {
         private int score;
         public GameObject again;
@@ -44,5 +44,5 @@ namespace Minigame2
                 .Replace("#", totalTries.ToString());
         }
     }
-   
+    
 }
