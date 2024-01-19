@@ -34,10 +34,19 @@ namespace Helpers
         public bool finishedIntro;
         public string current3dModel;
         
+        public void SetVariableAndSave<T>(ref T variable, T value)
+        {
+            variable = value;
+            Save(JsonUtility.ToJson(this));
+        }
+        
         public MicrogameState[] microgames = new MicrogameState[5];
 
         public void Init()
         {
+            
+            SetVariableAndSave<string>(ref uuid, "lololololol");
+            Debug.Log(uuid);
             Debug.Log(CheckUuid());
             if (GameplayExists())
             {

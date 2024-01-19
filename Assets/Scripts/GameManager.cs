@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         GameState.Instance.Init();
+        GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, "tree");
+        Debug.Log(GameState.Instance.current3dModel);
         DontDestroyOnLoad(this);
         _instance = this;
     }
