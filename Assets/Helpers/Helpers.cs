@@ -134,7 +134,7 @@ namespace Helpers
             { FontStyles.Credit, new FontDetails(14, 14, FontType.Condensed, FontWeight.Regular400) },
         };
 
-        public static float MovementSpeed = 8f;
+        public static float MovementSpeed = 4f;
     }
 
     public class FontDetails
@@ -200,6 +200,26 @@ namespace Helpers
         public static Device GetDevice()
         {
             return Application.isMobilePlatform? Device.Mobile : Device.Desktop;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static string ArrayToJson<T>(this T[] array)
+        {
+            Wrapper<T> wrapper = new Wrapper<T>();
+            wrapper.items = array;
+            return JsonUtility.ToJson(wrapper);
+        }
+
+        private class Wrapper<T>
+        {
+            public T[] items;
+        }
+
+        public static bool Empty(this string s)
+        {
+            return s == null || s.Length == 0;
         }
     }
 }

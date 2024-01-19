@@ -391,56 +391,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166408299}
   m_CullTransparentMesh: 1
---- !u!1 &189344142
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 189344144}
-  - component: {fileID: 189344143}
-  m_Layer: 8
-  m_Name: FloorTilePlacer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &189344143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189344142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf3d4a2143d694d378550eeb77af5e72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FloorTile: {fileID: 1001392410604024019, guid: f4b755ae7195041068549c3c693f6ced,
-    type: 3}
-  ObstacleTile: {fileID: 8118821519371790681, guid: 5d7e533a44c584e2ba56b45518254993,
-    type: 3}
-  Count: 500
-  Distances: 05000000070000000800000006000000040000000a00000009000000
---- !u!4 &189344144
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189344142}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &247257235
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,15 +817,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6dbda03e254023aca5403adea2dfc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fontColorAlpha: 1
-  fontColor: 2
-  fontType: 1
-  fontWeight: 1
-  fontSize: 10
-  borderColor: 0
-  borderSize: 0
-  glowColor: 0
-  glowSizeOutwards: 0
+  _fontColorAlpha: 1
+  _fontColor: 0
+  _borderColor: 0
+  _fontDetails: 0
+  _borderSize: 0
+  _glowColor: 0
+  _glowSizeOutwards: 0
 --- !u!114 &528654887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1465,6 +1413,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9185acdf8e4a348959f27809e2d7a75f, type: 3}
+--- !u!1 &887569924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 887569925}
+  m_Layer: 0
+  m_Name: Floors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &887569925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887569924}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.22761, y: -3.6407232, z: 1.2710457}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1092374542}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &898038767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,15 +1606,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6dbda03e254023aca5403adea2dfc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fontColorAlpha: 0.4
-  fontColor: 1
-  fontType: 1
-  fontWeight: 1
-  fontSize: 40
-  borderColor: 1
-  borderSize: 3
-  glowColor: 9
-  glowSizeOutwards: 50
+  _fontColorAlpha: 1
+  _fontColor: 0
+  _borderColor: 0
+  _fontDetails: 0
+  _borderSize: 0
+  _glowColor: 0
+  _glowSizeOutwards: 0
+--- !u!1001 &1092374541
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 887569925}
+    m_Modifications:
+    - target: {fileID: 1870313433989486952, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_Name
+      value: FloorBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc797ea818e49448d9e08ad3272faf1e, type: 3}
+--- !u!4 &1092374542 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3948380234168330136, guid: dc797ea818e49448d9e08ad3272faf1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1092374541}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216477825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,6 +1862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isColliding: 0
   isStill: 0
+  smallest: 0
 --- !u!95 &1216477831
 Animator:
   serializedVersion: 5
@@ -2370,8 +2423,8 @@ SceneRoots:
   - {fileID: 676482202}
   - {fileID: 1216477828}
   - {fileID: 1796717957}
-  - {fileID: 189344144}
   - {fileID: 327733201}
   - {fileID: 781253917}
   - {fileID: 828261496}
   - {fileID: 580396184}
+  - {fileID: 887569925}

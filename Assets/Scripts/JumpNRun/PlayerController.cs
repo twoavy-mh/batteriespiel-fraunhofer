@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private Coroutine _boink = null;
 
+    public float smallest = 0f;
+    
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -41,6 +43,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (transform.position.y < -2.81)
+        {
+            Debug.Log("die now");
+        }
+
         if ((Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButtonDown(0))) && !_mustFall)
         {
             if (!_isGrounded) _mustFall = true;
@@ -54,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
         if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButton(0))) && _isJumping)
         {
+            _animator.SetTrigger("jump");
             if (_jumpTimeCounter > 0)
             {
                 _rb.velocity = Vector2.up * 6f;
@@ -145,7 +153,7 @@ public class PlayerController : MonoBehaviour
     {
         isColliding = true;
         _animator.SetTrigger("bounce");
-        StartCoroutine(Utility.AnimateAnything(0.5f, 0, -4,
+        StartCoroutine(Utility.AnimateAnything(0.5f, 0, -6,
             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(Utility.AnimateAnything(1f, _speed, 0,

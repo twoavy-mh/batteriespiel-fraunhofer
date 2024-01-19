@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,6 @@ public class FloorTilePlacer : MonoBehaviour
                 {
                     GameObject obstacle = Instantiate(ObstacleTile, new Vector3(i * 3.42f, -3.5f, 0), Quaternion.identity);
                     obstacle.transform.SetParent(tile.transform);
-                    obstacle.transform.GetChild(0).tag = "Obstacle";
                 }
             }
         }   
