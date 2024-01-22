@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6018871360182317720}
   - component: {fileID: 3584764336025784950}
   - component: {fileID: 6718505124417216861}
+  - component: {fileID: 8720265644997201819}
   m_Layer: 5
   m_Name: RoundProgressRing
   m_TagString: Untagged
@@ -163,7 +164,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d80f529b00a419c8fa46fbb0462b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _imageColor: 16
+  _imageColor: 38
+--- !u!114 &8720265644997201819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158212941452600867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01bfca73e82441488212b2d10accae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillingRing: {fileID: 1473469560359295222}
+  progressText: {fileID: 7491030854863934827}
 --- !u!1 &1705155122940456584
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImageColor: 17
+  ImageColor: 19
   opacity: 1
 --- !u!1 &4836562366366240156
 GameObject:
@@ -418,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d80f529b00a419c8fa46fbb0462b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _imageColor: 21
+  _imageColor: 38
 --- !u!1 &8012342258863301964
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +508,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.267
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -510,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImageColor: 5
+  ImageColor: 38
   opacity: 1
 --- !u!114 &3533976995915484453
 MonoBehaviour:
@@ -605,7 +620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: "0\x03"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -687,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fontColorAlpha: 1
-  _fontColor: 21
+  _fontColor: 19
   _borderColor: 0
   _fontDetails: 1
   _borderSize: 0

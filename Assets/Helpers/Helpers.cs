@@ -46,6 +46,7 @@ namespace Helpers
         Sky2,
         Sky3,
         Gray1,
+        Black
     }
 
     public enum FontType
@@ -53,17 +54,18 @@ namespace Helpers
         Mono,
         Condensed,
     }
-    
+
     public enum FontWeight
     {
         Bold700,
         Medium500,
         Regular400
     }
-    
+
     public enum Device
     {
-        Desktop, Mobile
+        Desktop,
+        Mobile
     }
 
     public enum FontStyles
@@ -76,11 +78,11 @@ namespace Helpers
         Button,
         Credit
     }
-    
+
     class Settings
     {
         public static float RESIZE_FACTOR = 1920f / 812f;
-        
+
         public static Dictionary<Tailwind, Color> ColorMap = new Dictionary<Tailwind, Color>
         {
             { Tailwind.None, new Color(0, 0, 0, 0) },
@@ -89,7 +91,7 @@ namespace Helpers
             { Tailwind.Blue3, new Color(31 / 255f, 130 / 255f, 192 / 255f, 1) },
             { Tailwind.Blue4, new Color(0 / 255f, 90 / 255f, 148 / 255f, 1) },
             { Tailwind.Blue5, new Color(0 / 255f, 52 / 255f, 107 / 255f, 1) },
-            { Tailwind.BlueUI, new Color(2 / 255f, 28 /255f, 57 /255f, 1)},
+            { Tailwind.BlueUI, new Color(2 / 255f, 28 / 255f, 57 / 255f, 1) },
             { Tailwind.Violet1, new Color(199 / 255f, 193 / 255f, 226 / 255f, 1) },
             { Tailwind.Violet2, new Color(144 / 255f, 133 / 255f, 186 / 255f, 1) },
             { Tailwind.Violet3, new Color(57 / 255f, 55 / 255f, 139 / 255f, 1) },
@@ -120,7 +122,8 @@ namespace Helpers
             { Tailwind.Sky1, new Color(51 / 255f, 184 / 255f, 202 / 255f, 1) },
             { Tailwind.Sky2, new Color(37 / 255f, 186 / 255f, 226 / 255f, 1) },
             { Tailwind.Sky3, new Color(0 / 255f, 110 / 255f, 146 / 255f, 1) },
-            { Tailwind.Gray1, new Color(199 / 255f, 202 / 255f, 204 / 255f, 1) }
+            { Tailwind.Gray1, new Color(199 / 255f, 202 / 255f, 204 / 255f, 1) },
+            { Tailwind.Black, new Color(0f, 0f, 0f, 1f) }
         };
 
         public static Dictionary<FontStyles, FontDetails> FontMap = new Dictionary<FontStyles, FontDetails>()
@@ -134,7 +137,7 @@ namespace Helpers
             { FontStyles.Credit, new FontDetails(14, 14, FontType.Condensed, FontWeight.Regular400) },
         };
 
-        public static float MovementSpeed = 4f;
+        public const float MovementSpeed = 8f;
     }
 
     public class FontDetails
@@ -143,7 +146,7 @@ namespace Helpers
         private float _desktopTextSize;
         public FontType fontType;
         public FontWeight fontWeight;
-        
+
         public FontDetails(int mobileTextSize, int desktopTextSize, FontType fontType, FontWeight fontWeight)
         {
             this._mobileTextSize = mobileTextSize * (1920f / 812f);
@@ -151,13 +154,12 @@ namespace Helpers
             this.fontWeight = fontWeight;
             this.fontType = fontType;
         }
-        
+
         public float GetFontSizeByScreen()
         {
             return Utility.GetDevice() == Device.Mobile ? _mobileTextSize : _desktopTextSize;
         }
-        
-    } 
+    }
 
     class Utility
     {
@@ -196,10 +198,33 @@ namespace Helpers
         }
 
         public delegate void AnimationProgress(float progress, float start, float end);
-        
+
         public static Device GetDevice()
         {
-            return Application.isMobilePlatform? Device.Mobile : Device.Desktop;
+            return Application.isMobilePlatform ? Device.Mobile : Device.Desktop;
+        }
+        
+        public static Color GetGradientAtPosition(Color[] colors, float position)
+        {
+            Gradient gradient = new Gradient();
+
+            // Blend color from red at 0% to blue at 100%
+            GradientColorKey[] gradientColors = new GradientColorKey[colors.Length];
+            for (int i = 0; i < colors.Length; i++)
+            {
+                gradientColors[i] = new GradientColorKey(colors[i], i / (colors.Length - 1));
+            }
+            
+            // Blend alpha from opaque at 0% to transparent at 100%
+            GradientAlphaKey[] alphas = new GradientAlphaKey[colors.Length];
+            for (int i = 0; i < colors.Length; i++)
+            {
+                alphas[i] = new GradientAlphaKey(colors[i].a, i / (colors.Length - 1));
+            }
+
+            gradient.SetKeys(gradientColors, alphas);
+            
+            return gradient.Evaluate(position);
         }
     }
 

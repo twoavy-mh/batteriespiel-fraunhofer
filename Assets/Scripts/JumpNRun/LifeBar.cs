@@ -19,6 +19,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DecayEvent
 
     private Coroutine _regenerationCoroutine;
     private Coroutine _decayCoroutine;
+    
+    private 
 
     void Awake()
     {

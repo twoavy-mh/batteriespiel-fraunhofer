@@ -15,6 +15,7 @@ namespace Minigame2
         private int score;
         public GameObject again;
         public GameObject next;
+        public ProgressRingController pgc;
 
         private void Start()
         {
@@ -42,6 +43,7 @@ namespace Minigame2
                 .GetLocalizedString("minigame2Score")
                 .Replace("~", score.ToString())
                 .Replace("#", totalTries.ToString());
+            pgc.StartAnimation(score);
         }
     }
    
