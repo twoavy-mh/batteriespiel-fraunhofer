@@ -27,12 +27,18 @@ namespace Helpers
             Microgame1, Microgame2, Microgame3, Microgame4, Microgame5
         }
         
+        public enum Models
+        {
+            Cells, Pouch, Car
+        }
+        
         public string uuid;
         public string name;
         public int totalScore;
         public Language language;
         public bool finishedIntro;
-        public string current3dModel;
+        public Models current3dModel;
+        public bool arAvailable;
         
         public void SetVariableAndSave<T>(ref T variable, T value)
         {
@@ -68,6 +74,7 @@ namespace Helpers
             finishedIntro = exisitingState.finishedIntro;
             current3dModel = exisitingState.current3dModel;
             microgames = exisitingState.microgames;
+            arAvailable = exisitingState.arAvailable;
         }
     }
     
