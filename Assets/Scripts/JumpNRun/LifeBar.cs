@@ -19,8 +19,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DecayEvent
 
     private Coroutine _regenerationCoroutine;
     private Coroutine _decayCoroutine;
-    
-    private 
+
+    private float _health
+    {
+        get => _rt.sizeDelta.x;
+        set => _rt.sizeDelta = new Vector2(value, _rt.sizeDelta.y);
+    } 
 
     void Awake()
     {

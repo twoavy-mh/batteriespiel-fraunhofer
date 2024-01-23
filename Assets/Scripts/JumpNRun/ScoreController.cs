@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Helpers;
 using Models;
 using TMPro;
 using UnityEngine;
@@ -13,18 +15,18 @@ public class ScoreController : MonoBehaviour
     void Start()
     {
         _scoreText = GetComponent<TMP_Text>();
-        SetListeners();
     }
 
-    private void SetListeners()
+    private void Update()
     {
-        CollectableDelegate c = callback =>
+        if (_score != GameState.Instance.totalScore)
         {
-            _score += callback.value;
-            _scoreText.text = _score.ToString().PadLeft(5, '0');
-        };
-        DataStore.Instance.collectablesScore[Collectable.Lithium].AddListener(c);
-        DataStore.Instance.collectablesScore[Collectable.BlueLightning].AddListener(c);
-        DataStore.Instance.collectablesScore[Collectable.YellowLightning].AddListener(c);
+            StartCoroutine(Utility.AnimateAnything(0.5f, _score, GameState.Instance.totalScore,
+                (progress, start, end) =>
+                {
+                    _score = Mathf.RoundToInt(Mathf.Lerp(start, end, progress));
+                    _scoreText.text = _score.ToString().PadLeft(5, '0');
+                }));
+        }
     }
 }

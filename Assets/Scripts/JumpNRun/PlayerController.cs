@@ -96,20 +96,22 @@ public class PlayerController : MonoBehaviour
             {
                 case "Killzone":
                     _speed = 0;
-                    Debug.Log("DIEDIEDIE");
                     _rb.velocity = Vector2.down * 8f;
                     _animator.SetTrigger("die");
                     break;
                 case "Lithium":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.Lithium);
+                    GameState.Instance.Collect(50);
                     break;
                 case "BlueLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
+                    GameState.Instance.Collect(100);
                     break;
                 case "YellowLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
+                    GameState.Instance.Collect(200);
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
                     break;
             }

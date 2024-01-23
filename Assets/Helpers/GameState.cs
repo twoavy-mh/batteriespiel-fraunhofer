@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Events;
 using UnityEngine;
 
 namespace Helpers
@@ -45,9 +46,7 @@ namespace Helpers
         public void Init()
         {
             
-            SetVariableAndSave<string>(ref uuid, "lololololol");
-            Debug.Log(uuid);
-            Debug.Log(CheckUuid());
+            CheckUuid();
             if (GameplayExists())
             {
                 MapData(Load());
@@ -68,6 +67,11 @@ namespace Helpers
             finishedIntro = exisitingState.finishedIntro;
             current3dModel = exisitingState.current3dModel;
             microgames = exisitingState.microgames;
+        }
+
+        public void Collect(int increaseBy)
+        {
+            totalScore += increaseBy;
         }
     }
     
@@ -92,7 +96,7 @@ namespace Helpers
 
             return s;
         }
-        protected string Register()
+        private string Register()
         {
             string s = Guid.NewGuid().ToString();
             PlayerPrefs.SetString("uuid", s);
