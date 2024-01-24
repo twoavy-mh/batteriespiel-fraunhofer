@@ -34,13 +34,6 @@ public class MainMenuHandler : MonoBehaviour
         
         instantiationHelper = gameObject.AddComponent<InstantiationHelper>();
         
-        for (int index = 1; index <= 5; index++)
-        {
-            GameObject btn = instantiationHelper.AddMicroGameButton(index);
-            btn.transform.SetParent( GameObject.Find("MicroGames").transform);
-            btn.transform.localScale = Vector3.one;
-        }
-        
         GameObject menuItems = GameObject.Find("MenuItems");
         _menuItemsTransform = GameObject.Find("MenuBorder").GetComponent<RectTransform>();
         instantiationHelper.AddMenuItemsLayout(menuItems);

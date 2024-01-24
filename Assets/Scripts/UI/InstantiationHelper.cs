@@ -10,48 +10,6 @@ using FontStyles = Helpers.FontStyles;
 
 public class InstantiationHelper : MonoBehaviour
 {
-   public GameObject AddMicroGameButton(int a_Index)
-   {
-      GameObject microGameButtonGameObject = new GameObject("microGameButton" + a_Index);
-      
-      RectTransform microGameButtonRectTransformComponent = microGameButtonGameObject.AddComponent<RectTransform>();
-      microGameButtonRectTransformComponent.sizeDelta =  Utility.GetDevice() == Device.Mobile? new Vector2(Settings.RESIZE_FACTOR*116f ,Settings.RESIZE_FACTOR*105f):new Vector2(175f ,189f);
-      
-      VerticalLayoutGroup microGameButtonVerticalLayoutGroupComponent = microGameButtonGameObject.AddComponent<VerticalLayoutGroup>();
-      microGameButtonVerticalLayoutGroupComponent.padding = new RectOffset(0, 0, 0, 0);
-      microGameButtonVerticalLayoutGroupComponent.spacing = 0;
-      microGameButtonVerticalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
-      microGameButtonVerticalLayoutGroupComponent.reverseArrangement = false;
-      microGameButtonVerticalLayoutGroupComponent.childControlWidth = true;
-      microGameButtonVerticalLayoutGroupComponent.childControlHeight = false;
-      microGameButtonVerticalLayoutGroupComponent.childScaleWidth = false;
-      microGameButtonVerticalLayoutGroupComponent.childScaleHeight = false;
-      microGameButtonVerticalLayoutGroupComponent.childForceExpandWidth = false;
-      microGameButtonVerticalLayoutGroupComponent.childForceExpandHeight = false;
-
-      microGameButtonGameObject.AddComponent<Button>();
-      
-      GameObject buttonLabel = NewTextGameObject("ButtonLabel" + a_Index, FontStyles.Button, false);
-      buttonLabel.GetComponent<TextMeshProUGUI>().text = "Micro Game "+ a_Index ;
-      buttonLabel.GetComponent<TextMeshProUGUI>().fontStyle = TMPro.FontStyles.UpperCase;
-      buttonLabel.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-      buttonLabel.transform.SetParent(microGameButtonGameObject.transform);
-         
-      GameObject buttonImage = new GameObject("ButtonImage" + a_Index);
-      buttonImage.transform.SetParent(microGameButtonGameObject.transform);
-      buttonImage.AddComponent<Image>();
-      
-      MicroGameButton microGameButtonScript = microGameButtonGameObject.AddComponent<MicroGameButton>();
-      microGameButtonScript.SetIndex(a_Index);
-      microGameButtonScript.SetStatus(true);
-      buttonImage.GetComponent<RectTransform>().sizeDelta = Utility.GetDevice() == Device.Mobile? new Vector2(Settings.RESIZE_FACTOR*116f ,Settings.RESIZE_FACTOR*116f):new Vector2(175f ,175f);
-      
-      ClickToChangeSzene clickToChangeSzeneScript = microGameButtonGameObject.AddComponent<ClickToChangeSzene>();
-      clickToChangeSzeneScript.jumpScene = "MicroGame" + a_Index;
-
-      return microGameButtonGameObject;
-   }
-
    public void AddMenuItemsLayout(GameObject menuItemsGameObject)
    {
       if (Utility.GetDevice() == Device.Mobile )

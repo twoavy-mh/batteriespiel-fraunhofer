@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -20,8 +21,14 @@ public class TapToPlace : MonoBehaviour
     List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
     private Boolean m_instanciated = false;
     private GameObject m_instance;
+    private Dictionary<string, GameObject> m_instances = new Dictionary<string, GameObject>();
 
-    public GameObject original;
+    // public GameObject original;
+    public GameObject pouchCell;
+    public GameObject prismCell;
+    public GameObject cylinderCell;
+    public GameObject car;
+    
     public Vector3 position;
     public Quaternion rotation;
     public TextMeshProUGUI debugText;
@@ -61,16 +68,21 @@ public class TapToPlace : MonoBehaviour
         if (hit.trackable is ARPlane plane)
         {
             m_instanciated = true; 
+            switch (GameState.Instance.current3dModel)
+            {
+                case GameState.Models.Cells:
+                    InstantiateModel("prismCell", prismCell, plane.transform);
+                    InstantiateModel("pouchcell", pouchCell, plane.transform);
+                    InstantiateModel("cylinderCell", cylinderCell, plane.transform);
+                    break;
+                case GameState.Models.Pouch:
+                    InstantiateModel("pouchcell", pouchCell, plane.transform);
+                    break;
+                case GameState.Models.Car:
+                    InstantiateModel("car", car, plane.transform);
+                    break;
+            }
             debugText.text = "PLANE = " + plane.alignment;
-        //     Debug.Log($"Hit a plane with alignment {plane.alignment}");
-            position = plane.transform.position;
-            rotation = plane.transform.rotation;
-             
-            m_instance = Instantiate(original);
-            m_instance.transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
-            m_instance.transform.position = position;
-            m_instance.transform.rotation = rotation;
-             
             m_PlaneManager.SetTrackablesActive(false);
             m_PlaneManager.enabled = false;
         }
@@ -82,14 +94,26 @@ public class TapToPlace : MonoBehaviour
     
     public void Reset()
     {
-        if (m_instance != null)
+        foreach(KeyValuePair<string,GameObject> gameObject in m_instances)
         {
-            Destroy(m_instance);
-            m_instance = null;
+            Destroy(gameObject.Value);
+            m_instances.Remove(gameObject.Key);
         }
+        
         debugText.text = "Drücke um zu plazieren.";
         m_PlaneManager.SetTrackablesActive(true);
         m_PlaneManager.enabled = true;
         m_instanciated = false;
+    }
+    
+    private void InstantiateModel(string name, GameObject model, Transform plane)
+    {
+        position = plane.position;
+        rotation = plane.rotation;
+        GameObject modelGameObject = Instantiate(model);
+        m_instances.Add(name, modelGameObject);
+        modelGameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        modelGameObject.transform.position = position;
+        modelGameObject.transform.rotation = rotation;
     }
 }
