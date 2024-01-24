@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (transform.position.y < -2.81)
+        if (transform.position.y < -3.3)
         {
             Debug.Log("die now");
         }
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
                 case "Killzone":
                     _speed = 0;
                     _rb.velocity = Vector2.down * 8f;
-                    _animator.SetTrigger("die");
+                    //_animator.SetTrigger("die");
                     break;
                 case "Lithium":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());

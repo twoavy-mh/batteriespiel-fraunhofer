@@ -246,5 +246,10 @@ namespace Helpers
         {
             return s == null || s.Length == 0;
         }
+
+        public static float MapBetween(this float v, float fromMin, float fromMax, float toMin, float toMax)
+        {
+            return (v - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
+        }
     }
 }

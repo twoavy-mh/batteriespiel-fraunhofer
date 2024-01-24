@@ -2,76 +2,77 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Helpers;
 using Models;
 using UnityEngine;
 using JumpNRun;
+using UnityEngine.Video;
 
-public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DecayEvent.IUseDecay
+public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
 {
     [Range(0.0f, 1.0f)] public float startWithHealthPercent = 1.0f;
 
     private RectTransform _rt;
     private bool _isDecaying = true;
-    private bool _isRegenerating = false;
     private bool _isBoosting = false;
-    private float _regenerationMultiplier = 1f;
-    private float _decayMultiplier = 1f;
+
+    private float _multiplier = 1f;
+    
+    public float maxHealth = 330f;
 
     private Coroutine _regenerationCoroutine;
     private Coroutine _decayCoroutine;
 
-    private float _health
+    private float _health = 1f;
+
+    public float Health
+
     {
-        get => _rt.sizeDelta.x;
-        set => _rt.sizeDelta = new Vector2(value, _rt.sizeDelta.y);
-    } 
+        get => _health;
+        set
+        {
+            _health += (value - _health) * _multiplier;
+            if (_rt)
+            {
+                _rt.sizeDelta = new Vector2(_health.MapBetween(0f, maxHealth, 0, 330f), _rt.sizeDelta.y);
+            }
+        }
+    }
 
     void Awake()
     {
+        _health = maxHealth * startWithHealthPercent;
         _rt = GetComponent<RectTransform>();
         _rt.sizeDelta = new Vector2(_rt.sizeDelta.x * startWithHealthPercent, _rt.sizeDelta.y);
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
-        SceneController.Instance.decayEvent.AddListener(UseDecay);
         AddScoreListeners();
+
+        InvokeRepeating(nameof(Check), 0f, 1f);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Check()
     {
         if (_isDecaying)
         {
-            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x + Time.deltaTime * -2, _rt.sizeDelta.y);
+            Health--;
         }
         else if (_isBoosting)
         {
-            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x + (Time.deltaTime * _decayMultiplier), _rt.sizeDelta.y);
+            Health++;
         }
     }
 
-    public void Regenerate(float duration, float increaseBy)
+    private IEnumerator Regenerate(float duration, float increaseBy)
     {
-        _isDecaying = false;
-        StartCoroutine(Helpers.Utility.AnimateAnything(duration, _rt.sizeDelta.x, _rt.sizeDelta.x + increaseBy,
-            (progress, start, end) => _rt.sizeDelta = new Vector2(Mathf.Lerp(start, end, progress), _rt.sizeDelta.y),
-            () => _isDecaying = true));
-    }
-
-    private IEnumerator WaitForDecay(DecayInstance settings, Action callback)
-    {
-        _isDecaying = false;
-        _decayMultiplier = settings.multiplier;
         _isBoosting = true;
-        yield return new WaitForSeconds(settings.duration);
-        _isBoosting = false;
+        _isDecaying = false;
+        _multiplier = 5f;
+        yield return new WaitForSeconds(1f);
+        _multiplier = 1f;
         _isDecaying = true;
-        callback.Invoke();
+        _isBoosting = false;
     }
-
-    public void UseDecay(DecayInstance settings)
-    {
-        _decayCoroutine = StartCoroutine(WaitForDecay(settings, () => _decayCoroutine = null));
-    }
-
+    
     private void AddScoreListeners()
     {
         CollectableDelegate cb = callback => { Debug.Log(callback.collectable + " " + callback.count); };
@@ -99,6 +100,6 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DecayEvent
                 break;
         }
 
-        Regenerate(duration, increaseBy);
+        StartCoroutine(Regenerate(duration, increaseBy));
     }
 }
