@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
 
-public class ImageHeightWidthSetter : MonoBehaviour
+public class ImageSizeSetter : MonoBehaviour
 {
     public int mobileWidth;
     public int mobileHeight;
