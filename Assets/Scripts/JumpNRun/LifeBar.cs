@@ -6,7 +6,9 @@ using Helpers;
 using Models;
 using UnityEngine;
 using JumpNRun;
+using UnityEngine.UI;
 using UnityEngine.Video;
+using DG.Tweening;
 
 public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
 {
@@ -19,12 +21,25 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     private float _multiplier = 1f;
     
     public float maxHealth = 330f;
+    public Image borderImage;
+    private Image _bar;
 
     private Coroutine _regenerationCoroutine;
     private Coroutine _decayCoroutine;
 
     private float _health = 1f;
+    
+    private enum HealthState
+    {
+        High,
+        Mid,
+        Low, 
+        Start
+    }
 
+    private HealthState _healthState = HealthState.Start;
+    private HealthState _lastHealthState = HealthState.Start;
+    
     public float Health
 
     {
@@ -32,9 +47,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
         set
         {
             _health += (value - _health) * _multiplier;
+            
+            SetColor(GetColor());
+            
             if (_rt)
             {
-                _rt.sizeDelta = new Vector2(_health.MapBetween(0f, maxHealth, 0, 330f), _rt.sizeDelta.y);
+                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, 330f), _rt.sizeDelta.y), 1f);
             }
         }
     }
@@ -42,6 +60,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     void Awake()
     {
         _health = maxHealth * startWithHealthPercent;
+        _bar = GetComponent<Image>();
+        SetColor(GetColor(), false);
         _rt = GetComponent<RectTransform>();
         _rt.sizeDelta = new Vector2(_rt.sizeDelta.x * startWithHealthPercent, _rt.sizeDelta.y);
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
@@ -66,8 +86,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     {
         _isBoosting = true;
         _isDecaying = false;
-        _multiplier = 5f;
-        yield return new WaitForSeconds(1f);
+        _multiplier = increaseBy;
+        yield return new WaitForSeconds(duration);
         _multiplier = 1f;
         _isDecaying = true;
         _isBoosting = false;
@@ -88,18 +108,49 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
         {
             case Collectable.Lithium:
                 duration = 2f;
-                increaseBy = 25f;
+                increaseBy = 5f;
                 break;
             case Collectable.BlueLightning:
                 duration = 2f;
-                increaseBy = 50f;
+                increaseBy = 5f;
                 break;
             case Collectable.YellowLightning:
                 duration = 2f;
-                increaseBy = 75f;
+                increaseBy = 5f;
                 break;
         }
 
         StartCoroutine(Regenerate(duration, increaseBy));
     }
+
+    private Color GetColor()
+    {
+        Color c;
+        if (_health > maxHealth * 0.3f)
+        {
+            c = Settings.ColorMap[Tailwind.Green3];
+            _healthState = HealthState.High;
+        } else if (_health < maxHealth * 0.3f && _health > maxHealth * 0.1f)
+        {
+            c = Settings.ColorMap[Tailwind.Orange3];
+            _healthState = HealthState.Mid;
+        } else
+        {
+            c = Settings.ColorMap[Tailwind.Red1];
+            _healthState = HealthState.Low;
+        }
+
+        return c;
+    }
+    
+    private void SetColor(Color c, bool doTween = true)
+    {
+        if (_healthState != _lastHealthState)
+        {
+            _bar.DOColor(c, doTween ? 0.5f : 0f);
+            borderImage.DOColor(c, doTween ? 0.5f : 0f);
+            _lastHealthState = _healthState;
+        }
+    }
+    
 }

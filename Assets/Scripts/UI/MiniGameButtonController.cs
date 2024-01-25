@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,8 +21,8 @@ public class MiniGameButtonController : MonoBehaviour
     
     public void SetStatus(bool a_Status)
     {
-        Image buttonImage = GameObject.Find("ButtonImage" + index).GetComponent<Image>();
-        TextMeshPro text = GameObject.Find("ButtonLabel" + index).GetComponent<TextMeshPro>();
+        Image buttonImage = GameObject.Find("ButtonImage" + index).GetComponent<Image>();;
+        TMP_Text text = GameObject.Find("ButtonLabel" + index).GetComponent<TMP_Text>();
         
         if (a_Status)
         {
