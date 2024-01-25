@@ -21,6 +21,7 @@ public class Init3dModel : MonoBehaviour
         switch (GameState.Instance.current3dModel)
         {
             case GameState.Models.Cells:
+                InstantiateModel(pouchCell);
                 InstantiateModel(prismCell);
                 InstantiateModel(cylinderCell);
                 break;
@@ -35,7 +36,7 @@ public class Init3dModel : MonoBehaviour
 
     void InstantiateModel(GameObject prefab)
     {
-        GameObject model = Instantiate(prefab) as GameObject;
+        GameObject model = Instantiate(prefab);
         model.transform.SetParent(transform);
         model.transform.localPosition = Vector3.zero;
         model.transform.localScale = Vector3.one;
