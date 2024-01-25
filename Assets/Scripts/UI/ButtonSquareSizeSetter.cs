@@ -11,6 +11,16 @@ public class ButtonSquareSizeSetter : MonoBehaviour
         float multiplier = Settings.RESIZE_FACTOR;
         
         /**
+         * Get all components *
+         */
+        RectTransform outlineRt = GetComponent<RectTransform>();
+        ImageWithRoundedCorners outlineIwrc = GetComponent<ImageWithRoundedCorners>();
+        
+        ImageWithRoundedCorners backgroundIwrc = transform.GetChild(0).GetComponent<ImageWithRoundedCorners>();
+        
+        RectTransform iconRt = transform.GetChild(1).GetComponent<RectTransform>();
+        
+        /**
          * OUTLINE SETTER *
          */
 
@@ -24,17 +34,20 @@ public class ButtonSquareSizeSetter : MonoBehaviour
             sizeDelta = new Vector2(60, 60);
         }
         
-        RectTransform rt = GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x, Utility.GetDevice() == Device.Mobile ? 40 * multiplier : 60);
-        ImageWithRoundedCorners iwrc = GetComponent<ImageWithRoundedCorners>();
-        iwrc.radius *= multiplier;
-        VerticalLayoutGroup vlg = GetComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset((int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier));
+        outlineRt.sizeDelta = sizeDelta;
+        outlineIwrc.radius *= multiplier;
+        
+        /** 
+         * BACKGROUND SETTER *
+         */ 
+        
+        backgroundIwrc.radius *= multiplier;
+        
+        /**
+         * ICON SETTER *
+         */
 
-        GameObject child = transform.GetChild(0).gameObject;
-        ImageWithRoundedCorners iwrcChild = child.GetComponent<ImageWithRoundedCorners>();
-        iwrcChild.radius *= multiplier;
-        HorizontalLayoutGroup hlg = child.GetComponent<HorizontalLayoutGroup>();
-        hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(10 * multiplier), (int)Math.Round(10 * multiplier));
+        iconRt.sizeDelta = sizeDelta;
+        
     }
 }
