@@ -10,14 +10,27 @@ public class Toggle3dArModal : MonoBehaviour
     public Button closeButton;
     public CanvasGroup modal;
     
+    private GameObject saveAreaGameObject;
+    private GameObject contentGameObject;
+    
     // Start is called before the first frame update
     void Awake () {
         openButton.onClick.AddListener(OpenModal);
         closeButton.onClick.AddListener(CloseModal);
+        saveAreaGameObject = transform.GetChild(0).gameObject;
+        contentGameObject = saveAreaGameObject.transform.GetChild(0).gameObject;
+        contentGameObject.SetActive(false);
+        saveAreaGameObject.SetActive(false);
+        saveAreaGameObject.SetActive(true);
+        contentGameObject.SetActive(true);
     }
 
     void OpenModal()
     {
+        contentGameObject.SetActive(false);
+        saveAreaGameObject.SetActive(false);
+        saveAreaGameObject.SetActive(true);
+        contentGameObject.SetActive(true);
         modal.interactable = true;
         modal.blocksRaycasts = true;
         modal.DOFade(1, .5f).SetEase(Ease.InCubic);

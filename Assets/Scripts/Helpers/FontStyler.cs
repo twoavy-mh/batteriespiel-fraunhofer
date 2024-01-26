@@ -2,6 +2,7 @@ using System;
 using Helpers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using FontStyles = Helpers.FontStyles;
 using FontWeight = Helpers.FontWeight;
 
@@ -93,6 +94,7 @@ public class FontStyler : MonoBehaviour
     {
         _text = GetComponent<TMP_Text>();
         Init();
+        RerenderLayout();
     } 
     private void Init(){
         fontColor = _fontColor;
@@ -113,6 +115,7 @@ public class FontStyler : MonoBehaviour
         string path = $"Fonts/Roboto_{Settings.FontMap[fontDetails].fontType}/Roboto{Settings.FontMap[fontDetails].fontType}-{WeightToString(Settings.FontMap[fontDetails].fontWeight)}";
         _text.font = Resources.Load(path, typeof(TMP_FontAsset)) as TMP_FontAsset;
         _text.fontSize = Settings.FontMap[fontDetails].GetFontSizeByScreen();
+        RerenderLayout();
     }
 
     private void SetGlow()
@@ -140,6 +143,7 @@ public class FontStyler : MonoBehaviour
         {
             _text.outlineWidth = 0;
         }
+        RerenderLayout();
     }
 
     private string WeightToString(FontWeight f)
@@ -156,5 +160,10 @@ public class FontStyler : MonoBehaviour
 
         return "Medium";
     }
-    
+
+    private void RerenderLayout()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+    }
+
 }
