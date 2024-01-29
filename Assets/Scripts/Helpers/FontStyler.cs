@@ -8,6 +8,7 @@ using FontWeight = Helpers.FontWeight;
 
 public class FontStyler : MonoBehaviour
 {
+    
     [Range(0f, 1f), SerializeField]
     private float _fontColorAlpha = 1f;
     

@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
-using Helpers;
 using Models;
 using UnityEngine;
 using JumpNRun;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using DG.Tweening;
+using Helpers;
 
 public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
 {
@@ -21,6 +21,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     private float _multiplier = 1f;
     
     public float maxHealth = 330f;
+    public RectTransform reference;
     public Image borderImage;
     private Image _bar;
 
@@ -52,13 +53,18 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
             
             if (_rt)
             {
-                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, 330f), _rt.sizeDelta.y), 1f);
+                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, reference.sizeDelta.x), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear);
             }
         }
     }
 
-    void Awake()
+    void Start()
     {
+        if (Utility.GetDevice() == Device.Mobile)
+        {
+            //SetToMobile();
+        }
+
         _health = maxHealth * startWithHealthPercent;
         _bar = GetComponent<Image>();
         SetColor(GetColor(), false);
@@ -74,7 +80,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     {
         if (_isDecaying)
         {
-            Health--;
+            Health += 10;
         }
         else if (_isBoosting)
         {
@@ -151,6 +157,29 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
             borderImage.DOColor(c, doTween ? 0.5f : 0f);
             _lastHealthState = _healthState;
         }
+    }
+
+    private void SetToMobile()
+    {
+        GameObject life = GameObject.Find("Life");
+        GameObject glow = GameObject.Find("Glow");
+        GameObject wrapper = transform.parent.gameObject;
+        GameObject bar = transform.gameObject;
+        GameObject border = GameObject.Find("border");
+        GameObject score = GameObject.Find("Score");
+        GameObject ladezustand = GameObject.Find("Ladezustand");
+        GameObject energiestatus = GameObject.Find("Energiestatus");
+
+        //ladezustand.GetComponent<RectTransform>().localPosition = new Vector3(-1405f, 128f, 0);
+        //score.GetComponent<RectTransform>().localPosition = new Vector3(-1405f, 128f, 0);
+        
+        life.GetComponent<RectTransform>().sizeDelta = new Vector2(228f * Settings.RESIZE_FACTOR, 78f * Settings.RESIZE_FACTOR);
+        glow.GetComponent<RectTransform>().sizeDelta = new Vector2(205.4f * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
+        glow.GetComponent<RectTransform>().localPosition = new Vector3(114f * Settings.RESIZE_FACTOR, (-39.7f + 1.4f) * Settings.RESIZE_FACTOR, 0f);
+        wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(203.4f * Settings.RESIZE_FACTOR, 53f * Settings.RESIZE_FACTOR);
+        wrapper.GetComponent<RectTransform>().localPosition = new Vector3(12f * Settings.RESIZE_FACTOR, -11.5f * Settings.RESIZE_FACTOR, 0f);
+        bar.GetComponent<RectTransform>().sizeDelta = new Vector2(198f * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
+        border.GetComponent<RectTransform>().sizeDelta = new Vector2(border.GetComponent<RectTransform>().sizeDelta.x * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
     }
     
 }

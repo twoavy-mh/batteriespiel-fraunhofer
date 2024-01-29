@@ -4,6 +4,7 @@ using Events;
 using Models;
 using JumpNRun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataStore : CollectedEvent.IUseCollectable
 {
