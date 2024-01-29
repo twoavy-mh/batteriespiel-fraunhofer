@@ -7,6 +7,7 @@ using Helpers;
 using Minigame2;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 namespace Minigame4
@@ -14,12 +15,13 @@ namespace Minigame4
     public class Dropzone : MonoBehaviour, IDropHandler, HoveringOverDropzoneEvent.IUseHoveringOverDropzone
     {
         public string requires;
-        private Tailwind _initialColor;
+        public Sprite hoverSprite;
+        private Sprite _normalSprite;
 
         private void Start()
         {
             SceneController.Instance.hoveringOverDropzoneEvent.AddListener(UseHoveringOverDropzone);
-            _initialColor = GetComponent<ImageColorSetter>().ImageColor;
+            _normalSprite = GetComponent<Image>().sprite;
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -33,7 +35,6 @@ namespace Minigame4
                     eventData.pointerDrag.GetComponent<RectTransform>().DOMove(GetComponent<RectTransform>().position, 0.5f);
                     d.Lock();
                     d.SwitchToYellow();
-                    GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
                 }
                 else
                 {
@@ -47,17 +48,20 @@ namespace Minigame4
         {
             if (hoveringOver == null)
             {
-                GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
+                GetComponent<Image>().sprite = _normalSprite;
+                //GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
                 return;
             }
             
             if (hoveringOver.name == gameObject.name)
             {
-                GetComponent<ImageColorSetter>().UpdateColor(Tailwind.Yellow1, 0.5f);
+                GetComponent<Image>().sprite = hoverSprite;
+                //GetComponent<ImageColorSetter>().UpdateColor(Tailwind.Yellow1, 0.5f);
             }
             else
             {
-                GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
+                GetComponent<Image>().sprite = _normalSprite;
+                //GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
             }
         }
     }   

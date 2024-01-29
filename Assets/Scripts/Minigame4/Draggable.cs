@@ -30,7 +30,7 @@ namespace Minigame4
 
         void Start()
         {
-            GameObject c = GameObject.Find("Canvas");
+            GameObject c = GameObject.Find("Test");
             canvas = c.GetComponent<Canvas>();
             _raycaster = c.GetComponent<GraphicRaycaster>();
 

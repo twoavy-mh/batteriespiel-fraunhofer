@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Hoverable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    
+    public Sprite hoverSprite;
+    
     // Update is called once per frame
     void Update()
     {
