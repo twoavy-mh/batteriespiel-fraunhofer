@@ -31,28 +31,28 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(1, 10, 100, "philipinen"),
-            new ResourceAmount(2, 10, 100, "philipinen"),
-            new ResourceAmount(3, 10, 100, "philipinen"),
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(0, 4, 0, "chile"),
+            new ResourceAmount(8, 0, 0, "philippines"),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(25, 40, 120)) },
             { new TimeslotEntry(200, 250, new ResourceInfo(20, 50, 60)) },
             { new TimeslotEntry(350, 400, new ResourceInfo(15, 60, 80)) },
-            { new TimeslotEntry(500, 550, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(650, 700, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(800, 850, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(950, 1000, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(1100, 1150, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(1250, 1300, new ResourceInfo(10, 10, 10)) },
-            { new TimeslotEntry(1400, 1450, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(500, 550, new ResourceInfo(22, 45, 150)) },
+            { new TimeslotEntry(650, 700, new ResourceInfo(16, 85, 110)) },
+            { new TimeslotEntry(800, 850, new ResourceInfo(18, 120, 220)) },
+            { new TimeslotEntry(950, 1000, new ResourceInfo(25, 100, 360)) },
+            { new TimeslotEntry(1100, 1150, new ResourceInfo(40, 90, 160)) },
+            { new TimeslotEntry(1250, 1300, new ResourceInfo(35, 90, 140)) },
+            { new TimeslotEntry(1400, 1450, new ResourceInfo(20, 70, 100)) },
         }));
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(4, 20, 200, "philipinen"),
-            new ResourceAmount(5, 20, 200, "philipinen"),
-            new ResourceAmount(6, 20, 200, "philipinen"),
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(0, 4, 0, "chile"),
+            new ResourceAmount(0, 0, 0, "", true),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -69,9 +69,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(7, 10, 10, "philipinen"),
-            new ResourceAmount(8, 10, 10, "philipinen"),
-            new ResourceAmount(9, 10, 10, "philipinen"),
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(5, 6, 1, "australia"),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -88,9 +88,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(0, 4, 0, "chile"),
+            new ResourceAmount(8, 0, 0, "philippines"),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -107,9 +107,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(0, 0, 0, "", true),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -126,9 +126,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(5, 6, 1, "australia"),
+            new ResourceAmount(8, 0, 0, "philippines"),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -145,9 +145,66 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
         _days.Add(new BrokerDay(new[]
         {
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
-            new ResourceAmount(10, 10, 10, "philipinen"),
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(5, 6, 1, "australia"),
+            new ResourceAmount(0, 4, 0, "chile"),
+        }, new List<TimeslotEntry>()
+        {
+            { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(200, 250, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(350, 400, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(500, 550, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(650, 700, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(800, 850, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(950, 1000, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1100, 1150, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1250, 1300, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1400, 1450, new ResourceInfo(10, 10, 10)) },
+        }));
+        
+        _days.Add(new BrokerDay(new[]
+        {
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(5, 6, 1, "australia"),
+            new ResourceAmount(8, 0, 0, "philippines"),
+        }, new List<TimeslotEntry>()
+        {
+            { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(200, 250, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(350, 400, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(500, 550, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(650, 700, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(800, 850, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(950, 1000, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1100, 1150, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1250, 1300, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1400, 1450, new ResourceInfo(10, 10, 10)) },
+        }));
+        
+        _days.Add(new BrokerDay(new[]
+        {
+            new ResourceAmount(0, 0, 4, "kongo"),
+            new ResourceAmount(0, 4, 0, "chile"),
+            new ResourceAmount(5, 6, 1, "australia"),
+        }, new List<TimeslotEntry>()
+        {
+            { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(200, 250, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(350, 400, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(500, 550, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(650, 700, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(800, 850, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(950, 1000, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1100, 1150, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1250, 1300, new ResourceInfo(10, 10, 10)) },
+            { new TimeslotEntry(1400, 1450, new ResourceInfo(10, 10, 10)) },
+        }));
+        
+        _days.Add(new BrokerDay(new[]
+        {
+            new ResourceAmount(14, 0, 1, "indonesia"),
+            new ResourceAmount(0, 4, 0, "chile"),
+            new ResourceAmount(8, 0, 0, "philippines"),
         }, new List<TimeslotEntry>()
         {
             { new TimeslotEntry(50, 100, new ResourceInfo(10, 10, 10)) },
@@ -175,8 +232,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         }
     }
 
-    private TimeslotEntry GetCurrentTimeslot(int frame)
+    public TimeslotEntry GetCurrentTimeslot()
     {
+        int frame = (int)_vp.frame;
         BrokerDay currentDay = _days[_currentDay];
         TimeslotEntry currentSlot = null;
 
@@ -209,7 +267,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     public void UseBrokerBuyEvent(Dictionary<string, int> boughtAmount)
     {
-        TimeslotEntry t = GetCurrentTimeslot((int)_vp.frame);
+        TimeslotEntry t = GetCurrentTimeslot();
         NonInvestedController nic = GameObject.Find("NonInvested").GetComponent<NonInvestedController>();
         
         foreach (var (key, value) in boughtAmount)

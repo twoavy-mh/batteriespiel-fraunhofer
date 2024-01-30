@@ -31,6 +31,9 @@ public class BuyButton : MonoBehaviour
 
     private void Buy()
     {
-        SceneController.Instance.brokerBuyEvent.Invoke(buyAmount);
+        if (GameObject.Find("Video Player").GetComponent<Timeslot>().GetCurrentTimeslot() != null)
+        {
+            SceneController.Instance.brokerBuyEvent.Invoke(buyAmount);   
+        }
     }
 }

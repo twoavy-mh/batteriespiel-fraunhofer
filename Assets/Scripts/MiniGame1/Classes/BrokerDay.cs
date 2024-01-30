@@ -22,13 +22,15 @@ namespace Minigame1.Classes
         public int lithiumAmount;
         public int cobaltAmount;
         public string countryKey;
+        public bool disabled;
 
-        public ResourceAmount(int nickleAmount, int lithiumAmount, int cobaltAmount, string countryKey)
+        public ResourceAmount(int nickleAmount, int lithiumAmount, int cobaltAmount, string countryKey, bool disabled = false)
         {
             this.nickleAmount = nickleAmount;
             this.lithiumAmount = lithiumAmount;
             this.cobaltAmount = cobaltAmount;
             this.countryKey = countryKey;
+            this.disabled = disabled;
         }
     }
 

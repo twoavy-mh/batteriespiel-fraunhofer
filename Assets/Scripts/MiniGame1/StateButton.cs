@@ -16,11 +16,13 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public TMP_Text type;
 
     public int needs;
+    public string dictKey;
     private int _bought = 0;
     
     void Start()
     {
         SceneController.Instance.brokerBuyEvent.AddListener(UseBrokerBuyEvent);
+        amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
     }
 
     // Update is called once per frame
@@ -31,7 +33,7 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     public void UseBrokerBuyEvent(Dictionary<string, int> boughtAmount)
     {
-        int relevantBought = boughtAmount["nickle"];
+        int relevantBought = boughtAmount[dictKey];
         _bought += relevantBought;
         amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
     }
