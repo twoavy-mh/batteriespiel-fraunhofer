@@ -22,11 +22,12 @@ public class Init3dModel : MonoBehaviour
         {
             case GameState.Models.Cells:
                 InstantiateModel(pouchCell);
-                InstantiateModel(prismCell);
-                InstantiateModel(cylinderCell);
+                InstantiateModel(prismCell, new Vector3(0,0,2));
+                InstantiateModel(cylinderCell, new Vector3(0,0,-2));
                 break;
             case GameState.Models.Pouch:
-                InstantiateModel(pouchCell);
+                GameObject cell = InstantiateModel(pouchCell);
+                cell.AddComponent<AnimationController>();
                 break;
             case GameState.Models.Car:
                 InstantiateModel(car);
@@ -34,11 +35,14 @@ public class Init3dModel : MonoBehaviour
         }
     }
 
-    void InstantiateModel(GameObject prefab)
+    GameObject InstantiateModel(GameObject prefab, Vector3? localPosition = null)
     {
         GameObject model = Instantiate(prefab);
         model.transform.SetParent(transform);
-        model.transform.localPosition = Vector3.zero;
-        model.transform.localScale = Vector3.one;
+        model.transform.localPosition =localPosition == null? Vector3.zero:(Vector3) localPosition;
+        
+        // model.transform.localScale = Vector3.one;
+
+        return model;
     }
 }
