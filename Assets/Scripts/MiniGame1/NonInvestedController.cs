@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class NonInvestedController : MonoBehaviour
 {
-    public int startMoney = 10000;
+    public int startMoney = 1000;
 
     private void Awake()
     {
@@ -19,5 +19,12 @@ public class NonInvestedController : MonoBehaviour
     {
         startMoney -= amount;
         GetComponent<TMP_Text>().text = startMoney.ToString();
+        
+        SceneController.Instance.moneySpentEvent.Invoke(startMoney);
+    }
+
+    public bool AmIBroke(int wantsToSpend)
+    {
+        return startMoney - wantsToSpend < 0;
     }
 }

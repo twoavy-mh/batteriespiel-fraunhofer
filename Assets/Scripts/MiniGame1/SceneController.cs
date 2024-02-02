@@ -8,8 +8,9 @@ namespace Minigame1
 {
     public class SceneController : MonoBehaviour
     {
-
+        public ShowWhatYouBuyEvent showWhatYouBuyEvent;
         public BrokerBuyEvent brokerBuyEvent;
+        public MoneySpentEvent moneySpentEvent;
         private static SceneController _instance;
         
         public static SceneController Instance
@@ -24,7 +25,9 @@ namespace Minigame1
         // Start is called before the first frame update
         private void Awake()
         {
+            showWhatYouBuyEvent ??= new ShowWhatYouBuyEvent();
             brokerBuyEvent ??= new BrokerBuyEvent();
+            moneySpentEvent ??= new MoneySpentEvent();
             _instance = this;
         }
     }   

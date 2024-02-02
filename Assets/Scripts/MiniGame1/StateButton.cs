@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
@@ -22,7 +23,15 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     void Start()
     {
         SceneController.Instance.brokerBuyEvent.AddListener(UseBrokerBuyEvent);
-        amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
+        try
+        {
+            amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
+        }
+        catch (Exception)
+        {
+            Debug.Log("");
+        }
+        
     }
 
     // Update is called once per frame
@@ -35,6 +44,14 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     {
         int relevantBought = boughtAmount[dictKey];
         _bought += relevantBought;
-        amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
+        try
+        {
+            amount.text = $"{_bought.ToString().PadLeft(2, '0')}/{needs}";
+        }
+        catch (Exception)
+        {
+            Debug.Log("not there");
+        }
+        
     }
 }

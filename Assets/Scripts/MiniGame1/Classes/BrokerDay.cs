@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Minigame1.Classes
 {
@@ -39,24 +40,17 @@ namespace Minigame1.Classes
         public int start;
         public int end;
         public ResourceInfo resourceInfo;
+        public ResourceAmount[] resourceAmount;
+        public Sprite map;
+            
 
-        public TimeslotEntry(int start, int end, ResourceInfo resourceInfo)
+        public TimeslotEntry(int start, int end, ResourceInfo resourceInfo, ResourceAmount[] resourceAmount, Sprite map)
         {
             this.start = start;
             this.end = end;
             this.resourceInfo = resourceInfo;
-        }
-    }
-
-    public class BrokerDay
-    {
-        public ResourceAmount[] resourceAmount;
-        public List<TimeslotEntry> timeslots;
-
-        public BrokerDay(ResourceAmount[] resourceAmount, List<TimeslotEntry> timeslots)
-        {
             this.resourceAmount = resourceAmount;
-            this.timeslots = timeslots;
+            this.map = map;
         }
     }
 }
