@@ -18,6 +18,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     public BuyButton[] buyButtons = new BuyButton[3];
     public Sprite[] maps;
+    public Sprite emptyMap;
     public Image mapImage;
     public int secondsPerTimeslot = 5;
 
@@ -147,6 +148,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         TimeslotEntry t = GetCurrentTimeslot();
         if (t == null)
         {
+            mapImage.sprite = emptyMap;
             return;
         }
         
@@ -174,8 +176,9 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     private IEnumerator EmitBuyableAgain(int startframe, int endframe)
     {
-        yield return new WaitForSeconds(((endframe - startframe) / _vp.frameRate) + secondsPerTimeslot);
+        yield return new WaitForSeconds(secondsPerTimeslot);
         _vp.Play();
+        yield return new WaitForSeconds((endframe - startframe) / _vp.frameRate);
         SceneController.Instance.showWhatYouBuyEvent.Invoke(false);
     }
     
@@ -199,7 +202,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public void UseBrokerBuyEvent(Dictionary<string, int> boughtAmount)
     {
         TimeslotEntry t = GetCurrentTimeslot();
-        NonInvestedController nic = GameObject.Find("NonInvested").GetComponent<NonInvestedController>();
+        NonInvestedController nic = GameObject.Find("Geld").GetComponent<NonInvestedController>();
 
         foreach (var (key, value) in boughtAmount)
         {
@@ -219,11 +222,6 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                     break;
             }
         }
-    }
-
-    public TimeslotEntry First()
-    {
-        return _brokerDay[0];
     }
     
     public void OnApplicationQuit()

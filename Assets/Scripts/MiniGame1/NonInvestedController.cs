@@ -12,13 +12,13 @@ public class NonInvestedController : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<TMP_Text>().text = startMoney.ToString();
+        GetComponent<TMP_Text>().text = startMoney + "€";
     }
 
     public void Spend(int amount)
     {
         startMoney -= amount;
-        GetComponent<TMP_Text>().text = startMoney.ToString();
+        GetComponent<TMP_Text>().text = startMoney + "€";
         
         SceneController.Instance.moneySpentEvent.Invoke(startMoney);
     }

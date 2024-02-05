@@ -27,6 +27,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
 
     private bool _disabled = false;
     private bool _broke = false;
+    private bool _bought = false;
 
     private bool Broke
     {
@@ -44,7 +45,8 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
             {
                 transform.GetChild(1).GetComponent<TMP_Text>().color = Settings.ColorMap[Tailwind.Blue1];
                 transform.GetChild(0).GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetEase(Ease.InOutSine);
-                transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[_disabled ? Tailwind.Blue5 : Tailwind.Blue1], 0.5f);
+                transform.parent.GetComponent<Image>()
+                    .DOColor(Settings.ColorMap[_disabled ? Tailwind.Blue5 : Tailwind.Blue1], 0.5f);
             }
         }
     }
@@ -54,11 +56,12 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
         SceneController.Instance.moneySpentEvent.AddListener(UseMoneySpentEvent);
         SceneController.Instance.showWhatYouBuyEvent.AddListener(UseShowWhatYouBuyEvent);
         GetComponent<Button>().onClick.AddListener(Buy);
-        _nic = GameObject.Find("NonInvested").GetComponent<NonInvestedController>();
+        _nic = GameObject.Find("Geld").GetComponent<NonInvestedController>();
     }
 
     public void SetNewBuyAmount(Dictionary<string, int> newAmount, string countryKey, bool disabled)
     {
+        _bought = false;
         buyAmount = newAmount;
         transform.GetChild(1).GetComponent<TMP_Text>().text = !countryKey.Equals("")
             ? LocalizationSettings.StringDatabase.GetLocalizedString(countryKey).ToUpper()
@@ -127,6 +130,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
             return;
         }
 
+        _bought = true;
         _disabled = true;
         if (GameObject.Find("Video Player").GetComponent<Timeslot>().GetCurrentTimeslot() != null)
         {
@@ -167,9 +171,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
         transform.GetChild(1).GetComponent<TMP_Text>().text = show
             ? LocalizationSettings.StringDatabase.GetLocalizedString(_countryKey).ToUpper()
             : "";
-        if (!_disabled)
-        {
-            transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue1], 0.5f);    
-        }
+
+        transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue1], 0.5f);
     }
 }
