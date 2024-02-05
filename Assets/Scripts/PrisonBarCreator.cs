@@ -9,6 +9,11 @@ public class PrisonBarCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitPrisonBars();
+    }
+
+    private void InitPrisonBars()
+    {
         RectTransform rt = GetComponent<RectTransform>();
         rt.offsetMax = new Vector2(0, 0);
         rt.offsetMin = new Vector2(0, 0);
@@ -53,5 +58,19 @@ public class PrisonBarCreator : MonoBehaviour
             currentHorizontalRect.localPosition = new Vector3(0, oneBlock * -i, 0f);
             // currentHorizontalRect.localScale = Vector3.one;
         }
+    } 
+    
+    private void ClearAllPrisonBars()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    
+    private void OnRectTransformDimensionsChange()
+    {    
+        ClearAllPrisonBars();
+        InitPrisonBars();
     }
 }

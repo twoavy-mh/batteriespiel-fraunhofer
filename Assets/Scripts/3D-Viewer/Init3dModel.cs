@@ -23,25 +23,25 @@ public class Init3dModel : MonoBehaviour
             case GameState.Models.Cells:
                 InstantiateModel(pouchCell);
                 InstantiateModel(prismCell, new Vector3(0,0,2));
-                InstantiateModel(cylinderCell, new Vector3(0,0,-2));
+                InstantiateModel(cylinderCell, new Vector3(0,0,-2), 0.1f);
                 break;
             case GameState.Models.Pouch:
                 GameObject cell = InstantiateModel(pouchCell);
                 cell.AddComponent<AnimationController>();
                 break;
             case GameState.Models.Car:
-                InstantiateModel(car);
+                float scale = GameState.Instance.arAvailable ? 5 : 1;
+                InstantiateModel(car, new Vector3(0,0,0), scale);
                 break;
         }
     }
 
-    GameObject InstantiateModel(GameObject prefab, Vector3? localPosition = null)
+    GameObject InstantiateModel(GameObject prefab, Vector3? localPosition = null, float scale = 1)
     {
         GameObject model = Instantiate(prefab);
         model.transform.SetParent(transform);
         model.transform.localPosition =localPosition == null? Vector3.zero:(Vector3) localPosition;
-        
-        // model.transform.localScale = Vector3.one;
+        model.transform.localScale = new Vector3(scale,scale,scale);
 
         return model;
     }
