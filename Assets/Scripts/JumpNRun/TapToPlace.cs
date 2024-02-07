@@ -26,12 +26,11 @@ public class TapToPlace : MonoBehaviour
     private float _currentResetTime = 0.0f;
     
     private GameObject _instance;
-    private Dictionary<string, GameObject> _instances = new Dictionary<string, GameObject>();
+    private GameObject modelGameObject;
 
     // public GameObject original;
     public GameObject pouchCell;
-    public GameObject prismCell;
-    public GameObject cylinderCell;
+    public GameObject cells;
     public GameObject car;
     
     public Vector3 position;
@@ -65,7 +64,7 @@ public class TapToPlace : MonoBehaviour
             }
         }
 
-        if (_isReseting && _currentResetTime + Time.time >= resetTime)
+        if (_isReseting && resetTime + _currentResetTime <= Time.time)
         {
             _isReseting = false;
             _currentResetTime = 0f;
@@ -83,9 +82,7 @@ public class TapToPlace : MonoBehaviour
             switch (GameState.Instance.current3dModel)
             {
                 case GameState.Models.Cells:
-                    InstantiateModel("prismCell", prismCell, plane.transform, new Vector3(0,0,.2f));
-                    InstantiateModel("pouchcell", pouchCell, plane.transform);
-                    InstantiateModel("cylinderCell", cylinderCell, plane.transform, new Vector3(0,0,-.1f));
+                    InstantiateModel("cells", cells, plane.transform);
                     break;
                 case GameState.Models.Pouch:
                     GameObject cell = InstantiateModel("pouchcell", pouchCell, plane.transform);
@@ -113,15 +110,11 @@ public class TapToPlace : MonoBehaviour
         _isReseting = true;
         _currentResetTime = Time.time;
         
-        foreach(KeyValuePair<string,GameObject> gameObject in _instances)
-        {
-            Destroy(gameObject.Value);
-            _instances.Remove(gameObject.Key);
-        }
+        DestroyImmediate(modelGameObject);
         
         debugText.text = "Drücke um zu plazieren.";
-        planeManager.SetTrackablesActive(true);
         planeManager.enabled = true;
+        planeManager.SetTrackablesActive(true);
         _instanciated = false;
     }
     
@@ -139,8 +132,7 @@ public class TapToPlace : MonoBehaviour
         
         rotation = plane.rotation;
         
-        GameObject modelGameObject = Instantiate(model);
-        _instances.Add(name, modelGameObject);
+        modelGameObject = Instantiate(model);
         modelGameObject.transform.localScale = new Vector3(scale,scale,scale);
         modelGameObject.transform.position = position;
         modelGameObject.transform.rotation = rotation;

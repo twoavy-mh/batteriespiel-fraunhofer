@@ -3,24 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class poiClick : MonoBehaviour
+public class PoiClick : MonoBehaviour
 {
+    public string headlineKey;
+    public string bodyKey;
+    
     private ShowPoiContent showPoiContentScript;
     // Start is called before the first frame update
     void Start()
     {
-        showPoiContentScript = GameObject.Find("MAIN").GetComponent<ShowPoiContent>();
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
+        showPoiContentScript = GameObject.Find("PoiOverlay")?.GetComponent<ShowPoiContent>();
     }
 
     private void OnMouseDown()
     {
-        showPoiContentScript.ShowPoiCanvas("POI Inhalt", "Die ist ein Text \n" + "leider ohne Inhalt \n"+"aber mit Zeilenumbruch");
-        Debug.Log("Clicked POI");
+        showPoiContentScript.ShowPoiCanvas(headlineKey, bodyKey);
     }
 }

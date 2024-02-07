@@ -5,14 +5,28 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 
 
-namespace Minigame2
+namespace UI
 {
     public class SelfTranslatingTest : MonoBehaviour
     {
+        [SerializeField]
+        private string _translationKey = "";
+        public string translationKey
+        {
+            get {
+                return _translationKey;
+            } set {
+                _translationKey = value;
+                SetLocalizedString();
+            }
+        }
 
-        public string translationKey;
-    
         void Start()
+        {
+            SetLocalizedString();
+        }
+
+        private void SetLocalizedString()
         {
             GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString(translationKey);
         }
