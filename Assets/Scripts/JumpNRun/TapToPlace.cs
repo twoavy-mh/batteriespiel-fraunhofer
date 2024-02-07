@@ -11,17 +11,22 @@ using UnityEngine.XR.ARSubsystems;
 public class TapToPlace : MonoBehaviour
 {
     [SerializeField]
-    ARRaycastManager m_RaycastManager;
+    ARRaycastManager raycastManager;
     
     [SerializeField]
-    ARPlaneManager m_PlaneManager;
+    ARPlaneManager planeManager;
 
     public GameObject resetButton;
+    public float resetTime = 1.0f;
     
-    List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
-    private Boolean m_instanciated = false;
-    private GameObject m_instance;
-    private Dictionary<string, GameObject> m_instances = new Dictionary<string, GameObject>();
+    List<ARRaycastHit> _hits = new List<ARRaycastHit>();
+    private Boolean _instanciated = false;
+    
+    private Boolean _isReseting = false;
+    private float _currentResetTime = 0.0f;
+    
+    private GameObject _instance;
+    private Dictionary<string, GameObject> _instances = new Dictionary<string, GameObject>();
 
     // public GameObject original;
     public GameObject pouchCell;
@@ -41,15 +46,15 @@ public class TapToPlace : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.touchCount > 0 && !m_instanciated)
+        if (Input.touchCount > 0 && !_instanciated && !_isReseting)
         {
             Touch touch = Input.GetTouch(0);
             debugText.text = touch.rawPosition.ToString();
             // Ray ray = Camera.main.ScreenPointToRay(touch.position);
-            if (m_RaycastManager.Raycast(touch.rawPosition, m_Hits, TrackableType.PlaneWithinPolygon)) 
+            if (raycastManager.Raycast(touch.rawPosition, _hits, TrackableType.PlaneWithinPolygon)) 
             {
-                debugText.text = "Raycast hit count " + m_Hits.Count;
-                foreach(ARRaycastHit hit in m_Hits) 
+                debugText.text = "Raycast hit count " + _hits.Count;
+                foreach(ARRaycastHit hit in _hits) 
                 {
                     HandleRaycast(hit); 
                 }
@@ -58,62 +63,88 @@ public class TapToPlace : MonoBehaviour
             {
                 debugText.text = "No Plane touched";
             }
-        } 
+        }
+
+        if (_isReseting && _currentResetTime + Time.time >= resetTime)
+        {
+            _isReseting = false;
+            _currentResetTime = 0f;
+        }
+        
     }
     
     void HandleRaycast(ARRaycastHit hit)
     {
-        if (m_instanciated)
+        if (_instanciated)
             return;
         if (hit.trackable is ARPlane plane)
         {
-            m_instanciated = true; 
+            _instanciated = true; 
             switch (GameState.Instance.current3dModel)
             {
                 case GameState.Models.Cells:
-                    InstantiateModel("prismCell", prismCell, plane.transform);
+                    InstantiateModel("prismCell", prismCell, plane.transform, new Vector3(0,0,.2f));
                     InstantiateModel("pouchcell", pouchCell, plane.transform);
-                    InstantiateModel("cylinderCell", cylinderCell, plane.transform);
+                    InstantiateModel("cylinderCell", cylinderCell, plane.transform, new Vector3(0,0,-.1f));
                     break;
                 case GameState.Models.Pouch:
-                    InstantiateModel("pouchcell", pouchCell, plane.transform);
+                    GameObject cell = InstantiateModel("pouchcell", pouchCell, plane.transform);
+                    cell.AddComponent<AnimationController>();
                     break;
                 case GameState.Models.Car:
-                    InstantiateModel("car", car, plane.transform);
+                    InstantiateModel("car", car, plane.transform, Vector3.zero, .2f);
                     break;
             }
             debugText.text = "PLANE = " + plane.alignment;
-            m_PlaneManager.SetTrackablesActive(false);
-            m_PlaneManager.enabled = false;
+            planeManager.SetTrackablesActive(false);
+            planeManager.enabled = false;
         }
         else
         {
-            debugText.text = "Raycast hit count " + m_Hits.Count;
+            debugText.text = "Raycast hit count " + _hits.Count;
         }
     }
     
     public void Reset()
     {
-        foreach(KeyValuePair<string,GameObject> gameObject in m_instances)
+        if (_isReseting)
+            return;
+        
+        _isReseting = true;
+        _currentResetTime = Time.time;
+        
+        foreach(KeyValuePair<string,GameObject> gameObject in _instances)
         {
             Destroy(gameObject.Value);
-            m_instances.Remove(gameObject.Key);
+            _instances.Remove(gameObject.Key);
         }
         
         debugText.text = "Drücke um zu plazieren.";
-        m_PlaneManager.SetTrackablesActive(true);
-        m_PlaneManager.enabled = true;
-        m_instanciated = false;
+        planeManager.SetTrackablesActive(true);
+        planeManager.enabled = true;
+        _instanciated = false;
     }
     
-    private void InstantiateModel(string name, GameObject model, Transform plane)
+    private GameObject InstantiateModel(string name, GameObject model, Transform plane, Vector3? positionOffset = null, float scale = 0.1f)
     {
-        position = plane.position;
+        // is positionOffset null? if yes, set position to plane.position, else set position to positionOffset
+        if (positionOffset == null)
+        {
+            position = plane.position;
+        }
+        else
+        {
+            position = plane.position + (Vector3) positionOffset;
+        }
+        
         rotation = plane.rotation;
+        
         GameObject modelGameObject = Instantiate(model);
-        m_instances.Add(name, modelGameObject);
-        modelGameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        _instances.Add(name, modelGameObject);
+        modelGameObject.transform.localScale = new Vector3(scale,scale,scale);
         modelGameObject.transform.position = position;
         modelGameObject.transform.rotation = rotation;
+
+        return modelGameObject;
     }
 }

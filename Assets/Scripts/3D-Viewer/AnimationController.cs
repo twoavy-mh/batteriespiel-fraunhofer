@@ -28,7 +28,7 @@ public class AnimationController : MonoBehaviour
     private void triggerAnimation()
     {
         AnimatorStateInfo animatorState = _animator.GetCurrentAnimatorStateInfo(0);
-        if (animatorState.IsName("opening") || animatorState.IsName("closing"))
+        if (animatorState.IsName("opening") || animatorState.IsName("open"))
         {
             _animator.ResetTrigger("open");
             _animator.SetTrigger("close");
