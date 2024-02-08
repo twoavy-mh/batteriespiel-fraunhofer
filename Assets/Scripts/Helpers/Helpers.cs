@@ -226,6 +226,12 @@ namespace Helpers
             
             return gradient.Evaluate(position);
         }
+        
+        public static int RandomInRange(int min, int max)
+        {
+            return UnityEngine.Random.Range(min, max);
+        }
+        
     }
 
     public static class Extensions

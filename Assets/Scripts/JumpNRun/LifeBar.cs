@@ -80,7 +80,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
     {
         if (_isDecaying)
         {
-            Health += 10;
+            Health -= 10;
         }
         else if (_isBoosting)
         {

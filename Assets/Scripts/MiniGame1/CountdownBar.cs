@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Events;
+using Helpers;
 using Minigame1;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,9 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
             rt.pivot = new Vector2(0.5f, 1);
             rt.sizeDelta = new Vector2(5, GetComponent<RectTransform>().sizeDelta.y);
             rt.anchoredPosition = new Vector2(_offsetPerDay * i, 0);
-            newSegment.AddComponent<Image>().color = new Color(0, 0, 0, i == 0 ? 0 : 1);
+            Color c = Settings.ColorMap[Tailwind.BlueUI];
+            c.a = i == 0 ? 0 : 1;
+            newSegment.AddComponent<Image>().color = c;
         }
     }
 

@@ -1,15 +1,22 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RandomObstacleImage : MonoBehaviour
 {
-    
-    public Sprite[] ObstacleImages;
-    
+
+    private Sprite[] _levelSprites;
+
+    private void Awake()
+    {
+        _levelSprites = Resources.LoadAll<Sprite>($"Images/JnRLevel/obstacle/level1");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = Helpers.Utility.GetRandom(ObstacleImages);
+        GetComponent<SpriteRenderer>().sprite = Helpers.Utility.GetRandom<Sprite>(_levelSprites);
         if (GetComponent<SpriteRenderer>().sprite.GetPhysicsShapeCount() == 2)
         {
             List<Vector2> points = new List<Vector2>();
