@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using DG.Tweening;
 
 public class TapToPlace : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class TapToPlace : MonoBehaviour
     
     [SerializeField]
     ARPlaneManager planeManager;
+    
+    public CanvasGroup noticePanel;
 
     public GameObject resetButton;
     public float resetTime = 1.0f;
@@ -79,6 +82,7 @@ public class TapToPlace : MonoBehaviour
         if (hit.trackable is ARPlane plane)
         {
             _instanciated = true; 
+            hideNoticePanel();
             switch (GameState.Instance.current3dModel)
             {
                 case GameState.Models.Cells:
@@ -98,7 +102,7 @@ public class TapToPlace : MonoBehaviour
         }
         else
         {
-            debugText.text = "Raycast hit count " + _hits.Count;
+            debugText.text = "Raycast hit =  " + hit.trackable;
         }
     }
     
@@ -116,6 +120,8 @@ public class TapToPlace : MonoBehaviour
         planeManager.enabled = true;
         planeManager.SetTrackablesActive(true);
         _instanciated = false;
+        
+        showNoticePanel();
     }
     
     private GameObject InstantiateModel(string name, GameObject model, Transform plane, Vector3? positionOffset = null, float scale = 0.1f)
@@ -138,5 +144,19 @@ public class TapToPlace : MonoBehaviour
         modelGameObject.transform.rotation = rotation;
 
         return modelGameObject;
+    }
+    
+    private void showNoticePanel()
+    {
+        noticePanel.DOFade(1, .5f).SetEase(Ease.InCubic);
+        noticePanel.interactable = true;
+        noticePanel.blocksRaycasts = true;
+    }
+    
+    private void hideNoticePanel()
+    {
+        noticePanel.DOFade(0, .5f).SetEase(Ease.InCubic);
+        noticePanel.interactable = false;
+        noticePanel.blocksRaycasts = false;
     }
 }

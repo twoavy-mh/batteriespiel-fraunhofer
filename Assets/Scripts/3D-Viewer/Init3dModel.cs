@@ -23,7 +23,7 @@ public class Init3dModel : MonoBehaviour
             case GameState.Models.Cells:
                 InstantiateModel(pouchCell);
                 InstantiateModel(prismCell, new Vector3(0,0,2));
-                InstantiateModel(cylinderCell, new Vector3(0,0,-2), 0.1f);
+                InstantiateModel(cylinderCell, new Vector3(0,0,-2));
                 break;
             case GameState.Models.Pouch:
                 GameObject cell = InstantiateModel(pouchCell);
