@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorChunker : MonoBehaviour
 {
     public GameObject chunk;
+    public GameObject target;
     public const float ChunkSize = 3.37f;
     public int chunkCount = 10;
 
@@ -22,7 +21,7 @@ public class FloorChunker : MonoBehaviour
     {
         _main = Camera.main;
         _chunks = new GameObject[chunkCount];
-        _obstacle = Resources.Load<GameObject>("Prefabs/Obstacle");
+        _obstacle = Resources.Load<GameObject>("Prefabs/Jnr/Obstacle");
         SpawnChunk();
     }
 
@@ -40,7 +39,8 @@ public class FloorChunker : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            if (_main.WorldToScreenPoint(child.position).x < 0)
+            Vector3 earlierChildPos = new Vector3(child.position.x + 10f, child.position.y, child.position.z);
+            if (_main.WorldToScreenPoint(earlierChildPos).x < 0)
             {
                 Destroy(child.gameObject);
             }
@@ -81,6 +81,9 @@ public class FloorChunker : MonoBehaviour
             _blockCount * ((chunkCount + 2) * ChunkSize)
             - col.transform.localScale.x / 2 - ChunkSize / 2,
             transform.parent.position.y, 0f);
+        float randomX = UnityEngine.Random.Range(col.transform.position.x, col.transform.position.x + col.transform.localScale.x);
+        float randomY = UnityEngine.Random.Range(0, 1);
+        Instantiate(target, new Vector3(randomX, randomY, 0), Quaternion.identity);
         col.tag = "Floor";
         _blockCount++;
     }

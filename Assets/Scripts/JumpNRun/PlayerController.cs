@@ -4,6 +4,7 @@ using Events;
 using Helpers;
 using UnityEngine;
 using JumpNRun;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,20 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator;
     private Coroutine _boink = null;
+
+    private int _collectedCount = 0;
+    private int _collectedCountProp
+    {
+        get => _collectedCount;
+        set
+        {
+            _collectedCount = value;
+            if (_collectedCount == 5)
+            {
+                SceneManager.LoadScene($"Microgame{GameManager.Instance.currentJumpAndRunLevel + 1}Done");
+            }
+        }
+    }
 
     public float smallest = 0f;
     
@@ -113,6 +128,10 @@ public class PlayerController : MonoBehaviour
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     GameState.Instance.Collect(200);
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
+                    break;
+                case "Target":
+                    FadeCollectable(other.GetComponent<SpriteRenderer>());
+                    _collectedCountProp++;
                     break;
             }
         }

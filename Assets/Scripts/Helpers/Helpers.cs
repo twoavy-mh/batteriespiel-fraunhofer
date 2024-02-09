@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
@@ -258,4 +259,14 @@ namespace Helpers
             return (v - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
         }
     }
+
+    public static class Api
+    {
+        public static HttpClient apiClient = new()
+        {
+            BaseAddress = new Uri("http://batterie.twoavy.com"),
+            DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } }
+        };
+    }
+    
 }
