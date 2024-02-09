@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Minigame5.Classes;
+using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Minigame5
 {
     [System.Serializable]
     public class QuizController : MonoBehaviour
     {
+        public TextMeshProUGUI questionCount;
         public SelfTranslatingText questionText;
         
         [SerializeField]
-        public SelfTranslatingText[] answers;
+        public GameObject[] answersButtons;
         public int correctAnswerIndex;
         
     // Start is called before the first frame update
@@ -26,14 +30,34 @@ namespace Minigame5
         
         }
         
-        public void SetQuizSlot(string question, string[] answers, int correctAnswerIndex)
+        public void SetQuizSlot(QuizSlot quizSlot, string questionCountText)
         {
-            questionText.translationKey = question;
-            // for (int i = 0; i < answers.Length; i++)
-            // {
-            //     answers[i].translationKey = answers[i];
-            // }
-            this.correctAnswerIndex = correctAnswerIndex;
+            questionCount.text = questionCountText; 
+            questionText.translationKey = quizSlot.question;
+            
+            for (int i = 0; i < answersButtons.Length; i++)
+            {
+                answersButtons[i].GetComponentInChildren<SelfTranslatingText>().translationKey = quizSlot.answers[i];
+                int answerIndex = i;
+                answersButtons[i].GetComponent<Button>().onClick.AddListener(()=> { OnAnswerButtonClick(answerIndex); });
+                answersButtons[i].GetComponent<QuizAnswerButtonController>().SetState(QuizAnswerButtonController.ButtonState.active);
+            }
+            
+            correctAnswerIndex = quizSlot.correctAnswerIndex;
+        }
+        
+        private void OnAnswerButtonClick(int answerIndex)
+        {
+            SceneController.Instance.quizEvent.Invoke(answerIndex, correctAnswerIndex);
+
+            if (answerIndex == correctAnswerIndex)
+            {
+                Debug.Log("Correct answer");
+            }
+            else
+            {
+                Debug.Log("Wrong answer");
+            }
         }
     }
 }

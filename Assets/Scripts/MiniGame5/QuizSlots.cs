@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Minigame5;
 using Minigame5.Classes;
 using UnityEngine;
 
 public class QuizSlots : MonoBehaviour
 {
+    private QuizController _quizController;
+    
     private List<QuizSlot> _quizSlotsList;
     private int _currentSlotIndex;
     
@@ -73,11 +76,25 @@ public class QuizSlots : MonoBehaviour
                     "qeustion6_answer4"
                 }, 
                 3),
-            
-            
         };
         
         _currentSlotIndex = 0;
+
+        _quizController = FindFirstObjectByType<QuizController>();
+        
+        Debug.Log(GetCurrentSlot());
+        Debug.Log(GetCurrentQuizCount());
+        _quizController.SetQuizSlot(GetCurrentSlot(), GetCurrentQuizCount());
+    }
+    
+    public QuizSlot GetCurrentSlot()
+    {
+        return _quizSlotsList[_currentSlotIndex];
+    }
+    
+    private string GetCurrentQuizCount()
+    {
+        return (_currentSlotIndex + 1) + "/" + _quizSlotsList.Count;
     }
 
     // Update is called once per frame

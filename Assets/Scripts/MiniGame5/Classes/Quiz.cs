@@ -7,6 +7,7 @@ namespace Minigame5.Classes
         public string question;
         public string[] answers;
         public int correctAnswerIndex;
+        public bool correctlyAnswered = false;
         
         public QuizSlot(string question, string[] answers, int correctAnswerIndex)
         {

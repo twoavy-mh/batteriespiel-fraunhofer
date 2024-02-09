@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using Events;
 using UnityEngine;
-
 
 namespace Minigame5
 {
     public class SceneController : MonoBehaviour
     {
         private static SceneController _instance;
-        
+
+        public QuizEvent quizEvent;
         public GameObject finishedModal;
         
         public static SceneController Instance
@@ -22,6 +21,8 @@ namespace Minigame5
 
         private void Awake()
         {
+            quizEvent ??= new QuizEvent();
+            
             _instance = this;
         }
 

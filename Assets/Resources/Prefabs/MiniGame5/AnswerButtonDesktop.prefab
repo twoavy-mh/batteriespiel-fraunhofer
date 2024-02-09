@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 544918643427315870}
   - component: {fileID: 2912394851000944387}
   - component: {fileID: 4892488023006781165}
-  - component: {fileID: 613853186526410932}
   - component: {fileID: 7561598047696490969}
+  - component: {fileID: 9183149233419815289}
   m_Layer: 5
   m_Name: AnswerButtonDesktop
   m_TagString: Untagged
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -123,20 +123,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &613853186526410932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4006551803861994780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImageColor: 1
-  opacity: 1
 --- !u!114 &7561598047696490969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +137,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 3
   image: {fileID: 2912394851000944387}
+--- !u!114 &9183149233419815289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006551803861994780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f5d24cda2d410986e7ce39711d6d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5897396772721877448
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,8 +160,8 @@ GameObject:
   - component: {fileID: 1156516315111177463}
   - component: {fileID: 7243408601351880135}
   - component: {fileID: 1172962398385436525}
-  - component: {fileID: 8675560941968489016}
   - component: {fileID: 341889859531284705}
+  - component: {fileID: 3975379059842129077}
   m_Layer: 5
   m_Name: AnswerButtonBackground
   m_TagString: Untagged
@@ -229,20 +227,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8675560941968489016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5897396772721877448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImageColor: 6
-  opacity: 1
 --- !u!114 &341889859531284705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +241,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 3
   image: {fileID: 1172962398385436525}
+--- !u!114 &3975379059842129077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897396772721877448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageColor: 6
+  opacity: 1
 --- !u!1 &6619721467949896163
 GameObject:
   m_ObjectHideFlags: 0
