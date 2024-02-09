@@ -7,7 +7,7 @@ using UnityEngine.Localization.Settings;
 
 namespace UI
 {
-    public class SelfTranslatingTest : MonoBehaviour
+    public class SelfTranslatingText : MonoBehaviour
     {
         [SerializeField]
         private string _translationKey = "";

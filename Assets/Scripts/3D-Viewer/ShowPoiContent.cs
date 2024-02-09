@@ -10,8 +10,8 @@ public class ShowPoiContent : MonoBehaviour
 {
     public CanvasGroup poiCanvasGroup;
     public RectTransform textRectTransform;
-    public SelfTranslatingTest headline;
-    public SelfTranslatingTest body;
+    public SelfTranslatingText headline;
+    public SelfTranslatingText body;
     public Button closeButton; 
     
     // Start is called before the first frame update
