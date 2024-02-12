@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-namespace Minigame2
+namespace Minigame5
 {
-    public class MicrogameTwoFinished : MonoBehaviour
+    public class MicrogameFinished : MonoBehaviour
     {
         private int score;
         public GameObject again;
@@ -21,9 +21,6 @@ namespace Minigame2
         {
             again.GetComponent<Button>().onClick.AddListener(Retry);
             next.GetComponent<Button>().onClick.AddListener(Next);
-        
-            again.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("minigame2Again");
-            next.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("next");
         }
 
         private void Retry()
@@ -36,13 +33,12 @@ namespace Minigame2
             SceneManager.LoadScene("MainMenu");
         }
 
-        public void SetScore(int fails, int totalTries)
+        public void SetScore(int correctAnswered)
         {
-            int score = Math.Max(0, 100 - (fails * 5));
+            int score = (int) Math.Max(0, correctAnswered * 12.5f);
             transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase
-                .GetLocalizedString("minigame2Score")
-                .Replace("~", score.ToString())
-                .Replace("#", totalTries.ToString());
+                .GetLocalizedString("minigame5Score")
+                .Replace("~", score.ToString());
             pgc.StartAnimation(score);
         }
     }

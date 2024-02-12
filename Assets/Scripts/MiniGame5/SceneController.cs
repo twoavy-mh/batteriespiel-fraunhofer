@@ -50,6 +50,11 @@ namespace Minigame5
                 correctlyAnswered++;
             }
             
+            if (answerIndex == 5)
+            {
+                finishedModal.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered);
+            }
+            
         }
 
         public void Die()

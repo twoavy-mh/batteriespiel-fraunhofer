@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6718505124417216861}
   - component: {fileID: 8720265644997201819}
   m_Layer: 5
-  m_Name: RoundProgressRing
+  m_Name: RoundProgressRingMobile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 84, y: 84}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6363237876759536118
 CanvasRenderer:
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb30198aa32dd140b5750692dd48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 42
+  radius: 50
   image: {fileID: 6018871360182317720}
 --- !u!114 &6718505124417216861
 MonoBehaviour:
@@ -179,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillingRing: {fileID: 1473469560359295222}
   progressText: {fileID: 7491030854863934827}
+  fontStyler: {fileID: 5193457841129588769}
 --- !u!1 &1705155122940456584
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImageColor: 19
+  ImageColor: 20
   opacity: 1
 --- !u!1 &4836562366366240156
 GameObject:
@@ -310,7 +311,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -12, y: -12}
+  m_SizeDelta: {x: -14, y: -14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5922697938856981778
 CanvasRenderer:
@@ -419,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb30198aa32dd140b5750692dd48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 36
+  radius: 46.5
   image: {fileID: 6143212375413204158}
 --- !u!114 &375385038745541368
 MonoBehaviour:
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb30198aa32dd140b5750692dd48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 42
+  radius: 50
   image: {fileID: 1473469560359295222}
 --- !u!114 &3101175808817960321
 MonoBehaviour:
@@ -702,9 +703,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fontColorAlpha: 1
-  _fontColor: 19
+  _fontColor: 20
   _borderColor: 0
-  _fontDetails: 1
+  _fontDetails: 5
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
