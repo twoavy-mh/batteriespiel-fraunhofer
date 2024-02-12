@@ -30,27 +30,19 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         _instance = this;
 
-        await GetPlayerInfo();
+        string playerId = await Api.GetPlayerDetails("test");
+        
+        if (playerId != null)
+        {
+            await Api.ReserializeGamestate(playerId);
+        }
+        else
+        {
+            Debug.Log("Failed to log in");
+        }
+        
         StartCoroutine(ARSession.CheckAvailability());
         StartCoroutine(AllowARScene());
-    }
-
-    public async Task<PlayerDetails> GetPlayerInfo()
-    {
-        try
-        {
-            string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest("Tom"));
-            Debug.Log(requestString);
-            HttpResponseMessage response = await Api.apiClient.PostAsync("api/battery-users",
-                new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-            return (PlayerRegistration)await response.Content.ReadAsStringAsync();
-        }
-        catch (HttpRequestException e)
-        {
-            Debug.Log(e.Message);
-            return null;
-        }
     }
 
     IEnumerator AllowARScene()

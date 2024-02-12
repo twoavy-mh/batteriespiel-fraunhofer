@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Net.Http;
 using Helpers;
 using UnityEditor;
@@ -17,13 +19,14 @@ namespace Models
         public PlayerRegistrationRequest(string name)
         {
             this.name = name;
-            id = System.Guid.NewGuid().ToString();
+            id = Guid.NewGuid().ToString();
             language = Application.systemLanguage == SystemLanguage.German ? "de" : "en";
             finishedIntro = false;
             current3dModel = GameState.Models.Cells;
         }
     }
     
+    [Serializable]
     public class PlayerDetails
     {
         public string id;
@@ -31,8 +34,46 @@ namespace Models
         public Language language;
         public bool finishedIntro;
         public GameState.Models current3dModel;
-        public string createdAt;
-        public string updatedAt;
+        public int totalScore;
+        public MicrogameState[] results;
+
+        public override string ToString()
+        {
+            return "PlayerDetails{" +
+                   "id='" + id + '\'' +
+                   ", name='" + name + '\'' +
+                   ", language=" + language +
+                   ", finishedIntro=" + finishedIntro +
+                   ", current3dModel=" + current3dModel +
+                   ", totalScore=" + totalScore +
+                   ", microgames=" + string.Concat(results.Select(x => x.ToString())) +
+                   '}';
+        }
+
+        public static explicit operator PlayerDetails(string v)
+        {
+            PlayerDetails casted = JsonUtility.FromJson<PlayerDetails>(v);
+            return casted;
+        }
+    }
+    
+    [Serializable]
+    public class MicrogameState
+    {
+        public GameState.Microgames game;
+        public bool unlocked;
+        public bool finished;
+        public int result;
+
+        public override string ToString()
+        {
+            return "MicrogameState{" +
+                   "game=" + game +
+                   ", unlocked=" + unlocked +
+                   ", finished=" + finished +
+                   ", result=" + result +
+                   "}";
+        }
     }
 
     public class PlayerRegistration : PlayerDetails
@@ -47,16 +88,14 @@ namespace Models
                    ", language=" + language +
                    ", finishedIntro=" + finishedIntro +
                    ", current3dModel=" + current3dModel +
-                   ", createdAt='" + createdAt + '\'' +
-                   ", updatedAt='" + updatedAt + '\'' +
                    ", token='" + token + '\'' +
+                   ", totalScore=" + totalScore +
                    '}';
         }
 
         public static explicit operator PlayerRegistration(string v)
         {
             PlayerRegistration casted = JsonUtility.FromJson<PlayerRegistration>(v);
-            Debug.Log(casted.ToString());
             return casted;
         }
     }

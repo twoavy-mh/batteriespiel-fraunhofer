@@ -19,9 +19,9 @@ public class ScoreController : MonoBehaviour
 
     private void Update()
     {
-        if (_score != GameState.Instance.totalScore)
+        if (_score != GameState.Instance.currentGameState.totalScore)
         {
-            StartCoroutine(Utility.AnimateAnything(0.5f, _score, GameState.Instance.totalScore,
+            StartCoroutine(Utility.AnimateAnything(0.5f, _score, GameState.Instance.currentGameState.totalScore,
                 (progress, start, end) =>
                 {
                     _score = Mathf.RoundToInt(Mathf.Lerp(start, end, progress));

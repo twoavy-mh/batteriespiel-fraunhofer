@@ -117,16 +117,16 @@ public class PlayerController : MonoBehaviour
                 case "Lithium":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.Lithium);
-                    GameState.Instance.Collect(50);
+                    //GameState.Instance.Collect(50);
                     break;
                 case "BlueLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
-                    GameState.Instance.Collect(100);
+                    //GameState.Instance.Collect(100);
                     break;
                 case "YellowLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
-                    GameState.Instance.Collect(200);
+                    //GameState.Instance.Collect(200);
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
                     break;
                 case "Target":

@@ -18,7 +18,7 @@ public class Init3dModel : MonoBehaviour
     // Update is called once per frame
     void InitModel()
     {
-        switch (GameState.Instance.current3dModel)
+        switch (GameState.Instance.currentGameState.current3dModel)
         {
             case GameState.Models.Cells:
                 InstantiateModel(pouchCell);

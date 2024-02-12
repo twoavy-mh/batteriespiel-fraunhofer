@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Models;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
@@ -262,11 +265,98 @@ namespace Helpers
 
     public static class Api
     {
-        public static HttpClient apiClient = new()
+        private static readonly HttpClient APIClient = new()
         {
             BaseAddress = new Uri("http://batterie.twoavy.com"),
-            DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } }
+            DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
         };
+        
+        private static async Task<PlayerRegistration> RegisterPlayer(string name)
+        {
+            try
+            {
+                string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name));
+                HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
+                    new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
+                return (PlayerRegistration)await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                Debug.Log(e.Message);
+                return null;
+            }
+        }
+
+        private static async Task<PlayerDetails> FetchPlayerDetails(string uuid)
+        {
+            try
+            {
+                HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}");
+                response.EnsureSuccessStatusCode();
+                string resString = await response.Content.ReadAsStringAsync();
+                return (PlayerDetails)resString;
+            }
+            catch (HttpRequestException e)
+            {
+                Debug.Log(e.Message);
+                return null;
+            }
+        }
+
+        private static async Task<PlayerDetails> UpdatePlayer(PlayerDetails newDetails)
+        {
+            string requestString = JsonUtility.ToJson(newDetails);
+            HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
+                new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return (PlayerRegistration)await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task SetGame(MicrogameState m, string playerId)
+        {
+            string requestString = JsonUtility.ToJson(m);
+            HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/{playerId}/battery-results",
+                new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();    
+            
+            string r = await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task ReserializeGamestate(string uuid)
+        {
+            PlayerDetails d = await FetchPlayerDetails(uuid);
+            if (d != null)
+            {
+                GameState.Instance.currentGameState = d;
+            }
+        }
+        
+        public static async Task<string> GetPlayerDetails(string name)
+        {
+            string bearer = PlayerPrefs.GetString("bearer", null);
+            string uuid = PlayerPrefs.GetString("uuid", null);
+            if (!bearer.Empty() && !uuid.Empty())
+            {
+                APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+                PlayerDetails p = await FetchPlayerDetails(uuid);
+                return p.id;
+            }
+            else
+            {
+                PlayerRegistration pr = await RegisterPlayer(name);
+                if (pr != null)
+                {
+                    Debug.Log(pr.ToString());
+                    PlayerPrefs.SetString("bearer", pr.token);
+                    PlayerPrefs.SetString("uuid", pr.id);
+                    PlayerPrefs.Save();
+                    return pr.id;
+                }
+
+                return null;
+            }
+        }
     }
     
 }

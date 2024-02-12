@@ -21,7 +21,7 @@ public class Open3dModel : MonoBehaviour
     {
         _jumpScene = GameState.Instance.arAvailable? "AR-Szene" : "3D-Viewer";
         Debug.Log("GO TO SCENE = "+_jumpScene);
-        GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, model);
+        GameState.Instance.SetVariableAndSave(ref GameState.Instance.currentGameState.current3dModel, model);
         SceneManager.LoadScene(_jumpScene);
     }
 }

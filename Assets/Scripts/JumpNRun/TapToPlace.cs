@@ -83,7 +83,7 @@ public class TapToPlace : MonoBehaviour
         {
             _instanciated = true; 
             hideNoticePanel();
-            switch (GameState.Instance.current3dModel)
+            switch (GameState.Instance.currentGameState.current3dModel)
             {
                 case GameState.Models.Cells:
                     InstantiateModel("cells", cells, plane.transform);
