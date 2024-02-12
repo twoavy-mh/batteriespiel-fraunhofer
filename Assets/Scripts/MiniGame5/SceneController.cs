@@ -1,13 +1,20 @@
 using Events;
+using Helpers;
 using UnityEngine;
 
 namespace Minigame5
 {
-    public class SceneController : MonoBehaviour
+    public class SceneController : MonoBehaviour, QuizEvent.IUseAnswered
     {
         private static SceneController _instance;
+        
+        private int correctlyAnswered = 0;
 
         public QuizEvent quizEvent;
+        
+        public GameObject quizMasterDesktop; 
+        public GameObject quizMasterMobile; 
+        
         public GameObject finishedModal;
         
         public static SceneController Instance
@@ -24,11 +31,25 @@ namespace Minigame5
             quizEvent ??= new QuizEvent();
             
             _instance = this;
+
+            if (Utility.GetDevice() == Device.Desktop)
+            {
+                quizMasterMobile.SetActive(false);
+            }
+            else
+            {
+                quizMasterDesktop.SetActive(false);
+            }
+            
         }
 
-        public void DroppedCorrectly(string field)
+        public void UseAnswered(int answerIndex, int correctAnswerIndex)
         {
-            Debug.Log(field);
+            if (correctAnswerIndex == answerIndex)
+            {
+                correctlyAnswered++;
+            }
+            
         }
 
         public void Die()

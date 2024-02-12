@@ -11,6 +11,7 @@ namespace Minigame5
     [System.Serializable]
     public class QuizController : MonoBehaviour
     {
+        
         public TextMeshProUGUI questionCount;
         public SelfTranslatingText questionText;
         
@@ -18,16 +19,30 @@ namespace Minigame5
         public GameObject[] answersButtons;
         public int correctAnswerIndex;
         
-    // Start is called before the first frame update
-        void Start()
-        {
+        private QuizSlots _quizSlots;
         
+        public float TimerAfterAnswer = 2;
+        private float TimerAfterAnswerStartedTime;
+        private bool TimerAfterAnswerStarted = false;
+        
+    // Start is called before the first frame update
+        void Awake()
+        {
+            _quizSlots = GameObject.Find("Main").GetComponent<QuizSlots>();
         }
 
         // Update is called once per frame
         void Update()
         {
-        
+            if (TimerAfterAnswerStarted)
+            {
+                if (TimerAfterAnswerStartedTime + TimerAfterAnswer < Time.time)
+                {
+                    TimerAfterAnswerStarted = false;
+                    TimerAfterAnswerStartedTime = 0;
+                    _quizSlots.IncrementSlotIndex();
+                }
+            }
         }
         
         public void SetQuizSlot(QuizSlot quizSlot, string questionCountText)
@@ -49,15 +64,8 @@ namespace Minigame5
         private void OnAnswerButtonClick(int answerIndex)
         {
             SceneController.Instance.quizEvent.Invoke(answerIndex, correctAnswerIndex);
-
-            if (answerIndex == correctAnswerIndex)
-            {
-                Debug.Log("Correct answer");
-            }
-            else
-            {
-                Debug.Log("Wrong answer");
-            }
+            TimerAfterAnswerStartedTime = Time.time;
+            TimerAfterAnswerStarted = true;
         }
     }
 }

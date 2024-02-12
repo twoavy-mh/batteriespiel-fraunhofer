@@ -9,14 +9,28 @@ namespace Minigame5
 {
     public class QuizAnswerButtonController : MonoBehaviour, QuizEvent.IUseAnswered
     {
+        public int buttonIndex;
+
+        public GameObject imageCheck;
+        public GameObject imageCross;
+        
         private Button _button;
         private Image _borderColor;
         private TextMeshProUGUI _textColor;
         
         public enum ButtonState { active, inactive, wrong, correct }
         
-        // Start is called before the first frame update
         private void Start()
+        {
+            InitQuizAnswerButtonController();
+        }
+        
+        private void Awake()
+        {
+            InitQuizAnswerButtonController();
+        }
+        
+        private void InitQuizAnswerButtonController()
         {
             _button = GetComponent<Button>();
             _borderColor = GetComponent<Image>();
@@ -28,22 +42,28 @@ namespace Minigame5
         {
             switch (state)
             {
-                case ButtonState.active:
+                case ButtonState.active: 
+                    imageCheck.SetActive(false);
+                    imageCross.SetActive(false);
                     _button.interactable = true;
                     _borderColor.color = Settings.ColorMap[Tailwind.Blue1];
                     _textColor.color = Settings.ColorMap[Tailwind.Blue1];
                     break;
                 case ButtonState.inactive:
+                    imageCheck.SetActive(false);
+                    imageCross.SetActive(false);
                     _button.interactable = false;
                     _borderColor.color = Settings.ColorMap[Tailwind.Blue5];
                     _textColor.color = Settings.ColorMap[Tailwind.Blue5];
                     break;
                 case ButtonState.correct:
+                    imageCheck.SetActive(true);
                     _button.interactable = false;
                     _borderColor.color = Settings.ColorMap[Tailwind.Yellow3];
                     _textColor.color = Settings.ColorMap[Tailwind.Yellow3];
                     break;
                 case ButtonState.wrong:
+                    imageCross.SetActive(true);
                     _button.interactable = false;
                     _borderColor.color = Settings.ColorMap[Tailwind.Blue1];
                     _borderColor.color = Settings.ColorMap[Tailwind.Blue1];
@@ -53,9 +73,18 @@ namespace Minigame5
 
         public void UseAnswered(int answerIndex, int correctAnswerIndex)
         {
-            Debug.Log(answerIndex);
-            Debug.Log(correctAnswerIndex);
-            Debug.Log("Answered");
+            if (buttonIndex == correctAnswerIndex)
+            {
+                SetState(ButtonState.correct);
+            }
+            else if (buttonIndex == answerIndex)
+            {
+                SetState(ButtonState.wrong);
+            }
+            else
+            {
+                SetState(ButtonState.inactive);
+            }
         }
     }
 }
