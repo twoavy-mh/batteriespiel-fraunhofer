@@ -4,6 +4,7 @@ using Events;
 using Helpers;
 using UnityEngine;
 using JumpNRun;
+using Models;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -21,20 +22,9 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator;
     private Coroutine _boink = null;
+    private ScoreController _scoreController;
 
     private int _collectedCount = 0;
-    private int _collectedCountProp
-    {
-        get => _collectedCount;
-        set
-        {
-            _collectedCount = value;
-            if (_collectedCount == 5)
-            {
-                SceneManager.LoadScene($"Microgame{GameManager.Instance.currentJumpAndRunLevel + 1}Done");
-            }
-        }
-    }
 
     public float smallest = 0f;
     
@@ -43,6 +33,11 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _speed = Settings.MovementSpeed;
         _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
     }
 
     // Update is called once per frame
@@ -103,7 +98,7 @@ public class PlayerController : MonoBehaviour
         _rb.gravityScale = 2f;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private async void OnTriggerEnter2D(Collider2D other)
     {
         if (other.isTrigger)
         {
@@ -131,7 +126,17 @@ public class PlayerController : MonoBehaviour
                     break;
                 case "Target":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
-                    _collectedCountProp++;
+                    _collectedCount++;
+                    if (_collectedCount == 1)
+                    {
+                        MicrogameState m = new MicrogameState();
+                        m.game = GameState.Instance.GetCurrentMicrogame();
+                        m.unlocked = true;
+                        m.finished = true;
+                        m.result = _scoreController.GetScoreForApi();
+                        await Api.SetGame(m, GameState.Instance.currentGameState.id);
+                        SceneManager.LoadScene($"Microgame{GameManager.Instance.currentJumpAndRunLevel + 1}Done");
+                    }
                     break;
             }
         }

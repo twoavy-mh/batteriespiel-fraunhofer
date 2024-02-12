@@ -29,4 +29,9 @@ public class ScoreController : MonoBehaviour
                 }));
         }
     }
+
+    public int GetScoreForApi()
+    {
+        return _score;
+    }
 }

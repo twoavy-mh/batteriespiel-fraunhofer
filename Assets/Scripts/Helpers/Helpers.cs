@@ -321,6 +321,7 @@ namespace Helpers
             response.EnsureSuccessStatusCode();    
             
             string r = await response.Content.ReadAsStringAsync();
+            Debug.Log(r);
         }
 
         public static async Task ReserializeGamestate(string uuid)
@@ -329,6 +330,7 @@ namespace Helpers
             if (d != null)
             {
                 GameState.Instance.currentGameState = d;
+                Debug.Log(d.ToString());
             }
         }
         
@@ -347,10 +349,10 @@ namespace Helpers
                 PlayerRegistration pr = await RegisterPlayer(name);
                 if (pr != null)
                 {
-                    Debug.Log(pr.ToString());
                     PlayerPrefs.SetString("bearer", pr.token);
                     PlayerPrefs.SetString("uuid", pr.id);
                     PlayerPrefs.Save();
+                    APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pr.token);
                     return pr.id;
                 }
 

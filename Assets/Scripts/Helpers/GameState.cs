@@ -42,5 +42,10 @@ namespace Helpers
             variable = value;
             //Save(JsonUtility.ToJson(this));
         }
+
+        public Microgames GetCurrentMicrogame()
+        {
+            return (Microgames)currentGameState.results.Length;
+        }
     }
 }
