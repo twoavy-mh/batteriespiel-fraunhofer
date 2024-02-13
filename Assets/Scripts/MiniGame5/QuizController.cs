@@ -63,6 +63,11 @@ namespace Minigame5
         
         private void OnAnswerButtonClick(int answerIndex)
         {
+            for (int i = 0; i < answersButtons.Length; i++)
+            {
+                answersButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
+            }
+            
             SceneController.Instance.quizEvent.Invoke(answerIndex, correctAnswerIndex);
             TimerAfterAnswerStartedTime = Time.time;
             TimerAfterAnswerStarted = true;

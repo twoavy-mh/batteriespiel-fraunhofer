@@ -16,6 +16,7 @@ namespace Minigame5
         public GameObject again;
         public GameObject next;
         public UI.ProgressRingController pgc;
+        public TMP_Text scoreText;
 
         private void Start()
         {
@@ -33,12 +34,20 @@ namespace Minigame5
             SceneManager.LoadScene("MainMenu");
         }
 
-        public void SetScore(int correctAnswered)
+        public void SetScore(int correctAnswered, int questionCount, float completionTime)
         {
-            int score = (int) Math.Max(0, correctAnswered * 12.5f);
-            transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase
+            int score = (int) Math.Round(correctAnswered * ( 100 / (float) questionCount));
+            
+            int minutes = (int) completionTime / 60;
+            int seconds = (int) completionTime % 60;
+            string time = minutes.ToString().PadLeft(2, '0') + ":" + seconds;  
+            
+            scoreText.text = LocalizationSettings.StringDatabase
                 .GetLocalizedString("minigame5Score")
-                .Replace("~", score.ToString());
+                .Replace("~i", correctAnswered.ToString())
+                .Replace("~c", questionCount.ToString())
+                .Replace("~t", time)
+                .Replace("~s", score.ToString());
             pgc.StartAnimation(score);
         }
     }

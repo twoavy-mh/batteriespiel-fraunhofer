@@ -9,6 +9,8 @@ namespace Minigame5
 {
     public class QuizAnswerButtonController : MonoBehaviour, QuizEvent.IUseAnswered
     {
+        private bool intialized = false; 
+        
         public int buttonIndex;
 
         public GameObject imageCheck;
@@ -24,14 +26,20 @@ namespace Minigame5
         {
             InitQuizAnswerButtonController();
         }
-        
         private void Awake()
         {
             InitQuizAnswerButtonController();
         }
-        
+
+        private void OnDestroy()
+        {
+            Debug.Log("Destroy = " + gameObject.name);
+        }
+
         private void InitQuizAnswerButtonController()
         {
+            if (intialized) return;
+            intialized = true;
             _button = GetComponent<Button>();
             _borderColor = GetComponent<Image>();
             _textColor = transform.GetComponentInChildren<TextMeshProUGUI>();

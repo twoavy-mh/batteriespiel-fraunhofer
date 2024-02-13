@@ -18,7 +18,7 @@ public class ButtonSquareSizeSetter : MonoBehaviour
         
         ImageWithRoundedCorners backgroundIwrc = transform.GetChild(0).GetComponent<ImageWithRoundedCorners>();
         
-        RectTransform iconRt = transform.GetChild(1).GetComponent<RectTransform>();
+        // RectTransform iconRt = transform.GetChild(1).GetComponent<RectTransform>();
         
         /**
          * OUTLINE SETTER *
@@ -47,7 +47,6 @@ public class ButtonSquareSizeSetter : MonoBehaviour
          * ICON SETTER *
          */
 
-        iconRt.sizeDelta = sizeDelta;
-        
+        // iconRt.sizeDelta = sizeDelta;
     }
 }

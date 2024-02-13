@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Minigame5;
@@ -89,9 +90,19 @@ namespace Minigame5
             _quizController.SetQuizSlot(GetCurrentSlot(), GetCurrentQuizCount());
         }
 
+        public int GetSlotsListLengh()
+        {
+            return _quizSlotsList.Count;
+        }
+
         public QuizSlot GetCurrentSlot()
         {
             return _quizSlotsList[_currentSlotIndex];
+        }
+
+        public int GetCurrentSlotIndex()
+        {
+            return _currentSlotIndex;
         }
 
         private string GetCurrentQuizCount()
