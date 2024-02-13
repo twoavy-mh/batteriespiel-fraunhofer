@@ -83,10 +83,11 @@ namespace Minigame5
 
             _currentSlotIndex = 0;
 
-            _quizController = FindFirstObjectByType<QuizController>();
+        }
 
-            Debug.Log(GetCurrentSlot());
-            Debug.Log(GetCurrentQuizCount());
+        public void InitQuiz()
+        {
+            _quizController = FindFirstObjectByType<QuizController>();
             _quizController.SetQuizSlot(GetCurrentSlot(), GetCurrentQuizCount());
         }
 

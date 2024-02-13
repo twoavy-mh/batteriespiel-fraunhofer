@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -28,6 +29,10 @@ namespace UI
 
         private void SetLocalizedString()
         {
+            if (_translationKey.Empty())
+            {
+                return;
+            }
             GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString(translationKey);
         }
     }

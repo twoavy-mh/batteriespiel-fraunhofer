@@ -1,6 +1,7 @@
 using Events;
 using Helpers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Minigame5
 {
@@ -17,6 +18,9 @@ namespace Minigame5
         
         public GameObject quizMasterDesktop; 
         public GameObject quizMasterMobile; 
+        
+        public GameObject startModalDesktop;
+        public GameObject startModalMobile;
         
         public GameObject finishedModalDesktop;
         public GameObject finishedModalMobile;
@@ -46,13 +50,30 @@ namespace Minigame5
 
             if (Utility.GetDevice() == Device.Mobile)
             {
+                startModalMobile.SetActive(true);
+                startModalMobile.GetComponentInChildren<Button>().onClick.AddListener(StartQuiz);
+            }
+            else
+            {
+                startModalDesktop.SetActive(true);
+                startModalDesktop.GetComponentInChildren<Button>().onClick.AddListener(StartQuiz);
+            }
+        }
+        
+        private void StartQuiz()
+        {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                startModalMobile.SetActive(false);
                 quizMasterMobile.SetActive(true);
             }
             else
             {
+                startModalDesktop.SetActive(false);
                 quizMasterDesktop.SetActive(true);
             }
-
+            _quizSlots.InitQuiz();
+            
             _time = Time.time;
         }
 
