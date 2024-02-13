@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Helpers;
 using Models;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
 public class GameManager : MonoBehaviour
@@ -24,22 +25,29 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private async void Awake()
     {
-        //GameState.Instance.Init();
-        //GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, GameState.Models.Cells);
-        //Debug.Log(GameState.Instance.current3dModel);
-        DontDestroyOnLoad(this);
-        _instance = this;
-
-        string playerId = await Api.GetPlayerDetails("test");
-        
-        if (playerId != null)
+        if (!PlayerPrefs.GetString("uuid").Empty())
         {
-            await Api.ReserializeGamestate(playerId);
+            string playerId = await Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
+            if (playerId != null)
+            {
+                await Api.ReserializeGamestate(playerId);
+                SceneManager.LoadScene("MainMenu");
+            }
+            else
+            {
+                Debug.Log("Failed to log in");
+            }   
         }
         else
         {
-            Debug.Log("Failed to log in");
+            Debug.Log("No player id found");
         }
+        //GameState.Instance.Init();
+        //GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, GameState.Models.Cells);
+        //Debug.Log(GameState.Instance.current3dModel);
+        
+        DontDestroyOnLoad(this);
+        _instance = this;
         
         StartCoroutine(ARSession.CheckAvailability());
         StartCoroutine(AllowARScene());

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Helpers;
 using UnityEngine;
@@ -16,7 +17,13 @@ public class MiniGameButtonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetStatus(true);
+        bool exists = GameState.Instance.currentGameState.results.ElementAtOrDefault(index) != null;
+        if (!exists)
+        {
+            SetStatus(false);
+            return;
+        }
+        SetStatus(GameState.Instance.currentGameState.results[index].unlocked);
     }
     
     public void SetStatus(bool a_Status)

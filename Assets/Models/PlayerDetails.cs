@@ -12,15 +12,15 @@ namespace Models
     {
         public string name;
         public string id;
-        public string language;
+        public Language language;
         public bool finishedIntro;
         public GameState.Models current3dModel;
         
-        public PlayerRegistrationRequest(string name)
+        public PlayerRegistrationRequest(string name, Language language)
         {
             this.name = name;
             id = Guid.NewGuid().ToString();
-            language = Application.systemLanguage == SystemLanguage.German ? "de" : "en";
+            this.language = language;
             finishedIntro = false;
             current3dModel = GameState.Models.Cells;
         }
