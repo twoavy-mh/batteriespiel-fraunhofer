@@ -306,6 +306,7 @@ namespace Helpers
                 HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}");
                 response.EnsureSuccessStatusCode();
                 string resString = await response.Content.ReadAsStringAsync();
+                Debug.Log(resString);
                 return (PlayerDetails)resString;
             }
             catch (HttpRequestException e)

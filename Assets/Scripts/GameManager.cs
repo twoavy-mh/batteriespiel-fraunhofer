@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
     private static GameManager _instance;
+    public bool skipSerializations = true;
     public int currentJumpAndRunLevel = 0;
 
     public static GameManager Instance
@@ -25,22 +26,79 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private async void Awake()
     {
-        if (!PlayerPrefs.GetString("uuid").Empty())
+        if (!skipSerializations)
         {
-            string playerId = await Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
-            if (playerId != null)
+            if (!PlayerPrefs.GetString("uuid").Empty())
             {
-                await Api.ReserializeGamestate(playerId);
-                SceneManager.LoadScene("MainMenu");
+                string playerId = await Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
+                if (playerId != null)
+                {
+                    await Api.ReserializeGamestate(playerId);
+                }
+                else
+                {
+                    Debug.Log("Failed to log in");
+                }   
             }
             else
             {
-                Debug.Log("Failed to log in");
-            }   
+                Debug.Log("No player id found");
+            }
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            Debug.Log("No player id found");
+            /*
+             * public bool unlocked;
+               public bool finished;
+               public int result;
+             */
+            PlayerDetails p = new PlayerDetails();
+            p.language = Language.De;
+            p.id = "22c7d1dd-bc2b-4d20-8d96-3903d1282386";
+            p.name = "dev";
+            p.current3dModel = GameState.Models.Cells;
+            p.finishedIntro = true;
+            p.totalScore = 0;
+            p.results = new[]
+            {
+                new MicrogameState()
+                {
+                    game = GameState.Microgames.Microgame1,
+                    unlocked = true,
+                    finished = true,
+                    result = 1
+                },
+                new MicrogameState()
+                {
+                    game = GameState.Microgames.Microgame2,
+                    unlocked = true,
+                    finished = true,
+                    result = 1
+                },
+                new MicrogameState()
+                {
+                    game = GameState.Microgames.Microgame3,
+                    unlocked = true,
+                    finished = true,
+                    result = 1
+                },
+                new MicrogameState()
+                {
+                    game = GameState.Microgames.Microgame4,
+                    unlocked = true,
+                    finished = true,
+                    result = 1
+                },
+                new MicrogameState()
+                {
+                    game = GameState.Microgames.Microgame5,
+                    unlocked = true,
+                    finished = true,
+                    result = 1
+                },
+            };
+            GameState.Instance.currentGameState = p;
         }
         //GameState.Instance.Init();
         //GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, GameState.Models.Cells);
