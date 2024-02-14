@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
                         MicrogameState m = new MicrogameState();
                         m.game = GameState.Instance.GetCurrentMicrogame();
                         m.unlocked = true;
-                        m.finished = true;
+                        m.finished = false;
                         m.result = _scoreController.GetScoreForApi();
                         await Api.SetGame(m, GameState.Instance.currentGameState.id);
                         SceneManager.LoadScene($"Microgame{GameManager.Instance.currentJumpAndRunLevel + 1}Done");

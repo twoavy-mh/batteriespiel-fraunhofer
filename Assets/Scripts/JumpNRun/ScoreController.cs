@@ -19,6 +19,10 @@ public class ScoreController : MonoBehaviour
 
     private void Update()
     {
+        if (GameState.Instance.currentGameState == null)
+        {
+            return;
+        }
         if (_score != GameState.Instance.currentGameState.totalScore)
         {
             StartCoroutine(Utility.AnimateAnything(0.5f, _score, GameState.Instance.currentGameState.totalScore,

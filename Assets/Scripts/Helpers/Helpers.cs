@@ -270,16 +270,27 @@ namespace Helpers
             BaseAddress = new Uri("http://batterie.twoavy.com"),
             DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
         };
+
+        public static async Task<PlayerDetails> ToggleLanguage(Language newLanguage)
+        {
+            PlayerDetails p = GameState.Instance.currentGameState;
+            p.language = newLanguage;
+            PlayerDetails updated = await UpdatePlayer(p);
+            return updated;
+        }
         
-        private static async Task<PlayerRegistration> RegisterPlayer(string name)
+        private static async Task<PlayerRegistration> RegisterPlayer(string name, Language language)
         {
             try
             {
-                string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name));
+                string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name, language));
+                Debug.Log(requestString);
                 HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
                     new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
-                return (PlayerRegistration)await response.Content.ReadAsStringAsync();
+                string resString = await response.Content.ReadAsStringAsync();
+                Debug.Log(resString);
+                return (PlayerRegistration)resString;
             }
             catch (HttpRequestException e)
             {
@@ -295,6 +306,7 @@ namespace Helpers
                 HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}");
                 response.EnsureSuccessStatusCode();
                 string resString = await response.Content.ReadAsStringAsync();
+                Debug.Log(resString);
                 return (PlayerDetails)resString;
             }
             catch (HttpRequestException e)
@@ -318,7 +330,7 @@ namespace Helpers
             string requestString = JsonUtility.ToJson(m);
             HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/{playerId}/battery-results",
                 new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();    
+            response.EnsureSuccessStatusCode();
             
             string r = await response.Content.ReadAsStringAsync();
             Debug.Log(r);
@@ -334,7 +346,7 @@ namespace Helpers
             }
         }
         
-        public static async Task<string> GetPlayerDetails(string name)
+        public static async Task<string> GetPlayerDetails(string name, Language language)
         {
             string bearer = PlayerPrefs.GetString("bearer", null);
             string uuid = PlayerPrefs.GetString("uuid", null);
@@ -346,7 +358,7 @@ namespace Helpers
             }
             else
             {
-                PlayerRegistration pr = await RegisterPlayer(name);
+                PlayerRegistration pr = await RegisterPlayer(name, language);
                 if (pr != null)
                 {
                     PlayerPrefs.SetString("bearer", pr.token);

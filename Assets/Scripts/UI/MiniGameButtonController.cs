@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Helpers;
 using UnityEngine;
@@ -16,7 +17,22 @@ public class MiniGameButtonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetStatus(true);
+        try
+        {
+            bool exists = GameState.Instance.currentGameState.results.ElementAtOrDefault(index - 1) != null;
+            Debug.Log("does not exist");
+            if (!exists)
+            {
+                SetStatus(false);
+                return;
+            }
+            SetStatus(GameState.Instance.currentGameState.results[index - 1].unlocked);
+            Debug.Log("displaying");
+        } catch (IndexOutOfRangeException)
+        {
+            Debug.Log("index out of bounds");
+            SetStatus(false);
+        }
     }
     
     public void SetStatus(bool a_Status)
