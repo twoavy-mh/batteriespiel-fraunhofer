@@ -1,6 +1,8 @@
 using Events;
 using Helpers;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace Minigame5
 {
@@ -17,6 +19,11 @@ namespace Minigame5
         
         public GameObject quizMasterDesktop; 
         public GameObject quizMasterMobile; 
+        
+        public GameObject startModalDesktop;
+        public GameObject startModalMobile;
+
+        public GameObject videoCanvas;
         
         public GameObject finishedModalDesktop;
         public GameObject finishedModalMobile;
@@ -46,13 +53,42 @@ namespace Minigame5
 
             if (Utility.GetDevice() == Device.Mobile)
             {
+                startModalMobile.SetActive(true);
+                startModalMobile.GetComponentInChildren<Button>().onClick.AddListener(StartVideo);
+            }
+            else
+            {
+                startModalDesktop.SetActive(true);
+                startModalDesktop.GetComponentInChildren<Button>().onClick.AddListener(StartVideo);
+            }
+        }
+
+        private void StartVideo()
+        {
+            startModalDesktop.SetActive(false);
+            startModalMobile.SetActive(false);
+            videoCanvas.SetActive(true);
+            foreach (Button buttonInChild in videoCanvas.GetComponentsInChildren<Button>())
+            {
+                if (buttonInChild.name == "SkipButton") { 
+                    buttonInChild.onClick.AddListener(StartQuiz);
+                }
+            }
+        }
+        
+        private void StartQuiz()
+        {
+            videoCanvas.SetActive(false);
+            if (Utility.GetDevice() == Device.Mobile)
+            {
                 quizMasterMobile.SetActive(true);
             }
             else
             {
                 quizMasterDesktop.SetActive(true);
             }
-
+            _quizSlots.InitQuiz();
+            
             _time = Time.time;
         }
 
