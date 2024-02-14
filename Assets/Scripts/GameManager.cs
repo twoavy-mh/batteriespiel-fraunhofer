@@ -38,13 +38,13 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     Debug.Log("Failed to log in");
-                }   
+                }
+                SceneManager.LoadScene("MainMenu");
             }
             else
             {
                 Debug.Log("No player id found");
             }
-            SceneManager.LoadScene("MainMenu");
         }
         else
         {
