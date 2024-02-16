@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,16 +14,27 @@ public class BgMover : MonoBehaviour
     public PlayerController PlayerController;
     public float ParallaxFactor;
     
-    public Sprite[] Sprites;
+    public Sprite[] spritesLvl1;
+    public Sprite[] spritesLvl2;
+    public Sprite[] spritesLvl3;
+    public Sprite[] spritesLvl4;
+    public Sprite[] spritesLvl5;
+    public Sprite[] spritesLvl6;
+    
+    private List<Sprite[]> _sprites;
     private RectTransform[] _children;
 
     private void Awake()
     {
-        _children = new RectTransform[Sprites.Length];
+        _sprites = new List<Sprite[]>()
+        {
+            spritesLvl1, spritesLvl2, spritesLvl3, spritesLvl4, spritesLvl5, spritesLvl6
+        };
+        _children = new RectTransform[_sprites[(int)GameState.Instance.GetCurrentMicrogame()].Length];
         RectTransform parentRt = transform.parent.GetComponent<RectTransform>();
         Vector2 parentDimensions = new Vector2(parentRt.rect.width, parentRt.rect.height);
         GetComponent<RectTransform>().sizeDelta = parentDimensions;
-        for (int i = 0; i < Sprites.Length; i++)
+        for (int i = 0; i < _sprites[(int)GameState.Instance.GetCurrentMicrogame()].Length; i++)
         {
            GameObject go = new GameObject("Background" + i);
            go.transform.SetParent(transform);
@@ -30,7 +43,7 @@ public class BgMover : MonoBehaviour
            rt.anchorMax = new Vector2(0, 1);
            rt.pivot = new Vector2(0f, 1f);
            Image img = go.AddComponent<Image>();
-           img.sprite = Sprites[i];
+           img.sprite = _sprites[(int)GameState.Instance.GetCurrentMicrogame()][i];
            rt.sizeDelta = new Vector2(img.sprite.rect.width, img.sprite.rect.height);
            rt.localScale = new Vector3(1, 1, 1);
            rt.localPosition = new Vector3(2048*i, isUpper ? -300 : -450, 0);

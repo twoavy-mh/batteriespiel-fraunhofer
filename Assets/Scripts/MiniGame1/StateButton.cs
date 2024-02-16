@@ -22,6 +22,11 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public int needs;
     public string dictKey;
     private int _bought = 0;
+
+    public bool Finished
+    {
+        get => _bought >= needs;
+    }
     
     void Start()
     {
@@ -66,4 +71,6 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         amount.DOColor(Settings.ColorMap[backgroundColorWhenBought], 0.5f);
         type.DOColor(Settings.ColorMap[backgroundColorWhenBought], 0.5f);
     }
+    
+    public int GetBought() => _bought;
 }

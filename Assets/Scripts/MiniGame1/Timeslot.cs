@@ -224,6 +224,11 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         }
     }
     
+    public List<TimeslotEntry> GetBrokerDay()
+    {
+        return _brokerDay;
+    }
+    
     public void OnApplicationQuit()
     {
         _vp.targetTexture.Release();

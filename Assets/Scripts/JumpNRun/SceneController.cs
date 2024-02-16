@@ -1,5 +1,7 @@
+using DG.Tweening;
 using Events;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 namespace JumpNRun
@@ -24,12 +26,11 @@ namespace JumpNRun
         // Start is called before the first frame update
         private void Awake()
         {
-            Debug.Log("awaking start");
             decayEvent ??= new DecayEvent();
             collectEvent ??= new CollectedEvent();
             _instance = this;
             DataStore.Instance.Init();
-            Debug.Log("awaking end");
+            gameObject.AddComponent<AutoTweenKiller>();
         }
     }   
 }

@@ -271,6 +271,15 @@ namespace Helpers
             DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
         };
 
+        public static async Task PushGameStateChange(string uuid, MicrogameState ms)
+        {
+            string updatedGame = JsonUtility.ToJson(ms);
+            HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/${uuid}/battery-results",
+                new StringContent(updatedGame, System.Text.Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            await ReserializeGamestate(uuid);
+        }
+
         public static async Task<PlayerDetails> ToggleLanguage(Language newLanguage)
         {
             PlayerDetails p = GameState.Instance.currentGameState;
@@ -284,12 +293,10 @@ namespace Helpers
             try
             {
                 string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name, language));
-                Debug.Log(requestString);
                 HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
                     new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
                 string resString = await response.Content.ReadAsStringAsync();
-                Debug.Log(resString);
                 return (PlayerRegistration)resString;
             }
             catch (HttpRequestException e)

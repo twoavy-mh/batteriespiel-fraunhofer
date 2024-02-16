@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
                         m.finished = false;
                         m.result = _scoreController.GetScoreForApi();
                         await Api.SetGame(m, GameState.Instance.currentGameState.id);
-                        SceneManager.LoadScene("JumpAndRunDone");
+                        SceneManager.LoadScene($"MicroGame{((int)m.game) + 1}Onboard");
                     }
                     break;
             }

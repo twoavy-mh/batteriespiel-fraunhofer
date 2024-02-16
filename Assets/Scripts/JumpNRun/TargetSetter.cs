@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 
 namespace JumpNRun
@@ -12,7 +13,7 @@ namespace JumpNRun
         void Start()
         {
             _targets = Resources.LoadAll<Sprite>("Images/JnRLevel/target");
-            GetComponent<SpriteRenderer>().sprite = _targets[GameManager.Instance.currentJumpAndRunLevel];
+            GetComponent<SpriteRenderer>().sprite = _targets[(int)GameState.Instance.GetCurrentMicrogame()];
             tag = "Target";
         }
     }   
