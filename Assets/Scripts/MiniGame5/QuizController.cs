@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Minigame5.Classes;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Minigame5
@@ -11,6 +13,8 @@ namespace Minigame5
     [System.Serializable]
     public class QuizController : MonoBehaviour
     {
+        public event Action TimerEndEvent;
+        public event Action MaximumQuizTimeEndEvent;
         
         public TextMeshProUGUI questionCount;
         public SelfTranslatingText questionText;
@@ -21,27 +25,40 @@ namespace Minigame5
         
         private QuizSlots _quizSlots;
         
-        public float TimerAfterAnswer = 2;
-        private float TimerAfterAnswerStartedTime;
-        private bool TimerAfterAnswerStarted = false;
+        public float timerAfterAnswer = 2;
+        private float _timerAfterAnswerStartedTime;
+        private bool _timerAfterAnswerStarted = false;
+
+        public RectTransform quizProgress;
+        public float maximumQuizTime = 120;
+        private float _quizStartTime;
         
     // Start is called before the first frame update
         void Awake()
         {
+            _quizStartTime = Time.time;
             _quizSlots = GameObject.Find("Main").GetComponent<QuizSlots>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (TimerAfterAnswerStarted)
+            if (_timerAfterAnswerStarted)
             {
-                if (TimerAfterAnswerStartedTime + TimerAfterAnswer < Time.time)
+                if (_timerAfterAnswerStartedTime + timerAfterAnswer < Time.time)
                 {
-                    TimerAfterAnswerStarted = false;
-                    TimerAfterAnswerStartedTime = 0;
+                    _timerAfterAnswerStarted = false;
+                    _timerAfterAnswerStartedTime = 0;
                     _quizSlots.IncrementSlotIndex();
+                    TimerEndEvent?.Invoke();
                 }
+            }
+            
+            quizProgress.localScale = new Vector3(( Time.time / (_quizStartTime + maximumQuizTime)), 1, 1);
+            
+            if (_quizStartTime + maximumQuizTime < Time.time)
+            {
+                MaximumQuizTimeEndEvent?.Invoke();
             }
         }
         
@@ -69,8 +86,8 @@ namespace Minigame5
             }
             
             SceneController.Instance.quizEvent.Invoke(answerIndex, correctAnswerIndex);
-            TimerAfterAnswerStartedTime = Time.time;
-            TimerAfterAnswerStarted = true;
+            _timerAfterAnswerStartedTime = Time.time;
+            _timerAfterAnswerStarted = true;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Minigame5
         private static SceneController _instance;
         
         private float _time;
+        private float _completedTime = 0;
         
         private QuizSlots _quizSlots;
         private int correctlyAnswered = 0;
@@ -18,7 +19,8 @@ namespace Minigame5
         public QuizEvent quizEvent;
         
         public GameObject quizMasterDesktop; 
-        public GameObject quizMasterMobile; 
+        public GameObject quizMasterMobile;
+        private QuizController _quizController;
         
         public GameObject startModalDesktop;
         public GameObject startModalMobile;
@@ -82,11 +84,15 @@ namespace Minigame5
             if (Utility.GetDevice() == Device.Mobile)
             {
                 quizMasterMobile.SetActive(true);
+                _quizController = quizMasterMobile.GetComponent<QuizController>();
             }
             else
             {
                 quizMasterDesktop.SetActive(true);
+                _quizController = quizMasterDesktop.GetComponent<QuizController>();
             }
+            _quizController.TimerEndEvent += TimerEnded;
+            _quizController.MaximumQuizTimeEndEvent += SetEndscreen;
             _quizSlots.InitQuiz();
             
             _time = Time.time;
@@ -103,27 +109,38 @@ namespace Minigame5
             Debug.Log("Correctly Answered" + correctlyAnswered + " | index =" + index);
             if (index == answerCount - 1)
             {
-                float completedTime = Time.time - _time;
-                if (Utility.GetDevice() == Device.Desktop)
-                {
-                    quizMasterDesktop.SetActive(false);
-                    finishedModalDesktop.SetActive(true);
-                    finishedModalDesktop.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, completedTime);
-                }
-                else
-                {
-                    quizMasterMobile.SetActive(false);
-                    finishedModalMobile.SetActive(true);
-                    finishedModalMobile.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, completedTime);
-                }
+                _completedTime = Time.time - _time;
             }
-            
-        }
-
-        public void Die()
-        {
-            
         }
         
+        private void TimerEnded()
+        {
+            if (_completedTime != 0)
+            {
+                SetEndscreen();
+            }
+        }
+
+        private void SetEndscreen()
+        {
+            _quizController.MaximumQuizTimeEndEvent -= SetEndscreen;
+            _quizController.TimerEndEvent -= TimerEnded;
+            
+            if (_completedTime == 0) _completedTime = Time.time - _time;
+            
+            int answerCount = _quizSlots.GetSlotsListLengh();
+            if (Utility.GetDevice() == Device.Desktop)
+            {
+                quizMasterDesktop.SetActive(false);
+                finishedModalDesktop.SetActive(true);
+                finishedModalDesktop.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, _completedTime);
+            }
+            else
+            {
+                quizMasterMobile.SetActive(false);
+                finishedModalMobile.SetActive(true);
+                finishedModalMobile.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, _completedTime);
+            }
+        }
     }   
 }
