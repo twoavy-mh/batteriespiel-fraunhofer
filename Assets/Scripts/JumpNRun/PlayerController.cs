@@ -64,8 +64,6 @@ public class PlayerController : MonoBehaviour
             _isGrounded = false;
             _isJumping = true;
             _jumpTimeCounter = _jumpTime;
-            StartCoroutine(Utility.AnimateAnything(0.5f, _speed, _speed * 0.7f,
-                (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
             _rb.velocity = Vector2.up * 8f;
         }
 
@@ -92,8 +90,6 @@ public class PlayerController : MonoBehaviour
 
     private void NowFalling()
     {
-        StartCoroutine(Utility.AnimateAnything(0.5f, _speed, Settings.MovementSpeed,
-            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
         _isJumping = false;
         _rb.gravityScale = 2f;
     }
