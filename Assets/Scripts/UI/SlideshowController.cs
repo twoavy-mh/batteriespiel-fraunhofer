@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,14 +11,25 @@ namespace UI
     public class SlideshowController : MonoBehaviour
     {
         public Button[] actionButtons;
+        public Image[] bubbles;
         private List<Action> _actions = new List<Action>();
         private RectTransform _rt;
-        
+
         private void Awake()
         {
             _rt = transform.GetChild(0).GetComponent<RectTransform>();
-            _actions.Add(() => MoveTo(-1184));
-            _actions.Add(() => MoveTo(-1184 * 2));
+            _actions.Add(() =>
+            {
+                bubbles[0].DOColor(Settings.ColorMap[Tailwind.Blue3], 0.5f);
+                bubbles[1].DOColor(Settings.ColorMap[Tailwind.Yellow3], 0.5f);
+                MoveTo(-1184);
+            });
+            _actions.Add(() =>
+            {
+                bubbles[1].DOColor(Settings.ColorMap[Tailwind.Blue3], 0.5f);
+                bubbles[2].DOColor(Settings.ColorMap[Tailwind.Yellow3], 0.5f);
+                MoveTo(-1184 * 2);
+            });
             _actions.Add(() => SceneManager.LoadScene("JumpNRun"));
 
             int i = 0;
