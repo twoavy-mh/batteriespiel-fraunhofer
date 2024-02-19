@@ -20,7 +20,10 @@ public class RectSizer : MonoBehaviour
         RectTransform rt = GetComponent<RectTransform>();
         if (Utility.GetDevice() == Device.Mobile)
         {
-            rt.sizeDelta = new Vector2(widthScreendesign * Settings.RESIZE_FACTOR, heightScreendesign * Settings.RESIZE_FACTOR);
+            float usedWidth = widthScreendesign == 0 ? GetComponent<RectTransform>().sizeDelta.x : widthScreendesign * Settings.RESIZE_FACTOR;
+            float usedHeight = heightScreendesign == 0 ? GetComponent<RectTransform>().sizeDelta.y : heightScreendesign * Settings.RESIZE_FACTOR;
+            
+            rt.sizeDelta = new Vector2(usedWidth, usedHeight);
             rt.localPosition = new Vector3(rt.localPosition.x + xDiff, rt.localPosition.y + yDiff, rt.localPosition.z + zDiff);
         }
 
