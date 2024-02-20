@@ -31,9 +31,10 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
             rt.anchorMin = new Vector2(0, 1);
             rt.anchorMax = new Vector2(0, 1);
             rt.pivot = new Vector2(0.5f, 1);
+            rt.localScale = new Vector3(1, 1, 1);
             rt.sizeDelta = new Vector2(5, GetComponent<RectTransform>().sizeDelta.y);
             rt.anchoredPosition = new Vector2(_offsetPerDay * i, 0);
-            Color c = Settings.ColorMap[Tailwind.BlueUI];
+            Color c = Settings.ColorMap[Tailwind.Blue5];
             c.a = i == 0 ? 0 : 1;
             newSegment.AddComponent<Image>().color = c;
         }

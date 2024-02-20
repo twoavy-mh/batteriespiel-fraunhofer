@@ -313,7 +313,6 @@ namespace Helpers
                 HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}");
                 response.EnsureSuccessStatusCode();
                 string resString = await response.Content.ReadAsStringAsync();
-                Debug.Log(resString);
                 return (PlayerDetails)resString;
             }
             catch (HttpRequestException e)
@@ -332,15 +331,16 @@ namespace Helpers
             return (PlayerRegistration)await response.Content.ReadAsStringAsync();
         }
 
-        public static async Task SetGame(MicrogameState m, string playerId)
+        public static async Task<PlayerDetails> SetGame(MicrogameState m, string playerId)
         {
             string requestString = JsonUtility.ToJson(m);
             HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/{playerId}/battery-results",
                 new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
-            
-            string r = await response.Content.ReadAsStringAsync();
-            Debug.Log(r);
+
+            await response.Content.ReadAsStringAsync();
+            PlayerDetails p = await FetchPlayerDetails(playerId);
+            return p;
         }
 
         public static async Task ReserializeGamestate(string uuid)
@@ -349,7 +349,6 @@ namespace Helpers
             if (d != null)
             {
                 GameState.Instance.currentGameState = d;
-                Debug.Log(d.ToString());
             }
         }
         

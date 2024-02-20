@@ -91,7 +91,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
             rt.anchorMin = new Vector2(1f, 1f);
             rt.anchorMax = new Vector2(1f, 1f);
             rt.pivot = new Vector2(1f, 1f);
-            c.transform.localPosition = new Vector3(i * -30 - 15, 20, 0);
+            c.transform.localPosition = new Vector3(i * (Helpers.Utility.GetDevice() == Device.Desktop ? -30 : -18 * Settings.RESIZE_FACTOR) - 15, 20, 0);
             CountCircleController cc = c.GetComponent<CountCircleController>();
             cc.SetCount(value);
             cc.SetColor(GetColor(key));

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using DG.Tweening;
 using Events;
 using Minigame1;
 using TMPro;
@@ -21,7 +22,8 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public Sprite emptyMap;
     public Image mapImage;
     public int secondsPerTimeslot = 5;
-
+    public RawImage textureRenderedTo;
+    
     void Start()
     {
         SceneController.Instance.brokerBuyEvent.AddListener(UseBrokerBuyEvent);
@@ -140,6 +142,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     private IEnumerator StartVideo(int wait)
     {
         yield return new WaitForSeconds(wait);
+        textureRenderedTo.DOFade(1f, 0.5f);
         _vp.Play();
     }
 
@@ -209,15 +212,12 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
             switch (key)
             {
                 case "nickle":
-                    Debug.Log($"Spent {value * t.resourceInfo.nicklePrice} on {value} {key}");
                     nic.Spend(value * t.resourceInfo.nicklePrice);
                     break;
                 case "lithium":
-                    Debug.Log($"Spent {value * t.resourceInfo.lithiumPrice} on {value} {key}");
                     nic.Spend(value * t.resourceInfo.lithiumPrice);
                     break;
                 case "cobalt":
-                    Debug.Log($"Spent {value * t.resourceInfo.cobaltPrice} on {value} {key}");
                     nic.Spend(value * t.resourceInfo.cobaltPrice);
                     break;
             }

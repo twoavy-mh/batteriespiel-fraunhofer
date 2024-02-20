@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Helpers;
+using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,12 @@ public class MiniGameButtonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*foreach (MicrogameState microgameState in GameState.Instance.currentGameState.results)
+        {
+            Debug.Log(microgameState);
+        }*/
+        Debug.Log("isbdfisfgiuhsagoisdfgisdfboidjfbgiosyufghyodifgoidfjgily");
+
         try
         {
             bool exists = GameState.Instance.currentGameState.results.ElementAtOrDefault(index - 1) != null;

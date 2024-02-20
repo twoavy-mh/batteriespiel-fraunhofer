@@ -96,10 +96,11 @@ namespace Minigame1
         {
             try
             {
-                await Api.SetGame(
+                PlayerDetails p = await Api.SetGame(
                     new MicrogameState()
                         { unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1 },
                     GameState.Instance.currentGameState.id);
+                GameState.Instance.currentGameState = p;
                 return true;
             }
             catch (Exception)
