@@ -12,7 +12,7 @@ namespace Minigame2
 {
     public class MicrogameTwoFinished : MonoBehaviour
     {
-        private int score;
+        private int _score;
         public GameObject again;
         public GameObject next;
         public UI.ProgressRingController pgc;
@@ -36,14 +36,16 @@ namespace Minigame2
             SceneManager.LoadScene("MainMenu");
         }
 
-        public void SetScore(int fails, int totalTries)
+        public int SetScore(int fails, int totalTries)
         {
-            int score = Math.Max(0, 100 - (fails * 5));
+            int innerScore = Math.Max(0, 100 - (fails * 5));
+            _score = innerScore;
             transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase
                 .GetLocalizedString("minigame2Score")
-                .Replace("~", score.ToString())
+                .Replace("~", _score.ToString())
                 .Replace("#", totalTries.ToString());
-            pgc.StartAnimation(score);
+            pgc.StartAnimation(_score);
+            return _score;
         }
     }
    

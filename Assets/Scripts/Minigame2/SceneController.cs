@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Helpers;
+using Models;
 using UnityEngine;
 
 namespace Minigame2
@@ -36,13 +38,19 @@ namespace Minigame2
             _instance = this;
         }
 
-        public void DroppedCorrectly(string field)
+        public async Task DroppedCorrectly(string field)
         {
             _dropzones[field] = true;
             if (_dropzones["kathode"] && _dropzones["anode"] && _dropzones["lithium"] && _dropzones["separator"] && _dropzones["electrode"] && _dropzones["electrolyte"])
             {
                 finishedModal.SetActive(true);
-                finishedModal.GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
+                int score = finishedModal.GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
+                MicrogameState s = new MicrogameState();
+                s.finished = true;
+                s.unlocked = true;
+                s.result = score;
+                s.game = GameState.Microgames.Microgame2;
+                GameState.Instance.currentGameState = await Api.SetGame(s, GameState.Instance.currentGameState.id);
             }
         }
         
