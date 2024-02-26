@@ -5,7 +5,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Models;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Application = UnityEngine.Device.Application;
 
 namespace Helpers
@@ -167,6 +170,21 @@ namespace Helpers
 
     class Utility
     {
+        public static void GetTranslatedText(string key, Action<string> cb)
+        {
+            AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(key);
+            if (op.IsDone)
+            {
+                cb(op.Result);
+            } else
+            {
+                op.Completed += (operation) =>
+                {
+                    cb(operation.Result);
+                };
+            }
+        }
+        
         public static T GetRandom<T>(T[] array)
         {
             return array[UnityEngine.Random.Range(0, array.Length)];

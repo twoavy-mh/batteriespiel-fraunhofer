@@ -63,9 +63,15 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
     {
         _bought = false;
         buyAmount = newAmount;
-        transform.GetChild(1).GetComponent<TMP_Text>().text = !countryKey.Equals("")
-            ? LocalizationSettings.StringDatabase.GetLocalizedString(countryKey).ToUpper()
-            : "";
+        if (countryKey.Equals(""))
+        {
+            transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+        }
+        else
+        {
+            Utility.GetTranslatedText(countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());    
+        }
+        
         _countryKey = countryKey;
         _disabled = disabled;
 
@@ -164,13 +170,26 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
                   buyAmount["cobalt"] * t.resourceInfo.cobaltPrice;
         Broke = _nic.AmIBroke(sum);
     }
-
+    
     public void UseShowWhatYouBuyEvent(bool show)
     {
         transform.GetChild(0).GetComponent<CanvasGroup>().DOFade(show ? 1f : 0f, 0.5f).SetEase(Ease.InOutSine);
-        transform.GetChild(1).GetComponent<TMP_Text>().text = show
-            ? LocalizationSettings.StringDatabase.GetLocalizedString(_countryKey).ToUpper()
-            : "";
+        if (show)
+        {
+            if (_countryKey.Equals(""))
+            {
+                transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+            }
+            else
+            {
+                Utility.GetTranslatedText(_countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());    
+            }
+        }
+        else
+        {
+            transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+        }
+        
 
         transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue1], 0.5f);
     }

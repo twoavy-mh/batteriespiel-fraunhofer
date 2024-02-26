@@ -61,8 +61,7 @@ namespace Minigame4
                 transform.GetChild(2).GetComponent<Button>().onClick.AddListener(InfoButton);
             }
 
-            transform.GetChild(1).GetComponent<TMP_Text>().text =
-                LocalizationSettings.StringDatabase.GetLocalizedString(displayName);
+            Utility.GetTranslatedText(displayName, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s);
         }
 
         private void InfoButton()

@@ -4,6 +4,7 @@ using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 namespace UI
@@ -33,7 +34,8 @@ namespace UI
             {
                 return;
             }
-            GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString(translationKey);
+
+            Utility.GetTranslatedText(_translationKey, s => GetComponent<TMP_Text>().text = s);
         }
     }
    

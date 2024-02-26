@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -42,12 +43,11 @@ namespace Minigame5
             int seconds = (int) completionTime % 60;
             string time = minutes.ToString().PadLeft(2, '0') + ":" + seconds;  
             
-            scoreText.text = LocalizationSettings.StringDatabase
-                .GetLocalizedString("minigame5Score")
+            Utility.GetTranslatedText("minigame5Score", s => scoreText.text = s
                 .Replace("~i", correctAnswered.ToString())
                 .Replace("~c", questionCount.ToString())
                 .Replace("~t", time)
-                .Replace("~s", score.ToString());
+                .Replace("~s", score.ToString()));
             pgc.StartAnimation(score);
         }
     }

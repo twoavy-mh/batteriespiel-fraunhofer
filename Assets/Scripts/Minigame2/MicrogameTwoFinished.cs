@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -21,16 +22,18 @@ namespace Minigame2
         {
             again.GetComponent<Button>().onClick.AddListener(Retry);
             next.GetComponent<Button>().onClick.AddListener(Next);
-        
-            again.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("minigame2Again");
-            next.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("next");
+
+            Utility.GetTranslatedText("minigame2Again",
+                s => again.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText("next",
+                s => next.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = s);
         }
 
         private void Retry()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-    
+
         private void Next()
         {
             SceneManager.LoadScene("MainMenu");
@@ -40,13 +43,11 @@ namespace Minigame2
         {
             int innerScore = Math.Max(0, 100 - (fails * 5));
             _score = innerScore;
-            transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase
-                .GetLocalizedString("minigame2Score")
-                .Replace("~", _score.ToString())
-                .Replace("#", totalTries.ToString());
+            Utility.GetTranslatedText("minigame2Score", s => transform.GetChild(3).GetComponent<TMP_Text>().text = s
+                .Replace("~", innerScore.ToString())
+                .Replace("#", totalTries.ToString()));
             pgc.StartAnimation(_score);
             return _score;
         }
     }
-   
 }
