@@ -285,7 +285,7 @@ namespace Helpers
     {
         private static readonly HttpClient APIClient = new()
         {
-            BaseAddress = new Uri("http://batterie.twoavy.com"),
+            BaseAddress = new Uri("https://batterygame.web.fec.ffb.fraunhofer.de/"),
             DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
         };
 

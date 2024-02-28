@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
                 case "Target":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     _collectedCount++;
-                    if (_collectedCount == 1)
+                    if (_collectedCount == 5)
                     {
                         MicrogameState m = new MicrogameState();
                         m.game = GameState.Instance.GetCurrentMicrogame();
