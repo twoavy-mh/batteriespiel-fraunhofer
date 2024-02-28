@@ -1,87 +1,112 @@
+using System;
 using BezierSolution;
+using UnityEditor;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
+using TouchPhase = UnityEngine.TouchPhase;
 
 namespace Minigame3
 {
-    public class SetPointToSplinePosition : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,
-        IPointerExitHandler
+    public class SetPointToSplinePosition : MonoBehaviour
     {
+        public event Action OnFinishedCutting;
+        
         public BezierSpline spline;
         public Image maskedImage;
         public GameObject finishedImage;
-
-        public float _rotationOffset = 48f;
+        private CircleCollider2D _handleBarCollider;
 
         private float _splineLength;
         private float _currentPositionSpline = 0f;
 
-        private float timeCount;
+        private float _currentRotation = 0f;
 
         private bool _isFinished = false;
         private bool _isDragging = false;
 
         void Start()
         {
+            _handleBarCollider = GetComponent<CircleCollider2D>();
             _splineLength = spline.GetLengthApproximately(0f, 1f);
         }
 
-        public void OnBeginDrag(PointerEventData data)
-        {
-            if (_isDragging || _isFinished) return;
-            _isDragging = true;
-        }
-
-        public void OnDrag(PointerEventData data)
+        private void Update()
         {
             if (_isFinished) return;
 
-            if (data.delta.x != 0 || data.delta.y != 0) ;
+            if (Input.touchCount > 0)
             {
-                float biggerDelta = Mathf.Abs(data.delta.x) > Mathf.Abs(data.delta.y)
-                    ? Mathf.Abs(data.delta.x)
-                    : Mathf.Abs(data.delta.y);
-                float increment = biggerDelta / _splineLength;
-                _currentPositionSpline += increment;
-                BezierSpline.EvenlySpacedPointsHolder test = spline.CalculateEvenlySpacedPoints(10f, 3f);
-                transform.position = spline.GetPoint(test.GetNormalizedTAtPercentage(_currentPositionSpline));
-
-                maskedImage.fillAmount = GetRotationFromHandleToCenter();
-                if (_currentPositionSpline >= 1f)
+                Touch touch = Input.GetTouch(0);
+                if ((touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) && InputColliderHit(
+                        touch.position))
+                
                 {
-                    _isFinished = true;
-                    finishedImage.SetActive(true);
-                    data.pointerDrag = null;
-                    _isDragging = false;
-                    _currentPositionSpline = 1f;
+                    _isDragging = true;
+                    OnHandleBarDrag(touch.position);
                 }
+                else
+                {
+                    _isDragging = false;
+                }
+            } 
+            else 
+            {
+                _isDragging = false;
+            }
+
+            // Detect if Left Mouse Button is pressed
+            if (Mouse.current.leftButton.isPressed || Pointer.current.IsPressed() && InputColliderHit(Pointer.current.position.ReadValue()))
+            {
+                _isDragging = true;
+                Vector2 currentPosition = Pointer.current.position.ReadValue();
+                OnHandleBarDrag(currentPosition);
+            }
+            else
+            {
+                _isDragging = false;
+            }
+        }
+        
+        private bool InputColliderHit(Vector2 inputPosition)
+        {
+            return _handleBarCollider.OverlapPoint(inputPosition);
+        }
+        
+        private void OnHandleBarDrag(Vector2 position)
+        {
+            float rotationToCenter = GetRotationFromHandleToCenter( new Vector3(position.x, position.y, 0f));
+            
+            if (rotationToCenter < _currentRotation || rotationToCenter - _currentRotation > 0.2f) return;
+            
+            _currentRotation = rotationToCenter;
+             transform.position =spline.FindNearestPointToLine(maskedImage.transform.position, position);
+            maskedImage.fillAmount = rotationToCenter;
+
+            if (_currentRotation >= 0.99f)
+            {
+                _isFinished = true;
+                finishedImage.SetActive(true);
+                _isDragging = false;
+                _currentRotation = 1f;
+                OnFinishedCutting?.Invoke();
+                transform.GetChild(0).gameObject.SetActive(false);
             }
         }
 
-        public void OnPointerExit(PointerEventData data)
+        private float GetRotationFromHandleToCenter(Vector3 targetPosition)
         {
-            // data.pointerDrag = null;
-            Debug.Log("The cursor exited the selectable UI element.");
-        }
-
-        public void OnEndDrag(PointerEventData data)
-        {
-            _isDragging = false;
-        }
-
-        private float GetRotationFromHandleToCenter()
-        {
-            Vector3 direction = maskedImage.transform.position - transform.position;
+            Vector3 direction = maskedImage.transform.position - targetPosition;
             float angleInRadians = Mathf.Atan2(direction.y, direction.x);
             float angleInDegrees = Mathf.Rad2Deg * angleInRadians;
             angleInDegrees = (angleInDegrees + 360) % 360;
-            angleInDegrees += _rotationOffset;
+            angleInDegrees += 90 - 54;
             angleInDegrees = (angleInDegrees + 360) % 360;
 
             return 1 - (angleInDegrees / 360f);
         }
     }
 }
-
-
