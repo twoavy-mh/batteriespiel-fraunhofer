@@ -19,7 +19,6 @@ public class BgMover : MonoBehaviour
     public Sprite[] spritesLvl3;
     public Sprite[] spritesLvl4;
     public Sprite[] spritesLvl5;
-    public Sprite[] spritesLvl6;
     
     private List<Sprite[]> _sprites;
     private RectTransform[] _children;
@@ -28,7 +27,7 @@ public class BgMover : MonoBehaviour
     {
         _sprites = new List<Sprite[]>()
         {
-            spritesLvl1, spritesLvl2, spritesLvl3, spritesLvl4, spritesLvl5, spritesLvl6
+            spritesLvl1, spritesLvl2, spritesLvl3, spritesLvl4, spritesLvl5
         };
         _children = new RectTransform[_sprites[(int)GameState.Instance.GetCurrentMicrogame()].Length];
         RectTransform parentRt = transform.parent.GetComponent<RectTransform>();
