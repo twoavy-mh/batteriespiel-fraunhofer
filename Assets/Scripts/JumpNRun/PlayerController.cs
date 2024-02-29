@@ -7,7 +7,7 @@ using JumpNRun;
 using Models;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 {
     private Rigidbody2D _rb;
     private float _speed;
@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     private int _collectedCount = 0;
 
     public float smallest = 0f;
-    
+    private bool _dead = false;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
+        SceneController.Instance.dieEvent.AddListener(UseDie);
     }
 
     // Update is called once per frame
@@ -100,9 +102,7 @@ public class PlayerController : MonoBehaviour
             switch (other.tag)
             {
                 case "Killzone":
-                    _speed = 0;
-                    _rb.velocity = Vector2.down * 8f;
-                    //_animator.SetTrigger("die");
+                    SceneController.Instance.dieEvent.Invoke();
                     break;
                 case "Lithium":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
                         await Api.SetGame(m, GameState.Instance.currentGameState.id);
                         SceneManager.LoadScene($"MicroGame{((int)m.game) + 1}Onboard");
                     }
+
                     break;
             }
         }
@@ -139,7 +140,8 @@ public class PlayerController : MonoBehaviour
 
     private void FadeCollectable(SpriteRenderer s)
     {
-        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f, (progress, start, end) => s.color = new Color(1f, 1f, 1f, Mathf.Lerp(start, end, progress))));
+        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f,
+            (progress, start, end) => s.color = new Color(1f, 1f, 1f, Mathf.Lerp(start, end, progress))));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -168,7 +170,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
 
     private IEnumerator Boink(Collider2D obstacle, Action cb = null)
     {
@@ -183,5 +184,14 @@ public class PlayerController : MonoBehaviour
         isStill = false;
         isColliding = false;
         cb?.Invoke();
+    }
+
+    public void UseDie()
+    {
+        _dead = true;
+        GetComponent<BoxCollider2D>().isTrigger = true;
+        StartCoroutine(Utility.AnimateAnything(2f, _speed, 0,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress),
+            () => { _animator.SetTrigger("die"); }));
     }
 }

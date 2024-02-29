@@ -10,13 +10,14 @@ using UnityEngine.Video;
 using DG.Tweening;
 using Helpers;
 
-public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
+public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.IUseDie
 {
     [Range(0.0f, 1.0f)] public float startWithHealthPercent = 1.0f;
 
     private RectTransform _rt;
     private bool _isDecaying = true;
     private bool _isBoosting = false;
+    private bool _dead = false;
 
     private float _multiplier = 1f;
     
@@ -76,6 +77,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
         _rt = GetComponent<RectTransform>();
         _rt.sizeDelta = new Vector2(_rt.sizeDelta.x * startWithHealthPercent, _rt.sizeDelta.y);
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
+        SceneController.Instance.dieEvent.AddListener(UseDie);
         AddScoreListeners();
 
         InvokeRepeating(nameof(Check), 0f, 1f);
@@ -83,6 +85,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
 
     private void Check()
     {
+        if (_dead) return;
         if (_isDecaying)
         {
             Health -= 10;
@@ -186,5 +189,9 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
         bar.GetComponent<RectTransform>().sizeDelta = new Vector2(198f * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
         border.GetComponent<RectTransform>().sizeDelta = new Vector2(border.GetComponent<RectTransform>().sizeDelta.x * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
     }
-    
+
+    public void UseDie()
+    {
+        _dead = true;
+    }
 }

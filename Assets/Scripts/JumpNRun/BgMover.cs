@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Events;
 using Helpers;
+using JumpNRun;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BgMover : MonoBehaviour
+public class BgMover : MonoBehaviour, DieEvent.IUseDie
 {
     public bool isUpper;
     
@@ -23,8 +25,11 @@ public class BgMover : MonoBehaviour
     private List<Sprite[]> _sprites;
     private RectTransform[] _children;
 
+    private float _deadFactor = 1;
+
     private void Awake()
     {
+        SceneController.Instance.dieEvent.AddListener(UseDie);
         _sprites = new List<Sprite[]>()
         {
             spritesLvl1, spritesLvl2, spritesLvl3, spritesLvl4, spritesLvl5
@@ -52,7 +57,7 @@ public class BgMover : MonoBehaviour
 
     void Update()
     {
-        float dt = Time.deltaTime;
+        float dt = Time.deltaTime * _deadFactor;
         if (!PlayerController.isColliding)
         {
             for (var i = 0; i < _children.Length; i++)
@@ -63,5 +68,13 @@ public class BgMover : MonoBehaviour
                         _children[i].position.y, _children[i].position.z);
             } 
         }
+    }
+
+    public void UseDie()
+    {
+        StartCoroutine(Utility.AnimateAnything(2f, 1f, 0f, (progress, start, end) =>
+        {
+            _deadFactor = Mathf.Lerp(1, 0, progress);
+        }));
     }
 }
