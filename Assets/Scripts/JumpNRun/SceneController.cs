@@ -9,10 +9,9 @@ namespace JumpNRun
     public class SceneController : MonoBehaviour
     {
         private static SceneController _instance;
-    
-        public DecayEvent decayEvent;
+        
         public CollectedEvent collectEvent;
-    
+        public DieEvent dieEvent;
     
         public static SceneController Instance
         {
@@ -26,8 +25,8 @@ namespace JumpNRun
         // Start is called before the first frame update
         private void Awake()
         {
-            decayEvent ??= new DecayEvent();
             collectEvent ??= new CollectedEvent();
+            dieEvent ??= new DieEvent();
             _instance = this;
             DataStore.Instance.Init();
             gameObject.AddComponent<AutoTweenKiller>();

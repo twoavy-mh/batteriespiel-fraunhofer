@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
             {
                 _rb.velocity = Vector2.up * 6f;
                 _jumpTimeCounter -= Time.deltaTime;
-                SceneController.Instance.decayEvent.Invoke(new DecayInstance(0.1f, -10));
             }
             else
             {

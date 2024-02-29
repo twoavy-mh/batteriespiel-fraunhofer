@@ -48,6 +48,11 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable
         set
         {
             _health += (value - _health) * _multiplier;
+            if (_health <= 0)
+            {
+                _health = 0;
+                SceneController.Instance.dieEvent.Invoke();
+            }
             
             SetColor(GetColor());
             

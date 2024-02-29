@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Helpers;
 using UnityEngine;
 
 public class FloorChunker : MonoBehaviour
@@ -52,15 +54,24 @@ public class FloorChunker : MonoBehaviour
         Array.Clear(_chunks, 0, _chunks.Length);
         float xOffset = 0;
 
+        int[] randomChunkToSpawnObstacle = new int[(int)GameState.Instance.GetCurrentMicrogame() + 2];
+        for (int j = 0; j < randomChunkToSpawnObstacle.Length; j++)
+        {
+            int a = UnityEngine.Random.Range(0, chunkCount);
+            if (randomChunkToSpawnObstacle.Contains(a)) continue;
+            randomChunkToSpawnObstacle[j] = a;
+        }
+        
         for (int i = 0; i < chunkCount; i++)
         {
+            
             GameObject currentChunk = Instantiate(chunk, new Vector3(i * ChunkSize + xOffset + _blockCount * (
                 (chunkCount + 2) * ChunkSize), transform.parent.position.y, 0), Quaternion.identity);
             currentChunk.transform.SetParent(transform);
             SpriteRenderer s = currentChunk.transform.GetChild(0).GetComponent<SpriteRenderer>();
             s.sortingOrder = -i;
             _chunks[i] = currentChunk;
-            if (i % Helpers.Utility.RandomInRange(3, 7) == 0)
+            if (randomChunkToSpawnObstacle.Contains(i))
             {
                 GameObject obstacle = Instantiate(_obstacle, new Vector3(i * 3.42f + _blockCount * (
                     (chunkCount + 2) * ChunkSize), -3.5f, 0), Quaternion.identity);
