@@ -66,11 +66,6 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
     void Start()
     {
-        if (Utility.GetDevice() == Device.Mobile)
-        {
-            //SetToMobile();
-        }
-
         _health = maxHealth * startWithHealthPercent;
         _bar = GetComponent<Image>();
         SetColor(GetColor(), false);
@@ -78,7 +73,6 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         _rt.sizeDelta = new Vector2(_rt.sizeDelta.x * startWithHealthPercent, _rt.sizeDelta.y);
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
         SceneController.Instance.dieEvent.AddListener(UseDie);
-        AddScoreListeners();
 
         InvokeRepeating(nameof(Check), 0f, 1f);
     }
@@ -88,7 +82,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         if (_dead) return;
         if (_isDecaying)
         {
-            Health -= 10;
+            Health -= 3;
         }
         else if (_isBoosting)
         {
@@ -106,24 +100,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         _isDecaying = true;
         _isBoosting = false;
     }
-    
-    private void AddScoreListeners()
-    {
-        CollectableDelegate cb = callback => { Debug.Log(callback.collectable + " " + callback.count); };
-        DataStore.Instance.collectablesScore[Collectable.Lithium].AddListener(cb);
-        DataStore.Instance.collectablesScore[Collectable.BlueLightning].AddListener(cb);
-        DataStore.Instance.collectablesScore[Collectable.YellowLightning].AddListener(cb);
-    }
 
     public void UseCollectable(Collectable c)
     {
         float duration = 0, increaseBy = 0;
         switch (c)
         {
-            case Collectable.Lithium:
-                duration = 2f;
-                increaseBy = 5f;
-                break;
             case Collectable.BlueLightning:
                 duration = 2f;
                 increaseBy = 5f;

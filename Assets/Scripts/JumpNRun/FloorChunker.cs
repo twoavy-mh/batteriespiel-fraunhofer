@@ -9,6 +9,9 @@ public class FloorChunker : MonoBehaviour
     public GameObject target;
     public const float ChunkSize = 3.37f;
     public int chunkCount = 10;
+    
+    public GameObject YellowLightning;
+    public GameObject BlueLightning;
 
     private GameObject _col;
     private GameObject[] _chunks;
@@ -77,6 +80,7 @@ public class FloorChunker : MonoBehaviour
                     (chunkCount + 2) * ChunkSize), -3.5f, 0), Quaternion.identity);
                 obstacle.transform.SetParent(currentChunk.transform);
             }
+            
             if (i == chunkCount - 1)
             {
                 _lastTile = currentChunk;

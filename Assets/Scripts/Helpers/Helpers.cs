@@ -253,7 +253,6 @@ namespace Helpers
         {
             return UnityEngine.Random.Range(min, max);
         }
-        
     }
 
     public static class Extensions

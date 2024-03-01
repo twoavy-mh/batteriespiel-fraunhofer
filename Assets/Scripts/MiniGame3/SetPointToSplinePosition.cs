@@ -1,7 +1,6 @@
 using System;
 using BezierSolution;
 using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;

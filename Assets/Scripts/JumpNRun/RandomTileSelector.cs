@@ -5,6 +5,9 @@ using Helpers;
 
 public class RandomTileSelector : MonoBehaviour
 {
+    public GameObject YellowLightning;
+    public GameObject BlueLightning;
+    
     public Sprite[] Options;
     void Start()
     {
@@ -28,7 +31,15 @@ public class RandomTileSelector : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().sprite = Utility.GetRandom(Options);    
         }
-        
+
+
+        if (Utility.RandomInRange(0, 100) / 100f < 0.1f)
+        {
+            GameObject lighting =
+                Instantiate(Utility.RandomInRange(0, 1) == 0 ? YellowLightning : BlueLightning,
+                    new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity);
+            lighting.transform.SetParent(transform);
+        }
     }
 
     // Update is called once per frame

@@ -33,7 +33,6 @@ namespace JumpNRun
             dieEvent ??= new DieEvent();
             dieEvent.AddListener(UseDie);
             _instance = this;
-            DataStore.Instance.Init();
             gameObject.AddComponent<AutoTweenKiller>();
         }
 
