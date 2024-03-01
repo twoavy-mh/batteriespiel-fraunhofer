@@ -10,7 +10,7 @@ public class ButtonHeightSetter : MonoBehaviour
 {
     void Start()
     {
-        float multiplier = Settings.RESIZE_FACTOR;
+        float multiplier = Device.Mobile == Utility.GetDevice()?Settings.RESIZE_FACTOR:1f;
         
         RectTransform rt = GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, Utility.GetDevice() == Device.Mobile ? 40 * multiplier : 60);
