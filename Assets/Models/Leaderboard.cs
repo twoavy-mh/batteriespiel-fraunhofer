@@ -9,13 +9,13 @@ namespace Models
 {
     public class Leaderboard
     {
-        public LeaderboardArray entries;
+        public LeaderboardEntry[] entries;
         public bool isMeInTop10;
         
         private Leaderboard(LeaderboardArray entries)
         {
-            this.entries = entries;
-            this.isMeInTop10 = this.entries.sorted.Any((entry) => entry.isMe);
+            this.entries = entries.sorted;
+            this.isMeInTop10 = this.entries.Any((entry) => entry.isMe);
         }
         
         public static async Task<Leaderboard> ConstructLeaderboard()
@@ -28,7 +28,7 @@ namespace Models
         public override string ToString()
         {
             return "Leaderboard{" +
-                   "entries=" + string.Concat(entries.sorted.Select(x => x.ToString())) +
+                   "entries=" + string.Concat(entries.Select(x => x.ToString())) +
                    ", isMeInTop10=" + isMeInTop10 +
                    '}';
         }

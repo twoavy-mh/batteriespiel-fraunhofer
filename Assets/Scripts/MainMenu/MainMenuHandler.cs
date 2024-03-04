@@ -30,10 +30,8 @@ public class MainMenuHandler : MonoBehaviour
     private InstantiationHelper instantiationHelper;
 
     // Start is called before the first frame update
-    async void Start()
+    void Start()
     {
-        Leaderboard board = await Leaderboard.ConstructLeaderboard();
-        Debug.Log(board.ToString());
         _parentCanvas = transform.GetComponent<Canvas>();
 
         instantiationHelper = gameObject.AddComponent<InstantiationHelper>();
