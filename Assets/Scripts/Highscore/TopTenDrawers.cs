@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using Highscore;
 using Models;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class TopTenDrawers : MonoBehaviour
         foreach (LeaderboardEntry leaderboardEntry in SceneController.Instance.leaderboard.entries)
         {
             GameObject block = Instantiate(blockPrefab, transform);
-            block.GetComponent<ScoreboardBlockSetter>().SetTexts(leaderboardEntry.name,
+            block.GetComponent<ScoreboardBlockSetter>().SetTexts(leaderboardEntry.name.Trunc(20),
                 leaderboardEntry.totalScore.ToString(), leaderboardEntry.totalScore.ToString(),
                 leaderboardEntry.totalScore.ToString().PadLeft(5, '0'), leaderboardEntry.rank.ToString(), leaderboardEntry.isMe);
             LayoutRebuilder.ForceRebuildLayoutImmediate(block.GetComponent<RectTransform>());

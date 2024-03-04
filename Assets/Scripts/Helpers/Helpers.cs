@@ -274,6 +274,13 @@ namespace Helpers
             return s == null || s.Length == 0;
         }
 
+        public static string Trunc(this string s, int maxLength, string truncationSuffix = "…")
+        {
+            return s.Length > maxLength
+                ? s.Substring(0, maxLength) + truncationSuffix
+                : s;
+        }
+
         public static float MapBetween(this float v, float fromMin, float fromMax, float toMin, float toMax)
         {
             return (v - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
