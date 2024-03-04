@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Helpers;
+using Models;
 
 public class MainMenuHandler : MonoBehaviour
 {
@@ -29,8 +30,10 @@ public class MainMenuHandler : MonoBehaviour
     private InstantiationHelper instantiationHelper;
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
+        Leaderboard board = await Leaderboard.ConstructLeaderboard();
+        Debug.Log(board.ToString());
         _parentCanvas = transform.GetComponent<Canvas>();
 
         instantiationHelper = gameObject.AddComponent<InstantiationHelper>();

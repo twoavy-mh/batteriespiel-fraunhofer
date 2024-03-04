@@ -394,6 +394,14 @@ namespace Helpers
                 return null;
             }
         }
+
+        public static async Task<LeaderboardArray> GetLeaderboard(string uuid)
+        {
+            HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}/leaderboard");
+            response.EnsureSuccessStatusCode();
+            string resString = await response.Content.ReadAsStringAsync();
+            return (LeaderboardArray)resString;
+        }
     }
     
 }

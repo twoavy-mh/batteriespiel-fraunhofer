@@ -37,7 +37,7 @@ public class RandomTileSelector : MonoBehaviour
         {
             GameObject lighting =
                 Instantiate(Utility.RandomInRange(0, 1) == 0 ? YellowLightning : BlueLightning,
-                    new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity);
+                    new Vector3(transform.position.x, Utility.RandomInRange(-2, 1), transform.position.z), Quaternion.identity);
             lighting.transform.SetParent(transform);
         }
     }
