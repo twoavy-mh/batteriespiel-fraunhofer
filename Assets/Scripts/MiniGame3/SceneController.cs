@@ -1,7 +1,9 @@
 using System;
 using Events;
 using Helpers;
+using Minigame3.Classes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Minigame3
@@ -13,22 +15,20 @@ namespace Minigame3
         public int startGame = 5;
         private int _nanoGameIndex;
 
-        public float timerToNextScene = 2f;
-        private float toNextSceneStartedTime;
-        private bool toNextSceneStarted = false;
+        public float timerToNanoGameSelect = 2f;
+        private float toNanoGameSelectStartedTime;
+        private bool toNanoGameSelectStarted = false;
         
         private int correctlyAnswered = 0;
-
-        public GameObject nanoGame1; 
-        public GameObject nanoGame2; 
-        public GameObject nanoGame3; 
-        public GameObject nanoGame4; 
-        public GameObject nanoGame5; 
-        public GameObject nanoGame6; 
-        public GameObject nanoGame7; 
+        
+        [SerializeField]
+        public NanoGameContent[] nanoGameContents = new NanoGameContent[7];
         
         public GameObject startModalDesktop;
         public GameObject startModalMobile;
+        
+        public GameObject nextNanoGameModalDesktop;
+        public GameObject nextNanoGameModalMobile;
         
         public GameObject finishedModalDesktop;
         public GameObject finishedModalMobile;
@@ -46,29 +46,47 @@ namespace Minigame3
         {
             InitSceneController();
             _nanoGameIndex = startGame;
-
         }
 
         private void Update()
         {
-            if (toNextSceneStarted)
+            if (toNanoGameSelectStarted)
             {
-                if (toNextSceneStartedTime + timerToNextScene < Time.time)
+                if (toNanoGameSelectStartedTime + timerToNanoGameSelect < Time.time)
                 {
-                    toNextSceneStarted = false;
-                    if (startGame <= 7)
+                    toNanoGameSelectStarted = false;
+                    if (_nanoGameIndex >= 7)
                     {
                         SetEndscreen();
                     }
                     else
                     {
-                        startGame++;
-                        SetNextNanoGame();
+                        _nanoGameIndex++;
+                        SetNanoGameSelect();
                     }
                 }
             }
         }
 
+        
+        private void NextNanoGame()
+        {
+            if (_nanoGameIndex < 7)
+            {
+                _nanoGameIndex++;
+                nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+            }
+        }
+        
+        private void PrevNanoGame()
+        {
+            if (_nanoGameIndex > 1)
+            {
+                _nanoGameIndex--;
+                nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1], _nanoGameIndex - 1);
+            }
+        }
+        
         private void InitSceneController()
         {
             _instance = this;
@@ -76,51 +94,107 @@ namespace Minigame3
             if (Utility.GetDevice() == Device.Mobile)
             {
                 startModalMobile.SetActive(true);
-                startModalMobile.GetComponentInChildren<Button>().onClick.AddListener(SetNextNanoGame);
+                startModalMobile.GetComponentsInChildren<Button>()[1].onClick.AddListener(HideStartModal);
             }
             else
             {
                 startModalDesktop.SetActive(true);
-                startModalDesktop.GetComponentInChildren<Button>().onClick.AddListener(SetNextNanoGame);
+                startModalDesktop.GetComponentsInChildren<Button>()[0].onClick.AddListener(HideStartModal);
+            }
+        }
+        
+        private void HideStartModal()
+        {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                startModalMobile.SetActive(false);
+                startModalMobile.GetComponentInChildren<Button>().onClick.RemoveListener(HideStartModal);
+            }
+            else
+            {
+                startModalDesktop.SetActive(false);
+                startModalDesktop.GetComponentInChildren<Button>().onClick.RemoveListener(HideStartModal);
+            }
+            
+            NanoGameSelect();
+        }
+        
+        private void SetNanoGameSelect()
+        {
+            foreach (NanoGameContent nanoGameContent in nanoGameContents)
+            {
+                nanoGameContent.nanoGameObject.SetActive(false);
+            }
+            NanoGameSelect();
+        }
+
+        private void NanoGameSelect()
+        {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                NanoGameSelectController ngsCtrl = nextNanoGameModalMobile.GetComponentInChildren<NanoGameSelectController>();
+                ngsCtrl.SetContent(nanoGameContents[_nanoGameIndex - 1], _nanoGameIndex - 1);
+                nextNanoGameModalMobile.SetActive(true);
+                
+                ngsCtrl.OnPrevButton += PrevNanoGame;
+                ngsCtrl.OnNextButton += NextNanoGame;
+                ngsCtrl.OnPlayButton += SetNextNanoGame;
+            }
+            else
+            {
+                NanoGameSelectController ngsCtrl = nextNanoGameModalDesktop.GetComponentInChildren<NanoGameSelectController>();
+                ngsCtrl.SetContent(nanoGameContents[_nanoGameIndex - 1], _nanoGameIndex - 1);
+                nextNanoGameModalDesktop.SetActive(true);
+                Debug.Log(ngsCtrl.name);
+                ngsCtrl.OnPrevButton += PrevNanoGame;
+                ngsCtrl.OnNextButton += NextNanoGame;
+                ngsCtrl.OnPlayButton += SetNextNanoGame;
+            }
+        }
+
+        private void HideNanoGameSelect()
+        {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                NanoGameSelectController ngsCtrl = nextNanoGameModalMobile.GetComponent<NanoGameSelectController>();
+                nextNanoGameModalMobile.SetActive(false);
+                
+                ngsCtrl.OnPrevButton -= PrevNanoGame;
+                ngsCtrl.OnNextButton -= NextNanoGame;
+                ngsCtrl.OnPlayButton -= SetNextNanoGame;
+            }
+            else
+            {
+                NanoGameSelectController ngsCtrl = nextNanoGameModalDesktop.GetComponent<NanoGameSelectController>();
+                nextNanoGameModalDesktop.SetActive(false);
+                
+                ngsCtrl.OnPrevButton -= PrevNanoGame;
+                ngsCtrl.OnNextButton -= NextNanoGame;
+                ngsCtrl.OnPlayButton -= SetNextNanoGame;
             }
         }
         
         private void SetNextNanoGame()
         {
-            startModalMobile.SetActive(false);
-            startModalDesktop.SetActive(false);
+            HideNanoGameSelect();
             
-            Debug.Log("NANOGAME " +_nanoGameIndex);
+            nanoGameContents[_nanoGameIndex - 1].nanoGameObject.SetActive(true);
             switch (_nanoGameIndex)
             {
                 case 1:
-                    nanoGame1.SetActive(true);
                     break;
                 case 2:
-                    nanoGame1.SetActive(false);
-                    nanoGame2.SetActive(true);
                     break;
                 case 3:
-                    nanoGame2.SetActive(false);
-                    nanoGame3.SetActive(true);
                     break;
                 case 4:
-                    nanoGame3.SetActive(false);
-                    nanoGame4.SetActive(true);
                     break;
                 case 5:
-                    nanoGame4.SetActive(false);
-                    nanoGame5.SetActive(true);
-                    nanoGame5.GetComponent<NanoGame5Controller>().OnFinishedGame += OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnFinishedGame += OnNanoGameFinished;
                     break;
                 case 6:
-                    nanoGame5.GetComponent<NanoGame5Controller>().OnFinishedGame -= OnNanoGameFinished;
-                    nanoGame5.SetActive(false);
-                    nanoGame6.SetActive(true);
                     break;
                 case 7:
-                    nanoGame6.SetActive(false);
-                    nanoGame7.SetActive(true);
                     break;
             }
         }
@@ -139,10 +213,12 @@ namespace Minigame3
             }
         }
         
-        private void OnNanoGameFinished()
+        private void OnNanoGameFinished() 
         {
-            toNextSceneStarted = true;
-            toNextSceneStartedTime = Time.time;
+            nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnFinishedGame -= OnNanoGameFinished;
+            nanoGameContents[_nanoGameIndex - 1].solved = true;
+            toNanoGameSelectStarted = true;
+            toNanoGameSelectStartedTime = Time.time;
         }
     }   
 }
