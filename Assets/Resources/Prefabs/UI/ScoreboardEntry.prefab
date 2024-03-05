@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5223464796815413685}
   - component: {fileID: 6519803575317781035}
   - component: {fileID: 5994850379294372354}
+  - component: {fileID: 501314677759559701}
   m_Layer: 5
   m_Name: jumpnrun
   m_TagString: Untagged
@@ -229,6 +230,25 @@ MonoBehaviour:
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &501314677759559701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795714636242004718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &2175633633595732435
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +262,7 @@ GameObject:
   - component: {fileID: 2294845059273309823}
   - component: {fileID: 2389808933732840588}
   - component: {fileID: 3877968134306026940}
+  - component: {fileID: 5769820538368302505}
   m_Layer: 0
   m_Name: ScoreboardEntry
   m_TagString: Untagged
@@ -352,6 +373,25 @@ MonoBehaviour:
   scoreTextTotal: {fileID: 929841709159292989}
   rankText: {fileID: 0}
   background: {fileID: 0}
+--- !u!114 &5769820538368302505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175633633595732435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &2408773242253001675
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +770,7 @@ GameObject:
   - component: {fileID: 4893592683763469558}
   - component: {fileID: 6906731397290756852}
   - component: {fileID: 5309541390665103804}
+  - component: {fileID: 9079476210017690807}
   m_Layer: 5
   m_Name: minigames
   m_TagString: Untagged
@@ -874,6 +915,25 @@ MonoBehaviour:
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &9079476210017690807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634140825039867352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &3798184927719671839
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +1026,7 @@ GameObject:
   - component: {fileID: 822446107752372993}
   - component: {fileID: 5272056630792826188}
   - component: {fileID: 9140313287832163787}
+  - component: {fileID: 5054401978908805934}
   m_Layer: 5
   m_Name: name
   m_TagString: Untagged
@@ -1102,12 +1163,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fontColorAlpha: 1
-  _fontColor: 1
+  _fontColor: 2
   _borderColor: 0
   _fontDetails: 4
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &5054401978908805934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888758297559886422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &4447618366991574498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,10 +1223,10 @@ RectTransform:
   - {fileID: 1626474580341618056}
   m_Father: {fileID: 8155229924926328075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 261.5, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5325825149798918955
 CanvasRenderer:
@@ -1392,6 +1472,7 @@ GameObject:
   - component: {fileID: 4619678577743092404}
   - component: {fileID: 4011922673789790440}
   - component: {fileID: 5622099338486339713}
+  - component: {fileID: 8472614570195860409}
   m_Layer: 0
   m_Name: Wrapper
   m_TagString: Untagged
@@ -1457,6 +1538,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8472614570195860409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5781399289465042139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &6508254778514478688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,6 +1570,7 @@ GameObject:
   - component: {fileID: 335451231009091066}
   - component: {fileID: 3254694476115497365}
   - component: {fileID: 8394930472779642498}
+  - component: {fileID: 5886377268392924879}
   m_Layer: 0
   m_Name: ScoreboardEntry
   m_TagString: Untagged
@@ -1568,6 +1669,25 @@ MonoBehaviour:
   scoreTextTotal: {fileID: 8298372228155296971}
   rankText: {fileID: 6212895520529620976}
   background: {fileID: 2294845059273309823}
+--- !u!114 &5886377268392924879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6508254778514478688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &6947252066435325522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1657,6 +1777,7 @@ GameObject:
   - component: {fileID: 6167792416219711159}
   - component: {fileID: 5351278213154499148}
   - component: {fileID: 3127335665382184594}
+  - component: {fileID: 8680290882674712522}
   m_Layer: 5
   m_Name: jumpnrunscore
   m_TagString: Untagged
@@ -1793,12 +1914,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fontColorAlpha: 0.4
-  _fontColor: 15
+  _fontColor: 18
   _borderColor: 0
   _fontDetails: 4
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &8680290882674712522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7383085529772659147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1
 --- !u!1 &7404939999596644895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +2105,7 @@ GameObject:
   - component: {fileID: 6622324922680925184}
   - component: {fileID: 9138475948899975767}
   - component: {fileID: 5831072058411158501}
+  - component: {fileID: 5240000488617751420}
   m_Layer: 5
   m_Name: minigamesscore
   m_TagString: Untagged
@@ -2101,9 +2242,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fontColorAlpha: 0.4
-  _fontColor: 15
+  _fontColor: 18
   _borderColor: 0
   _fontDetails: 4
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &5240000488617751420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783399630459686375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 0
+  heightScreendesign: 0
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 1

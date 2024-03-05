@@ -18,6 +18,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private bool _isDecaying = true;
     private bool _isBoosting = false;
     private bool _dead = false;
+    private bool _isInit = true;
 
     private float _multiplier = 1f;
     
@@ -59,7 +60,14 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
             
             if (_rt)
             {
-                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, reference.sizeDelta.x), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear);
+                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, reference.sizeDelta.x), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
+                {
+                    if (_isInit)
+                    {
+                        GameObject.Find("Player").GetComponent<PlayerController>().StartRunning();
+                    }
+                };
+                _isInit = false;
             }
         }
     }

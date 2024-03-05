@@ -1,16 +1,19 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Events;
 using Helpers;
 using UnityEngine;
 using JumpNRun;
 using Models;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 {
     private Rigidbody2D _rb;
-    private float _speed;
+    private float _baseSpeed;
+    private float _speed = 0;
     public bool isColliding = false;
     public bool isStill = false;
 
@@ -32,7 +35,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _speed = Settings.MovementSpeed;
+        _baseSpeed = Settings.MovementSpeed;
         _animator = GetComponent<Animator>();
     }
 
@@ -40,6 +43,12 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     {
         _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
         SceneController.Instance.dieEvent.AddListener(UseDie);
+    }
+
+    public void StartRunning()
+    {
+        StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
+            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
     }
 
     // Update is called once per frame
@@ -60,7 +69,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             Debug.Log("die now");
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButtonDown(0))) && !_mustFall)
+        if ((Input.GetKeyDown(KeyCode.Space) ||
+             (Input.touchCount > 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Began)) && !_mustFall)
         {
             if (!_isGrounded) _mustFall = true;
             _isGrounded = false;
@@ -69,8 +79,13 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _rb.velocity = Vector2.up * 8f;
         }
 
-        if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && Input.GetMouseButton(0))) && _isJumping)
+        if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 &&
+                                             (Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Stationary ||
+                                              Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Moved))) &&
+            _isJumping)
         {
+            if (_mustFall) return;
+
             _animator.SetTrigger("jump");
             if (_jumpTimeCounter > 0)
             {
@@ -83,7 +98,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) || (Input.touchCount == 0 && Input.GetMouseButtonUp(0)))
+        if (Input.GetKeyUp(KeyCode.Space) ||
+            (Input.touchCount == 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Ended))
         {
             NowFalling();
         }
@@ -92,7 +108,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private void NowFalling()
     {
         _isJumping = false;
-        _rb.gravityScale = 2f;
+        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 2f,
+            (progress, start, end) => _rb.gravityScale = Mathf.Lerp(start, end, progress)));
     }
 
     private async void OnTriggerEnter2D(Collider2D other)

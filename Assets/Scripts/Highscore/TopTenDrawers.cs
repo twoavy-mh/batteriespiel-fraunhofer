@@ -14,7 +14,8 @@ public class TopTenDrawers : MonoBehaviour
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
         GetComponent<RectTransform>().sizeDelta =
-            new Vector2(583, SceneController.Instance.leaderboard.entries.Length * (140 + 27));
+            new Vector2(Utility.GetDevice() == Device.Desktop ? 583 : 583 * Settings.RESIZE_FACTOR, SceneController.Instance.leaderboard.entries.Length * (
+                (Utility.GetDevice() == Device.Desktop ? 140 : 140 * Settings.RESIZE_FACTOR) + 27));
         foreach (LeaderboardEntry leaderboardEntry in SceneController.Instance.leaderboard.entries)
         {
             GameObject block = Instantiate(blockPrefab, transform);
