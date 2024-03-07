@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,12 @@ namespace Minigame3
         public event Action OnSkipGame;
         
         public Button skipButton;
+
+        public Transform nanoGame1ParentTarget;
+        public GameObject nanoGame1Mobile;
+        public GameObject nanoGame1Desktop;
+
+        private GameObject _ng1Instance;
         
         private bool _gameStarted = false;
         private bool _gameFinished = false;
@@ -21,12 +28,15 @@ namespace Minigame3
         {
             skipButton.onClick.AddListener(SkipGame);
             
+            InstantiateGame();
+            
             _gameStarted = true;
         }
         
         private void StopGame()
         {
             skipButton.onClick.RemoveListener(SkipGame);
+            _ng1Instance.GetComponent<NanoGame1MixtureController>().OnFinished -= OnGameFinished;
             _gameFinished = true;
         }
 
@@ -40,6 +50,12 @@ namespace Minigame3
         {
             StopGame();
             OnSkipGame?.Invoke();
+        }
+        
+        private void InstantiateGame()
+        {
+            _ng1Instance = Instantiate(Application.isMobilePlatform? nanoGame1Mobile:nanoGame1Desktop, nanoGame1ParentTarget);
+            _ng1Instance.GetComponent<NanoGame1MixtureController>().OnFinished += OnGameFinished;
         }
     }
 }
