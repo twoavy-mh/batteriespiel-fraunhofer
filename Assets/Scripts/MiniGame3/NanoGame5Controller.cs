@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Minigame3
 {
     public class NanoGame5Controller : MonoBehaviour
     {
         public event Action OnFinishedGame;
+        public event Action OnSkipGame;
+        
+        public Button skipButton;
         
         public GameObject cutterSpawnPoint;
         public GameObject cutterPrefabMobile;
@@ -32,6 +36,9 @@ namespace Minigame3
             {
                 InstantiateNewCutter(startOffset);
             }
+            
+            skipButton.onClick.AddListener(SkipGame);
+            
             _gameStarted = true;
         }
 
@@ -53,9 +60,10 @@ namespace Minigame3
                 }
             }
         }
-        
-        void OnGameFinished()
+
+        private void StopGame()
         {
+            skipButton.onClick.RemoveListener(SkipGame);
             _gameFinished = true;
             
             foreach (GameObject cutter in _beltObjects)
@@ -63,8 +71,18 @@ namespace Minigame3
                 if (cutter.name.StartsWith("Cutter"))
                     cutter.GetComponentInChildren<SetPointToSplinePosition>().OnFinishedCutting -= OnGameFinished;
             }
-            
+        }
+
+        void OnGameFinished()
+        {
+            StopGame();
             OnFinishedGame?.Invoke();
+        }
+        
+        private void SkipGame()
+        {
+            StopGame();
+            OnSkipGame?.Invoke();
         }
 
         private void MoveCutterGame(GameObject cutter)

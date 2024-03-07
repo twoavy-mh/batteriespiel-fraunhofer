@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Helpers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
-using UnityEngine.ResourceManagement.AsyncOperations;
-
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -36,6 +32,8 @@ namespace UI
             }
 
             Utility.GetTranslatedText(_translationKey, s => GetComponent<TMP_Text>().text = s);
+            
+            LayoutRebuilder.ForceRebuildLayoutImmediate(transform.GetComponent<RectTransform>());
         }
     }
    

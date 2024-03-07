@@ -55,16 +55,21 @@ namespace Minigame3
                 if (toNanoGameSelectStartedTime + timerToNanoGameSelect < Time.time)
                 {
                     toNanoGameSelectStarted = false;
-                    if (_nanoGameIndex >= 7)
-                    {
-                        SetEndscreen();
-                    }
-                    else
-                    {
-                        _nanoGameIndex++;
-                        SetNanoGameSelect();
-                    }
+                    SetNextOrEndscreen();
                 }
+            }
+        }
+
+        private void SetNextOrEndscreen()
+        {
+            if (_nanoGameIndex >= 7)
+            {
+                SetEndscreen();
+            }
+            else
+            {
+                _nanoGameIndex++;
+                SetNanoGameSelect();
             }
         }
 
@@ -74,7 +79,15 @@ namespace Minigame3
             if (_nanoGameIndex < 7)
             {
                 _nanoGameIndex++;
-                nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+                if (Utility.GetDevice() == Device.Mobile)
+                {                
+                    nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+
+                }
+                else
+                {
+                    nextNanoGameModalDesktop.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+                }
             }
         }
         
@@ -83,7 +96,15 @@ namespace Minigame3
             if (_nanoGameIndex > 1)
             {
                 _nanoGameIndex--;
-                nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1], _nanoGameIndex - 1);
+                if (Utility.GetDevice() == Device.Mobile)
+                {                
+                    nextNanoGameModalMobile.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+
+                }
+                else
+                {
+                    nextNanoGameModalDesktop.GetComponent<NanoGameSelectController>().SetContent(nanoGameContents[_nanoGameIndex - 1],_nanoGameIndex - 1);
+                }
             }
         }
         
@@ -123,7 +144,10 @@ namespace Minigame3
         {
             foreach (NanoGameContent nanoGameContent in nanoGameContents)
             {
-                nanoGameContent.nanoGameObject.SetActive(false);
+                if (nanoGameContent.nanoGameObject)
+                {
+                    nanoGameContent.nanoGameObject.SetActive(false);
+                }
             }
             NanoGameSelect();
         }
@@ -176,49 +200,111 @@ namespace Minigame3
         
         private void SetNextNanoGame()
         {
+            if (!nanoGameContents[_nanoGameIndex - 1].nanoGameObject)
+            {
+                nanoGameContents[_nanoGameIndex - 1].solved = true;
+                NextNanoGame();
+                return;
+            }
+            
             HideNanoGameSelect();
             
             nanoGameContents[_nanoGameIndex - 1].nanoGameObject.SetActive(true);
             switch (_nanoGameIndex)
             {
                 case 1:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame1Controller>().OnFinishedGame += OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame1Controller>().OnSkipGame += OnNanoGameSkipped;
                     break;
                 case 2:
                     break;
                 case 3:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame3Controller>().OnFinishedGame += OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame3Controller>().OnSkipGame += OnNanoGameSkipped;
                     break;
                 case 4:
                     break;
                 case 5:
                     nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnFinishedGame += OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnSkipGame += OnNanoGameSkipped;
                     break;
                 case 6:
                     break;
                 case 7:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame7Controller>().OnFinishedGame += OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame7Controller>().OnSkipGame += OnNanoGameSkipped;
                     break;
             }
         }
         
-        private void SetEndscreen()
+        private void RemoveCurrentListener()
         {
-            if (Utility.GetDevice() == Device.Desktop)
+            switch (_nanoGameIndex)
             {
-                finishedModalDesktop.SetActive(true);
-                //finishedModalDesktop.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, _completedTime);
+                case 1:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame1Controller>().OnFinishedGame -= OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame1Controller>().OnSkipGame -= OnNanoGameSkipped;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame3Controller>().OnFinishedGame -= OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame3Controller>().OnSkipGame -= OnNanoGameSkipped;
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnFinishedGame -= OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnSkipGame -= OnNanoGameSkipped;
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame7Controller>().OnFinishedGame -= OnNanoGameFinished;
+                    nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame7Controller>().OnSkipGame -= OnNanoGameSkipped;
+                    break;
             }
-            else
-            {
-                finishedModalMobile.SetActive(true);
-                //finishedModalMobile.GetComponent<MicrogameFinished>().SetScore(correctlyAnswered, answerCount, _completedTime);
-            }
+        }
+        
+        private void OnNanoGameSkipped() 
+        {
+            RemoveCurrentListener();
+            _nanoGameIndex++;
+            SetNextOrEndscreen();
         }
         
         private void OnNanoGameFinished() 
         {
-            nanoGameContents[_nanoGameIndex - 1].nanoGameObject.GetComponent<NanoGame5Controller>().OnFinishedGame -= OnNanoGameFinished;
+            RemoveCurrentListener();
             nanoGameContents[_nanoGameIndex - 1].solved = true;
             toNanoGameSelectStarted = true;
             toNanoGameSelectStartedTime = Time.time;
         }
+        
+        private void SetEndscreen()
+        {
+            int solvedCount = 0;
+            
+            foreach (NanoGameContent nanoGameContent in nanoGameContents)
+            {
+                if (nanoGameContent.solved)
+                {
+                    solvedCount++;
+                }
+            }
+            
+            
+            if (Utility.GetDevice() == Device.Desktop)
+            {
+                finishedModalDesktop.SetActive(true);
+                finishedModalDesktop.GetComponent<MinigameFinished>().SetScore(solvedCount, nanoGameContents.Length);
+            }
+            else
+            {
+                finishedModalMobile.SetActive(true);
+                finishedModalMobile.GetComponent<MinigameFinished>().SetScore(solvedCount, nanoGameContents.Length);
+            }
+        }
+
     }   
 }

@@ -18,6 +18,7 @@ namespace Minigame3
         public Button prevButton;
         public Button nextButton;
         public Button playButton;
+        public SelfTranslatingText playButtonLabel;
         
         public SelfTranslatingText title;
         public SelfTranslatingText body;
@@ -44,8 +45,7 @@ namespace Minigame3
             title.translationKey = nanoGameContent.titleKey;
             body.translationKey = nanoGameContent.bodyKey;
             image.sprite = nanoGameContent.nanoImage;
-            
-            Debug.Log("CURRENT INDEX IS " + index);
+            playButtonLabel.translationKey = nanoGameContent.playButtonLabelKey;
             SetCurrentIndex(index);
         }
         
@@ -55,9 +55,9 @@ namespace Minigame3
             
             for (int icsIndex = 0; icsIndex < imageColorSetters.Length; icsIndex++)
             {
-                Debug.Log(imageColorSetters[icsIndex].name);
-                Debug.Log(icsIndex <= index? 1f:0f);
-                imageColorSetters[icsIndex].UpdateColor(Tailwind.Yellow3, icsIndex <= index? 1f:0f);
+                float opacity = icsIndex <= index? 1f:0f;
+                imageColorSetters[icsIndex].opacity = opacity;
+                imageColorSetters[icsIndex].UpdateColor(Tailwind.Yellow3, opacity);
             }
         }
         
