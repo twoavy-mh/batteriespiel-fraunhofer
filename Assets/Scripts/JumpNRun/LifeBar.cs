@@ -23,6 +23,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private float _multiplier = 1f;
     
     public float maxHealth = 330f;
+    public float efficiency = 1f;
     public RectTransform reference;
     public Image borderImage;
     private Image _bar;
@@ -60,7 +61,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
             
             if (_rt)
             {
-                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth, 0, reference.sizeDelta.x), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
+                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth * efficiency, 0, reference.sizeDelta.x * efficiency), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
                 {
                     if (_isInit)
                     {
@@ -74,6 +75,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
     void Start()
     {
+        Debug.Log("Lifebar mounted");
+        
         _health = maxHealth * startWithHealthPercent;
         _bar = GetComponent<Image>();
         SetColor(GetColor(), false);
@@ -115,10 +118,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         switch (c)
         {
             case Collectable.BlueLightning:
+                efficiency -= 0.02f;
                 duration = 2f;
                 increaseBy = 5f;
                 break;
             case Collectable.YellowLightning:
+                efficiency -= 0.05f;
                 duration = 2f;
                 increaseBy = 5f;
                 break;

@@ -12,7 +12,7 @@ namespace Events
 
     public enum Collectable
     {
-        Lithium,
+        LevelSpecific,
         BlueLightning,
         YellowLightning,
     }

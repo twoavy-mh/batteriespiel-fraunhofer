@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Events;
 using Models;
@@ -36,6 +37,27 @@ namespace Helpers
         
         public bool arAvailable;
         public PlayerDetails currentGameState;
+
+        public int TotalMicrogameScore
+        {
+            get
+            {
+                return currentGameState.results.Sum((x) => x.result);
+            }
+        }
+        
+        public int TotalJumpNRunScore
+        {
+            get
+            {
+                return currentGameState.results.Sum((x) => x.jumpAndRunResult);
+            }
+        }
+        
+        public int TotalScore
+        {
+            get => TotalMicrogameScore + TotalJumpNRunScore;
+        }
         
         public void SetVariableAndSave<T>(ref T variable, T value)
         {

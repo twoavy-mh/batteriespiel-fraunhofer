@@ -60,7 +60,7 @@ public class FloorChunker : MonoBehaviour
         int[] randomChunkToSpawnObstacle = new int[(int)GameState.Instance.GetCurrentMicrogame() + 2];
         for (int j = 0; j < randomChunkToSpawnObstacle.Length; j++)
         {
-            int a = UnityEngine.Random.Range(0, chunkCount);
+            int a = UnityEngine.Random.Range(2, chunkCount - 1);
             if (randomChunkToSpawnObstacle.Contains(a)) continue;
             randomChunkToSpawnObstacle[j] = a;
         }

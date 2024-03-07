@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
@@ -13,6 +14,7 @@ namespace Minigame4
         
         public GameObject finishedModal;
         public HoveringOverDropzoneEvent hoveringOverDropzoneEvent;
+        public int finishedCount = 0;
         
         public static SceneController Instance
         {
@@ -28,14 +30,20 @@ namespace Minigame4
         {
             hoveringOverDropzoneEvent ??= new HoveringOverDropzoneEvent();
             _instance = this;
+            
+        }
+
+        private void Start()
+        {
+            GameObject.Find("GoDown").GetComponent<Timebar>().StartTimer();
         }
 
         public void DroppedCorrectly(string field)
         {
-            Debug.Log(field);
+            finishedCount++;
         }
 
-        public void Die()
+        public void Die(int remainingTime)
         {
             
         }

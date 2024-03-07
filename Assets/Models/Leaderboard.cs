@@ -14,7 +14,7 @@ namespace Models
         
         private Leaderboard(LeaderboardArray entries)
         {
-            this.entries = entries.sorted;
+            this.entries = entries.users;
             this.isMeInTop10 = this.entries.Any((entry) => entry.isMe);
         }
         
@@ -37,11 +37,11 @@ namespace Models
     [Serializable]
     public class LeaderboardArray
     {
-        public LeaderboardEntry[] sorted;
+        public LeaderboardEntry[] users;
         
         public static explicit operator LeaderboardArray(string v)
         {
-            LeaderboardArray casted = JsonUtility.FromJson<LeaderboardArray>("{\"sorted\":" + v + "}");
+            LeaderboardArray casted = JsonUtility.FromJson<LeaderboardArray>(v);
             return casted;
         }
     }

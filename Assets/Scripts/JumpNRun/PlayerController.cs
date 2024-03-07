@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Events;
 using Helpers;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private float _speed = 0;
     public bool isColliding = false;
     public bool isStill = false;
+    private bool _finished = false;
 
     private bool _isGrounded = true;
     private bool _mustFall = false;
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void Update()
     {
-        if (isColliding)
+        if (isColliding || _finished || _dead)
         {
             return;
         }
@@ -121,33 +123,29 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 case "Killzone":
                     SceneController.Instance.dieEvent.Invoke();
                     break;
-                case "Lithium":
-                    FadeCollectable(other.GetComponent<SpriteRenderer>());
-                    SceneController.Instance.collectEvent.Invoke(Collectable.Lithium);
-                    //GameState.Instance.Collect(50);
-                    break;
                 case "BlueLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
-                    //GameState.Instance.Collect(100);
                     break;
                 case "YellowLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
-                    //GameState.Instance.Collect(200);
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
                     break;
                 case "Target":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     _collectedCount++;
+                    SceneController.Instance.collectEvent.Invoke(Collectable.LevelSpecific);
                     if (_collectedCount == 5)
                     {
-                        MicrogameState m = new MicrogameState();
-                        m.game = GameState.Instance.GetCurrentMicrogame();
-                        m.unlocked = true;
-                        m.finished = false;
-                        m.result = _scoreController.GetScoreForApi();
-                        await Api.SetGame(m, GameState.Instance.currentGameState.id);
-                        SceneManager.LoadScene($"MicroGame{((int)m.game) + 1}Onboard");
+                        _finished = true;
+                        StartCoroutine(Utility.AnimateAnything(2f, _speed, 0,
+                            (progress, start, end) => _speed = Mathf.Lerp(start, end, progress),
+                            () =>
+                            {
+                                Debug.Log("Starting final callbacl");
+                                StartCoroutine(WaitUntiLSerialized());
+                            }));
+                        
                     }
 
                     break;
@@ -155,6 +153,27 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         }
     }
 
+    private IEnumerator WaitUntiLSerialized()
+    {
+        Task<MicrogameState> t = SerializeScore();
+        yield return new WaitUntil(() => t.IsCompleted);
+        Debug.Log("done");
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene($"MicroGame{((int)t.Result.game) + 1}Onboard");
+    }
+
+    private async Task<MicrogameState> SerializeScore()
+    {
+        MicrogameState m = new MicrogameState();
+        m.game = GameState.Instance.GetCurrentMicrogame();
+        m.unlocked = true;
+        m.finished = false;
+        m.result = 0;
+        m.jumpAndRunResult = _scoreController.GetScoreForApi();
+        GameState.Instance.currentGameState = await Api.SetGame(m, GameState.Instance.currentGameState.id);
+        return m;
+    }
+    
     private void FadeCollectable(SpriteRenderer s)
     {
         StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f,

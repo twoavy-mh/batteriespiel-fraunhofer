@@ -64,6 +64,7 @@ namespace Models
         public bool unlocked;
         public bool finished;
         public int result;
+        public int jumpAndRunResult;
 
         public override string ToString()
         {
@@ -72,6 +73,7 @@ namespace Models
                    ", unlocked=" + unlocked +
                    ", finished=" + finished +
                    ", result=" + result +
+                   ", jumpNRunResult=" + jumpAndRunResult +
                    "}";
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -7,13 +8,31 @@ namespace Minigame4
 {
     public class Timebar : MonoBehaviour
     {
+        public int durationInSeconds = 120;
+        private int _remainingTime;
+
+        private void Awake()
+        {
+            _remainingTime = durationInSeconds;
+        }
+
         public void StartTimer()
         {
-            transform.GetChild(0).GetComponent<RectTransform>().DOSizeDelta(new Vector2(0f, 20f), 10f).SetEase(Ease.Linear)
-                .SetDelay(2f).onComplete += () =>
+            transform.GetChild(0).GetComponent<RectTransform>().DOSizeDelta(new Vector2(0f, 20f), durationInSeconds).SetEase(Ease.Linear)
+                .onComplete += () =>
             {
-                SceneController.Instance.Die();
+                SceneController.Instance.Die(0);
             };
+        }
+        
+        private void SubtractFromRemainingTime()
+        {
+            _remainingTime--;
+        }
+
+        private int Finished()
+        {
+            return _remainingTime;
         }
     }    
 }

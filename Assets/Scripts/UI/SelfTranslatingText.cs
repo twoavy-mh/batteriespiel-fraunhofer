@@ -31,9 +31,14 @@ namespace UI
                 return;
             }
 
-            Utility.GetTranslatedText(_translationKey, s => GetComponent<TMP_Text>().text = s);
-            
-            LayoutRebuilder.ForceRebuildLayoutImmediate(transform.GetComponent<RectTransform>());
+            Utility.GetTranslatedText(_translationKey, s =>
+            {
+                try
+                {
+                    GetComponent<TMP_Text>().text = s;
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(transform.GetComponent<RectTransform>()); 
+                } catch {}
+            });
         }
     }
    

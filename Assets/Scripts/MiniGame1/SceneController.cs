@@ -98,7 +98,7 @@ namespace Minigame1
             {
                 PlayerDetails p = await Api.SetGame(
                     new MicrogameState()
-                        { unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1 },
+                        { unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1, jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult },
                     GameState.Instance.currentGameState.id);
                 GameState.Instance.currentGameState = p;
                 return true;

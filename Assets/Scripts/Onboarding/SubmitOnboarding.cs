@@ -26,7 +26,7 @@ namespace Onboarding
             if (p != null)
             {
                 await Api.ReserializeGamestate(p);
-                SceneManager.LoadScene("JumpNRun");
+                SceneManager.LoadScene("MainMenu");
             }
         }
     }

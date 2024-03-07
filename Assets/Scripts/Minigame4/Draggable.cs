@@ -34,7 +34,10 @@ namespace Minigame4
             canvas = c.GetComponent<Canvas>();
             _raycaster = c.GetComponent<GraphicRaycaster>();
 
-            transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().sprite = battery;
+            Image i = transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>();
+
+            i.sprite = battery;
+            i.SetNativeSize();
 
             GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
             foreach (GameObject go in all)
@@ -54,7 +57,6 @@ namespace Minigame4
                 tmpColor.a = 0.5f;
                 transform.GetChild(1).GetComponent<TMP_Text>().color = tmpColor;
                 StartCoroutine(ToFake(tmpColor));
-                Destroy(transform.GetChild(2).gameObject);
             }
             else
             {

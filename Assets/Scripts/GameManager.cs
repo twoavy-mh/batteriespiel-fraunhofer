@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private async void Awake()
     {
-        PlayerPrefs.DeleteKey("uuid");
-        PlayerPrefs.DeleteKey("token");
         if (!skipSerializations)
         {
             if (!PlayerPrefs.GetString("uuid").Empty())
