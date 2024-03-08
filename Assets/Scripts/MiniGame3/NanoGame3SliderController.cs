@@ -1,5 +1,3 @@
-using System;
-using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -7,25 +5,20 @@ using UnityEngine.EventSystems;
 namespace Minigame3
 {
     
-    public class NanoGame1SliderController : MonoBehaviour, IPointerUpHandler
+    public class NanoGame3SliderController : MonoBehaviour, IPointerUpHandler
     {
-        public event Action OnValueChange;
-
-        public int correctSliderValue = 10;
-        public GameObject icon;
-        public ImageColorSetter fillColor;
+        public float correctSliderValue = .5f;
 
         private Slider _sliderComponent;
         private bool _isCorrect = false;
         private bool _isSolved = false;
 
-        private int sliderOffsetValue = 2;
+        private float sliderOffsetValue = 0.05f;
 
         // Start is called before the first frame update
         void Start()
         {
             _sliderComponent = GetComponent<Slider>();
-            _sliderComponent.onValueChanged.AddListener(ValueChange);
         }
 
         // Update is called once per frame
@@ -35,12 +28,10 @@ namespace Minigame3
                 _sliderComponent.value >= correctSliderValue - sliderOffsetValue)
             {
                 _isCorrect = true;
-                icon.SetActive(true);
             }
             else
             {
                 _isCorrect = false;
-                icon.SetActive(false);
             }
         }
 
@@ -56,7 +47,6 @@ namespace Minigame3
         {
             _isSolved = true;
             _sliderComponent.interactable = false;
-            fillColor.UpdateColor(Tailwind.Yellow3, 1f);
         }
 
         public float GetCurrentValue()
@@ -64,24 +54,9 @@ namespace Minigame3
             return _sliderComponent.value;
         }
 
-        public bool GetIsCorrect()
-        {
-            return _isCorrect;
-        }
-
         public bool GetIsSolved()
         {
             return _isSolved;
-        }
-        
-        public void SetCurrentValue(float value)
-        {
-            _sliderComponent.value = value;
-        }
-        
-        private void ValueChange(float value)
-        {
-            OnValueChange?.Invoke();
         }
     }
 }
