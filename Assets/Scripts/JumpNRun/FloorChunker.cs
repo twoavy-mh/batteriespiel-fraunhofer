@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Helpers;
 using UnityEngine;
@@ -57,13 +58,7 @@ public class FloorChunker : MonoBehaviour
         Array.Clear(_chunks, 0, _chunks.Length);
         float xOffset = 0;
 
-        int[] randomChunkToSpawnObstacle = new int[(int)GameState.Instance.GetCurrentMicrogame() + 2];
-        for (int j = 0; j < randomChunkToSpawnObstacle.Length; j++)
-        {
-            int a = UnityEngine.Random.Range(2, chunkCount - 1);
-            if (randomChunkToSpawnObstacle.Contains(a)) continue;
-            randomChunkToSpawnObstacle[j] = a;
-        }
+        bool[] randomChunkToSpawnObstacle = RandomPlacer((int)GameState.Instance.GetCurrentMicrogame() + 2, chunkCount);
         
         for (int i = 0; i < chunkCount; i++)
         {
@@ -74,7 +69,7 @@ public class FloorChunker : MonoBehaviour
             SpriteRenderer s = currentChunk.transform.GetChild(0).GetComponent<SpriteRenderer>();
             s.sortingOrder = -i;
             _chunks[i] = currentChunk;
-            if (randomChunkToSpawnObstacle.Contains(i))
+            if (randomChunkToSpawnObstacle[i])
             {
                 GameObject obstacle = Instantiate(_obstacle, new Vector3(i * 3.42f + _blockCount * (
                     (chunkCount + 2) * ChunkSize), -3.5f, 0), Quaternion.identity);
@@ -101,5 +96,43 @@ public class FloorChunker : MonoBehaviour
         Instantiate(target, new Vector3(randomX, randomY, 0), Quaternion.identity);
         col.tag = "Floor";
         _blockCount++;
+    }
+
+    private bool[] RandomPlacer(int n, int arrLength)
+    {
+        int[] array = new int[arrLength];
+        if (n >= array.Length - 2)
+        {
+            throw new ArgumentException("n must be less than the length of the array minus 2.");
+        }
+        
+        for(int i = 0; i < array.Length; i++)
+            array[i] = 0;
+
+        List<int> indices = new List<int>();
+        for (int i = 1; i < array.Length - 1; i++)
+        {
+            indices.Add(i);
+        }
+
+        System.Random rand = new System.Random();
+        for (int i = 0; i < n; i++)
+        {
+            int randomIndex = rand.Next(indices.Count);
+            array[indices[randomIndex]] = 1;
+            indices.RemoveAt(randomIndex);
+        }
+
+        return ToBoolArray(array);
+    }
+
+    private bool[] ToBoolArray(int[] intArray)
+    {
+        bool[] boolArray = new bool[intArray.Length];
+        for (int i = 0; i < intArray.Length; i++)
+        {
+            boolArray[i] = intArray[i] == 1;
+        }
+        return boolArray;
     }
 }
