@@ -180,9 +180,15 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     private IEnumerator EmitBuyableAgain(int startframe, int endframe)
     {
         yield return new WaitForSeconds(secondsPerTimeslot);
-        _vp.Play();
+        if (!SceneController.Instance.GetFinished())
+        {
+            _vp.Play();    
+        }
         yield return new WaitForSeconds((endframe - startframe) / _vp.frameRate);
-        SceneController.Instance.showWhatYouBuyEvent.Invoke(false);
+        if (!SceneController.Instance.GetFinished())
+        {
+            SceneController.Instance.showWhatYouBuyEvent.Invoke(false);    
+        }
     }
     
     public TimeslotEntry GetCurrentTimeslot()

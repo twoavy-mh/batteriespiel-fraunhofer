@@ -11,22 +11,29 @@ namespace MainMenu
     {
         private void Start()
         {
+            Debug.Log(GameState.Instance.currentGameState.ToString());
             GetComponent<Button>().onClick.AddListener(StartIfStartable);
         }
 
         private void StartIfStartable()
         {
+            
             if (GameState.Instance.currentGameState.results.Length == 0)
             {
+                Debug.Log("in 1?");
                 SceneManager.LoadScene("JumpNRun");
                 return;
             }
+
+            
             if (GameState.Instance.currentGameState.results.Last().finished)
             {
+                Debug.Log("in 2?");
                 SceneManager.LoadScene("JumpNRun");
             }
             else
             {
+                Debug.Log("in 3?");
                 Debug.Log($"Now do minigame {GameState.Instance.currentGameState.results.Length - 1}");
             }
         }

@@ -49,6 +49,7 @@ namespace Minigame2
                 s.finished = true;
                 s.unlocked = true;
                 s.result = score;
+                s.jumpAndRunResult = GameState.Instance.currentGameState.results[1].jumpAndRunResult;
                 s.game = GameState.Microgames.Microgame2;
                 GameState.Instance.currentGameState = await Api.SetGame(s, GameState.Instance.currentGameState.id);
             }

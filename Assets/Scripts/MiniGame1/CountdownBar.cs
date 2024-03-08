@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBuyEvent
+public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBuyEvent, MicrogameFinishedEvent.IUseMicrogameFinished
 {
 
     public int segments = 10;
@@ -19,6 +19,7 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
     void Start()
     {
         SceneController.Instance.showWhatYouBuyEvent.AddListener(UseShowWhatYouBuyEvent);
+        SceneController.Instance.microgameFinishedEvent.AddListener(UseMicrogameFinishedEvent);
         
         _offsetPerDay = GetComponent<RectTransform>().sizeDelta.x / segments;
         VideoPlayer vp = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
@@ -47,6 +48,14 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
         {
             RectTransform t = GetComponent<RectTransform>();
             t.DOSizeDelta(new Vector2(t.sizeDelta.x - _offsetPerDay, t.sizeDelta.y), _timePerDay).SetEase(Ease.Linear);
+        }
+    }
+
+    public void UseMicrogameFinishedEvent(GameState.Microgames microgame)
+    {
+        if (microgame == GameState.Microgames.Microgame1)
+        {
+            DOTween.Kill(GetComponent<RectTransform>());
         }
     }
 }

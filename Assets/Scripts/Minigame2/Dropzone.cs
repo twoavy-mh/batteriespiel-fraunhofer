@@ -10,14 +10,14 @@ namespace Minigame2
     {
         public string requires;
 
-        public void OnDrop(PointerEventData eventData)
+        public async void OnDrop(PointerEventData eventData)
         {
             if (LayerMask.NameToLayer("Player").Equals(eventData.pointerDrag.layer))
             {
                 Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
                 if (d.requiredDropZone.Equals(requires))
                 {
-                    SceneController.Instance.DroppedCorrectly(requires);
+                    await SceneController.Instance.DroppedCorrectly(requires);
                     eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
                     d.Lock();
                     d.SwitchToWhite();

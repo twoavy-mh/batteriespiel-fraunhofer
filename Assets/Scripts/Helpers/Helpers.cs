@@ -291,7 +291,7 @@ namespace Helpers
 
     public static class Api
     {
-        private static readonly HttpClient APIClient = new()
+        public static readonly HttpClient APIClient = new()
         {
             BaseAddress = new Uri("https://batterygame.web.fec.ffb.fraunhofer.de/"),
             DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
@@ -327,7 +327,7 @@ namespace Helpers
             }
             catch (HttpRequestException e)
             {
-                Debug.Log(e.Message);
+                new Toast(e.Message).Show();
                 return null;
             }
         }
@@ -343,7 +343,7 @@ namespace Helpers
             }
             catch (HttpRequestException e)
             {
-                Debug.Log(e.Message);
+                new Toast(e.Message).Show();
                 return null;
             }
         }
@@ -354,7 +354,15 @@ namespace Helpers
             HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
                 new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
-            return (PlayerRegistration)await response.Content.ReadAsStringAsync();
+            try
+            {
+                return (PlayerRegistration)await response.Content.ReadAsStringAsync();    
+            } catch (HttpRequestException e)
+            {
+                new Toast(e.Message).Show();
+            }
+
+            return null;
         }
 
         public static async Task<PlayerDetails> SetGame(MicrogameState m, string playerId)
@@ -365,16 +373,31 @@ namespace Helpers
             response.EnsureSuccessStatusCode();
 
             await response.Content.ReadAsStringAsync();
-            PlayerDetails p = await FetchPlayerDetails(playerId);
-            return p;
+            try
+            {
+                PlayerDetails p = await FetchPlayerDetails(playerId);
+                return p;
+            }
+            catch (HttpRequestException e)
+            {
+                new Toast(e.Message).Show();
+            }
+
+            return null;
         }
 
         public static async Task ReserializeGamestate(string uuid)
         {
-            PlayerDetails d = await FetchPlayerDetails(uuid);
-            if (d != null)
+            try
             {
-                GameState.Instance.currentGameState = d;
+                PlayerDetails d = await FetchPlayerDetails(uuid);
+                if (d != null)
+                {
+                    GameState.Instance.currentGameState = d;
+                }
+            } catch (HttpRequestException e)
+            {
+                new Toast(e.Message).Show();
             }
         }
         
@@ -385,21 +408,34 @@ namespace Helpers
             if (!bearer.Empty() && !uuid.Empty())
             {
                 APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
-                PlayerDetails p = await FetchPlayerDetails(uuid);
-                return p.id;
+                try
+                {
+                    PlayerDetails p = await FetchPlayerDetails(uuid);
+                    return p.id;    
+                } catch (HttpRequestException e)
+                {
+                    new Toast(e.Message).Show();
+                }
+
+                return null;
             }
             else
             {
-                PlayerRegistration pr = await RegisterPlayer(name, language);
-                if (pr != null)
+                try
                 {
-                    PlayerPrefs.SetString("bearer", pr.token);
-                    PlayerPrefs.SetString("uuid", pr.id);
-                    PlayerPrefs.Save();
-                    APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pr.token);
-                    return pr.id;
+                    PlayerRegistration pr = await RegisterPlayer(name, language);
+                    if (pr != null)
+                    {
+                        PlayerPrefs.SetString("bearer", pr.token);
+                        PlayerPrefs.SetString("uuid", pr.id);
+                        PlayerPrefs.Save();
+                        APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pr.token);
+                        return pr.id;
+                    }    
+                } catch (HttpRequestException e)
+                {
+                    new Toast(e.Message).Show();
                 }
-
                 return null;
             }
         }
@@ -408,8 +444,16 @@ namespace Helpers
         {
             HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}/leaderboard");
             response.EnsureSuccessStatusCode();
-            string resString = await response.Content.ReadAsStringAsync();
-            return (LeaderboardArray)resString;
+            try
+            {
+                string resString = await response.Content.ReadAsStringAsync();
+                return (LeaderboardArray)resString;    
+            } catch (HttpRequestException e)
+            {
+                new Toast(e.Message).Show();
+            }
+
+            return null;
         }
     }
     

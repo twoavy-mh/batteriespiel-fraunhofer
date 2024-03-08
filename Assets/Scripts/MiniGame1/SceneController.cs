@@ -23,7 +23,10 @@ namespace Minigame1
         public StateButton[] stateButtons;
         public GameObject mobileModal;
         public GameObject desktopModal;
+        public VideoPlayer videoPlayer;
 
+        public MicrogameFinishedEvent microgameFinishedEvent;
+        
         private bool _finished = false;
 
         public static SceneController Instance
@@ -41,6 +44,7 @@ namespace Minigame1
             showWhatYouBuyEvent ??= new ShowWhatYouBuyEvent();
             brokerBuyEvent ??= new BrokerBuyEvent();
             moneySpentEvent ??= new MoneySpentEvent();
+            microgameFinishedEvent ??= new MicrogameFinishedEvent();
             _instance = this;
             gameObject.AddComponent<AutoTweenKiller>();
         }
@@ -52,7 +56,9 @@ namespace Minigame1
                 if (stateButtons.All(x => x.Finished))
                 {
                     _finished = true;
-
+                    videoPlayer.Stop();
+                    microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
+                    
                     int score = CalculateScore(stateButtons[0].needs, stateButtons[0].GetBought(),
                         stateButtons[1].needs, stateButtons[1].GetBought(),
                         stateButtons[2].needs, stateButtons[2].GetBought(), 20000,
@@ -70,9 +76,7 @@ namespace Minigame1
                             await UpdateGame(score);
                         }
                     }
-
-                    GameObject.Find("Video Player").GetComponent<VideoPlayer>().Pause();
-
+                    
                     if (Utility.GetDevice() == Device.Desktop)
                     {
                         desktopModal.SetActive(true);
@@ -139,6 +143,11 @@ namespace Minigame1
 
             int score = (int)Math.Floor(f + g);
             return score;
+        }
+        
+        public bool GetFinished()
+        {
+            return _finished;
         }
     }
 }
