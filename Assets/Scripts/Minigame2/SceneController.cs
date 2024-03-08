@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Helpers;
 using Models;
+using TMPro;
 using UnityEngine;
 
 namespace Minigame2
@@ -14,8 +15,7 @@ namespace Minigame2
         private Dictionary<string, bool> _dropzones = new Dictionary<string, bool>();
 
         public int fails = 0;
-        public GameObject finishedModal;
-        
+
         public static SceneController Instance
         {
             get
@@ -30,21 +30,26 @@ namespace Minigame2
         {
             _dropzones.Add("kathode", false);
             _dropzones.Add("anode", false);
-            _dropzones.Add("lithium", false);
+            _dropzones.Add("lith_discharge", false);
             _dropzones.Add("separator", false);
-            _dropzones.Add("electrode", false);
+            _dropzones.Add("lith_charge", false);
             _dropzones.Add("electrolyte", false);
-            
+
             _instance = this;
         }
 
         public async Task DroppedCorrectly(string field)
         {
             _dropzones[field] = true;
-            if (_dropzones["kathode"] && _dropzones["anode"] && _dropzones["lithium"] && _dropzones["separator"] && _dropzones["electrode"] && _dropzones["electrolyte"])
+            if (_dropzones["kathode"] && _dropzones["anode"] && _dropzones["lith_discharge"] &&
+                _dropzones["separator"] && _dropzones["lith_charge"] && _dropzones["electrolyte"])
             {
-                finishedModal.SetActive(true);
-                int score = finishedModal.GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
+                GameObject[] all = GetComponent<RenderUiBasedOnDevice>().DoIt();
+                //TODO: figure out why this is undefined below
+                int score = all[0].GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
+                Debug.Log(all[0].transform.Find("Body"));
+                Utility.GetTranslatedText(score > 60 ? "microgame_2_did_good" : "microgame_2_did_bad",
+                    (s) => all[0].transform.Find("Body").GetComponent<TMP_Text>().text = s);
                 MicrogameState s = new MicrogameState();
                 s.finished = true;
                 s.unlocked = true;
@@ -54,6 +59,5 @@ namespace Minigame2
                 GameState.Instance.currentGameState = await Api.SetGame(s, GameState.Instance.currentGameState.id);
             }
         }
-        
-    }   
+    }
 }

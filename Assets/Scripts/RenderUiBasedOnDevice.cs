@@ -5,11 +5,20 @@ using UnityEngine;
 
 public class RenderUiBasedOnDevice : MonoBehaviour
 {
-    
     public GameObject[] mobileObjects;
     public GameObject[] desktopObjects;
-    
+
+    public bool doInstant = true;
+
     void Start()
+    {
+        if (doInstant)
+        {
+            DoIt();
+        }
+    }
+
+    public GameObject[] DoIt()
     {
         bool isMobile = Utility.GetDevice() == Device.Mobile;
         foreach (GameObject mobileObject in mobileObjects)
@@ -21,5 +30,7 @@ public class RenderUiBasedOnDevice : MonoBehaviour
         {
             desktopObject.SetActive(!isMobile);
         }
+        
+        return isMobile ? mobileObjects : desktopObjects;
     }
 }
