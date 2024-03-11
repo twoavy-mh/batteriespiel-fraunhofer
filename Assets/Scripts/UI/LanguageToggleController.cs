@@ -18,6 +18,7 @@ public class LanguageToggleController : MonoBehaviour
     void Start()
     {
         _currentLanguage = Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En;
+        LocalizationSettings.SelectedLocale = _currentLanguage == Language.De ? LocalizationSettings.AvailableLocales.GetLocale("de") : LocalizationSettings.AvailableLocales.GetLocale("en");
         _languageText = GetComponentInChildren<TMP_Text>();
         _languageText.text = _currentLanguage == Language.De ? "EN" : "DE";
         GetComponent<Button>().onClick.AddListener(ToggleLanguage);
