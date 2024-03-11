@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Application = UnityEngine.Device.Application;
 
@@ -301,174 +299,6 @@ namespace Helpers
         public static float MapBetween(this float v, float fromMin, float fromMax, float toMin, float toMax)
         {
             return (v - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
-        }
-    }
-
-    public static class Api
-    {
-        public static readonly HttpClient APIClient = new()
-        {
-            BaseAddress = new Uri("https://batterygame.web.fec.ffb.fraunhofer.de/"),
-            DefaultRequestHeaders = { { "X-DIRECT", "y6biadzsv3t58kv2t8" } },
-        };
-
-        public static async Task PushGameStateChange(string uuid, MicrogameState ms)
-        {
-            string updatedGame = JsonUtility.ToJson(ms);
-            HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/${uuid}/battery-results",
-                new StringContent(updatedGame, System.Text.Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-            await ReserializeGamestate(uuid);
-        }
-
-        public static async Task<PlayerDetails> ToggleLanguage(Language newLanguage)
-        {
-            PlayerDetails p = GameState.Instance.currentGameState;
-            p.language = newLanguage;
-            PlayerDetails updated = await UpdatePlayer(p);
-            return updated;
-        }
-        
-        private static async Task<PlayerRegistration> RegisterPlayer(string name, Language language)
-        {
-            try
-            {
-                string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name, language));
-                HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
-                    new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
-                response.EnsureSuccessStatusCode();
-                string resString = await response.Content.ReadAsStringAsync();
-                return (PlayerRegistration)resString;
-            }
-            catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-                return null;
-            }
-        }
-
-        private static async Task<PlayerDetails> FetchPlayerDetails(string uuid)
-        {
-            try
-            {
-                HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}");
-                response.EnsureSuccessStatusCode();
-                string resString = await response.Content.ReadAsStringAsync();
-                return (PlayerDetails)resString;
-            }
-            catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-                return null;
-            }
-        }
-
-        private static async Task<PlayerDetails> UpdatePlayer(PlayerDetails newDetails)
-        {
-            string requestString = JsonUtility.ToJson(newDetails);
-            HttpResponseMessage response = await APIClient.PostAsync("api/battery-users",
-                new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-            try
-            {
-                return (PlayerRegistration)await response.Content.ReadAsStringAsync();    
-            } catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-            }
-
-            return null;
-        }
-
-        public static async Task<PlayerDetails> SetGame(MicrogameState m, string playerId)
-        {
-            string requestString = JsonUtility.ToJson(m);
-            HttpResponseMessage response = await APIClient.PostAsync($"api/battery-users/{playerId}/battery-results",
-                new StringContent(requestString, System.Text.Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-
-            await response.Content.ReadAsStringAsync();
-            try
-            {
-                PlayerDetails p = await FetchPlayerDetails(playerId);
-                return p;
-            }
-            catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-            }
-
-            return null;
-        }
-
-        public static async Task ReserializeGamestate(string uuid)
-        {
-            try
-            {
-                PlayerDetails d = await FetchPlayerDetails(uuid);
-                if (d != null)
-                {
-                    GameState.Instance.currentGameState = d;
-                }
-            } catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-            }
-        }
-        
-        public static async Task<string> GetPlayerDetails(string name, Language language)
-        {
-            string bearer = PlayerPrefs.GetString("bearer", null);
-            string uuid = PlayerPrefs.GetString("uuid", null);
-            if (!bearer.Empty() && !uuid.Empty())
-            {
-                APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
-                try
-                {
-                    PlayerDetails p = await FetchPlayerDetails(uuid);
-                    return p.id;    
-                } catch (HttpRequestException e)
-                {
-                    new Toast(e.Message).Show();
-                }
-
-                return null;
-            }
-            else
-            {
-                try
-                {
-                    PlayerRegistration pr = await RegisterPlayer(name, language);
-                    if (pr != null)
-                    {
-                        PlayerPrefs.SetString("bearer", pr.token);
-                        PlayerPrefs.SetString("uuid", pr.id);
-                        PlayerPrefs.Save();
-                        APIClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pr.token);
-                        return pr.id;
-                    }    
-                } catch (HttpRequestException e)
-                {
-                    new Toast(e.Message).Show();
-                }
-                return null;
-            }
-        }
-
-        public static async Task<LeaderboardArray> GetLeaderboard(string uuid)
-        {
-            HttpResponseMessage response = await APIClient.GetAsync($"api/battery-users/{uuid}/leaderboard");
-            response.EnsureSuccessStatusCode();
-            try
-            {
-                string resString = await response.Content.ReadAsStringAsync();
-                return (LeaderboardArray)resString;    
-            } catch (HttpRequestException e)
-            {
-                new Toast(e.Message).Show();
-            }
-
-            return null;
         }
     }
     

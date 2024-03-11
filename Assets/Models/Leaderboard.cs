@@ -18,9 +18,9 @@ namespace Models
             this.isMeInTop10 = this.entries.Any((entry) => entry.isMe);
         }
         
-        public static async Task<Leaderboard> ConstructLeaderboard()
+        public static Leaderboard ConstructLeaderboard()
         {
-            LeaderboardArray l = await Api.GetLeaderboard(PlayerPrefs.GetString("uuid"));
+            LeaderboardArray l = Api.GetLeaderboard(PlayerPrefs.GetString("uuid"));
             Leaderboard leaderboard = new Leaderboard(l);
             return leaderboard;
         }

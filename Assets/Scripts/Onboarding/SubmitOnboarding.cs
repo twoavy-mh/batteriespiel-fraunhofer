@@ -20,12 +20,12 @@ namespace Onboarding
             submitButton.onClick.AddListener(Submit);
         }
 
-        private async void Submit()
+        private void Submit()
         {
-            string p = await Api.GetPlayerDetails(nameInput.text, GameObject.Find("LanguageToggle").GetComponent<LanguageToggleController>().GetCurrentLanguage());
+            string p = Api.GetPlayerDetails(nameInput.text, GameObject.Find("LanguageToggle").GetComponent<LanguageToggleController>().GetCurrentLanguage());
             if (p != null)
             {
-                await Api.ReserializeGamestate(p);
+                Api.ReserializeGamestate(p);
                 SceneManager.LoadScene("MainMenu");
             }
         }

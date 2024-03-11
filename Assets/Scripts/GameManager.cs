@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Helpers;
 using Models;
@@ -24,22 +23,23 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    private async void Awake()
+    private void Awake()
     {
         if (!skipSerializations)
         {
             if (!PlayerPrefs.GetString("uuid").Empty())
             {
-                string playerId = await Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
+                string playerId = Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
                 if (playerId != null)
                 {
-                    await Api.ReserializeGamestate(playerId);
+                    Api.ReserializeGamestate(playerId);
                 }
                 else
                 {
                     Debug.Log("Failed to log in");
                 }
                 SceneManager.LoadScene("MainMenu");
+                
             }
             else
             {

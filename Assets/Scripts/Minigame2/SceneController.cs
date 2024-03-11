@@ -38,7 +38,7 @@ namespace Minigame2
             _instance = this;
         }
 
-        public async Task DroppedCorrectly(string field)
+        public void DroppedCorrectly(string field)
         {
             _dropzones[field] = true;
             if (_dropzones["kathode"] && _dropzones["anode"] && _dropzones["lith_discharge"] &&
@@ -56,7 +56,7 @@ namespace Minigame2
                 s.result = score;
                 s.jumpAndRunResult = GameState.Instance.currentGameState.results[1].jumpAndRunResult;
                 s.game = GameState.Microgames.Microgame2;
-                GameState.Instance.currentGameState = await Api.SetGame(s, GameState.Instance.currentGameState.id);
+                GameState.Instance.currentGameState = Api.SetGame(s, GameState.Instance.currentGameState.id);
             }
         }
     }

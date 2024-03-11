@@ -28,9 +28,9 @@ namespace Highscore
         }
 
         // Start is called before the first frame update
-        private async void Awake()
+        private void Awake()
         {
-            leaderboard = await Leaderboard.ConstructLeaderboard();
+            leaderboard = Leaderboard.ConstructLeaderboard();
             myScore = leaderboard.entries[0];
             _instance = this;
         }

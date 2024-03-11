@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
 using Helpers;
 using Minigame1.Classes;
 using Models;
+using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +28,7 @@ namespace Minigame1
         public VideoPlayer videoPlayer;
 
         public MicrogameFinishedEvent microgameFinishedEvent;
-        
+
         private bool _finished = false;
 
         public static SceneController Instance
@@ -49,7 +51,7 @@ namespace Minigame1
             gameObject.AddComponent<AutoTweenKiller>();
         }
 
-        private async void Update()
+        private void Update()
         {
             if (!_finished)
             {
@@ -58,7 +60,11 @@ namespace Minigame1
                     _finished = true;
                     videoPlayer.Stop();
                     microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
-                    
+                    int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
+                                        stateButtons[2].GetBought();
+                    int startCapital = 20000;
+                    int capitalNow = startCapital - boughtInTotal;
+                    int spent = startCapital - capitalNow;
                     int score = CalculateScore(stateButtons[0].needs, stateButtons[0].GetBought(),
                         stateButtons[1].needs, stateButtons[1].GetBought(),
                         stateButtons[2].needs, stateButtons[2].GetBought(), 20000,
@@ -67,25 +73,45 @@ namespace Minigame1
 
                     if (GameState.Instance.currentGameState.results.Length == 0)
                     {
-                        await UpdateGame(score);
+                        UpdateGame(score);
                     }
                     else
                     {
                         if (score > GameState.Instance.currentGameState.results[0].result)
                         {
-                            await UpdateGame(score);
+                           UpdateGame(score);
                         }
                     }
-                    
+
                     if (Utility.GetDevice() == Device.Desktop)
                     {
                         desktopModal.SetActive(true);
                         desktopModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
+                        Utility.GetTranslatedText(
+                            score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
+                            s => desktopModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
+                            new Dictionary<string, string>()
+                            {
+                                { "~", boughtInTotal.ToString() },
+                                { "#", spent.ToString() },
+                                { "_", "playedRounds" },
+                                { "=", score.ToString() }
+                            });
                     }
                     else
                     {
                         mobileModal.SetActive(true);
                         mobileModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
+                        Utility.GetTranslatedText(
+                            score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
+                            s => desktopModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
+                            new Dictionary<string, string>()
+                            {
+                                { "~", boughtInTotal.ToString() },
+                                { "#", spent.ToString() },
+                                { "_", "playedRounds" },
+                                { "=", score.ToString() }
+                            });
                     }
 
                     GameObject.Find("BackButton").GetComponent<Button>().onClick.AddListener(() =>
@@ -96,13 +122,16 @@ namespace Minigame1
             }
         }
 
-        private async Task<bool> UpdateGame(int score)
+        private bool UpdateGame(int score)
         {
             try
             {
-                PlayerDetails p = await Api.SetGame(
+                PlayerDetails p = Api.SetGame(
                     new MicrogameState()
-                        { unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1, jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult },
+                    {
+                        unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1,
+                        jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult
+                    },
                     GameState.Instance.currentGameState.id);
                 GameState.Instance.currentGameState = p;
                 return true;
@@ -144,7 +173,7 @@ namespace Minigame1
             int score = (int)Math.Floor(f + g);
             return score;
         }
-        
+
         public bool GetFinished()
         {
             return _finished;

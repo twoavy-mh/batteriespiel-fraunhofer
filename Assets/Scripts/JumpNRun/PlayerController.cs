@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                             () =>
                             {
                                 Debug.Log("Starting final callbacl");
-                                StartCoroutine(WaitUntiLSerialized());
+                                WaitUntiLSerialized();
                             }));
                         
                     }
@@ -153,16 +153,13 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         }
     }
 
-    private IEnumerator WaitUntiLSerialized()
+    private void WaitUntiLSerialized()
     {
-        Task<MicrogameState> t = SerializeScore();
-        yield return new WaitUntil(() => t.IsCompleted);
-        Debug.Log("done");
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene($"MicroGame{((int)t.Result.game) + 1}Onboard");
+        MicrogameState t = SerializeScore();
+        SceneManager.LoadScene($"MicroGame{((int)t.game) + 1}Onboard");
     }
 
-    private async Task<MicrogameState> SerializeScore()
+    private MicrogameState SerializeScore()
     {
         MicrogameState m = new MicrogameState();
         m.game = GameState.Instance.GetCurrentMicrogame();
@@ -170,7 +167,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         m.finished = false;
         m.result = 0;
         m.jumpAndRunResult = _scoreController.GetScoreForApi();
-        GameState.Instance.currentGameState = await Api.SetGame(m, GameState.Instance.currentGameState.id);
+        GameState.Instance.currentGameState = Api.SetGame(m, GameState.Instance.currentGameState.id);
         return m;
     }
     
@@ -201,6 +198,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 _isGrounded = true;
                 _rb.gravityScale = 1f;
                 _mustFall = false;
+                _animator.CrossFadeInFixedTime("walk", 0.1f);
                 _speed = Settings.MovementSpeed;
                 break;
         }
