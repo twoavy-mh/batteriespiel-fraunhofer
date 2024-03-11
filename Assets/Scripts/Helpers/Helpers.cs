@@ -172,19 +172,34 @@ namespace Helpers
 
     class Utility
     {
-        public static void GetTranslatedText(string key, Action<string> cb)
+        public static void GetTranslatedText(string key, Action<string> cb, Dictionary<string, string> replacements = null)
         {
             AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(key);
             if (op.IsDone)
             {
-                cb(op.Result);
+                cb(DoReplacements(op.Result, replacements));
             } else
             {
                 op.Completed += (operation) =>
                 {
-                    cb(operation.Result);
+                    cb(DoReplacements(operation.Result, replacements));
                 };
             }
+        }
+        
+        private static string DoReplacements(string s, Dictionary<string, string> replacements)
+        {
+            if (replacements == null)
+            {
+                return s;
+            }
+
+            foreach (KeyValuePair<string, string> replacement in replacements)
+            {
+                s = s.Replace(replacement.Key, replacement.Value);
+            }
+
+            return s;
         }
         
         public static T GetRandom<T>(T[] array)

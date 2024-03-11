@@ -1,6 +1,8 @@
 using Helpers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace UI
@@ -21,9 +23,15 @@ namespace UI
 
         void Start()
         {
+            LocalizationSettings.SelectedLocaleChanged += LocalizationChanged;
             SetLocalizedString();
         }
 
+        private void LocalizationChanged(Locale locale)
+        {
+            SetLocalizedString();
+        }
+        
         private void SetLocalizedString()
         {
             if (_translationKey.Empty())
@@ -40,6 +48,12 @@ namespace UI
                 } catch {}
             });
         }
+        
+        private void OnDestroy()
+        {
+            LocalizationSettings.SelectedLocaleChanged -= LocalizationChanged;
+        }
+        
     }
    
 }

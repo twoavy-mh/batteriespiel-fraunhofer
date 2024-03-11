@@ -6,6 +6,7 @@ using Helpers;
 using Models;
 using Nobi.UiRoundedCorners;
 using TMPro;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 
@@ -26,7 +27,7 @@ public class LanguageToggleController : MonoBehaviour
     {
         _currentLanguage = _currentLanguage == Language.De ? Language.En : Language.De;
         _languageText.text = _currentLanguage == Language.De ? "EN" : "DE";
-        Debug.Log(_currentLanguage);
+        LocalizationSettings.SelectedLocale = _currentLanguage == Language.De ? LocalizationSettings.AvailableLocales.GetLocale("de") : LocalizationSettings.AvailableLocales.GetLocale("en");
     }
     
     public Language GetCurrentLanguage()
