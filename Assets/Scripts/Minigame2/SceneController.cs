@@ -56,7 +56,10 @@ namespace Minigame2
                 s.result = score;
                 s.jumpAndRunResult = GameState.Instance.currentGameState.results[1].jumpAndRunResult;
                 s.game = GameState.Microgames.Microgame2;
-                GameState.Instance.currentGameState = Api.SetGame(s, GameState.Instance.currentGameState.id);
+                StartCoroutine(Api.Instance.SetGame(s, GameState.Instance.currentGameState.id, details =>
+                {
+                    GameState.Instance.currentGameState = details;
+                }));
             }
         }
     }

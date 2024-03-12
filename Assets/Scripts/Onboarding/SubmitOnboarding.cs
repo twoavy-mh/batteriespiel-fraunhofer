@@ -22,12 +22,17 @@ namespace Onboarding
 
         private void Submit()
         {
-            string p = Api.GetPlayerDetails(nameInput.text, GameObject.Find("LanguageToggle").GetComponent<LanguageToggleController>().GetCurrentLanguage());
-            if (p != null)
-            {
-                Api.ReserializeGamestate(p);
-                SceneManager.LoadScene("MainMenu");
-            }
+            Api.Instance.GetPlayerDetails(nameInput.text, GameObject.Find("LanguageToggle").GetComponent<LanguageToggleController>().GetCurrentLanguage(),
+                s =>
+                {
+                    if (s != null)
+                    {
+                        Api.Instance.ReserializeGamestate(s, details =>
+                        {
+                            SceneManager.LoadScene("MainMenu"); 
+                        });
+                    } 
+                });
         }
     }
 }

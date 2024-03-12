@@ -15,9 +15,8 @@ public class LanguageToggleController : MonoBehaviour
     private TMP_Text _languageText;
     private Language _currentLanguage;
     
-    IEnumerator Start()
+    void Start()
     {
-        yield return LocalizationSettings.InitializationOperation;
         _currentLanguage = Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En;
         LocalizationSettings.SelectedLocale = _currentLanguage == Language.De ? LocalizationSettings.AvailableLocales.GetLocale("de") : LocalizationSettings.AvailableLocales.GetLocale("en");
         _languageText = GetComponentInChildren<TMP_Text>();

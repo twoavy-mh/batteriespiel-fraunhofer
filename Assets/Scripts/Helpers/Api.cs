@@ -8,8 +8,26 @@ using UnityEngine.Networking;
 
 namespace Helpers
 {
-    public class Api
+    public class Api : MonoBehaviour
     {
+        
+        private static Api _instance;
+        
+        public static Api Instance
+        {
+            get
+            {
+                if (_instance == null) Debug.Log("no Api yet");
+                return _instance;
+            }
+        }
+        
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+            _instance = this;
+        }
+
         private static UnityWebRequest GetBaseRequest(string url, string method, string content)
         {
             UnityWebRequest request;
@@ -39,87 +57,75 @@ namespace Helpers
             return request;
         }
 
-        public static void PushGameStateChange(string uuid, MicrogameState ms)
+        public IEnumerator PushGameStateChange(string uuid, MicrogameState ms)
         {
             string updatedGame = JsonUtility.ToJson(ms);
             UnityWebRequest request =
                 GetBaseRequest(
                     $"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}/battery-results", "POST",
                     updatedGame);
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-            }
+            yield return request.SendWebRequest();
 
             ReserializeGamestate(uuid);
         }
 
-        public static PlayerDetails ToggleLanguage(Language newLanguage)
+        public void ToggleLanguage(Language newLanguage, Action<PlayerDetails> callback)
         {
             PlayerDetails p = GameState.Instance.currentGameState;
             p.language = newLanguage;
-            PlayerDetails updated = UpdatePlayer(p);
-            return updated;
+            StartCoroutine(UpdatePlayer(p, details =>
+            {
+                callback(details);
+            }));
         }
 
-        private static PlayerRegistration RegisterPlayer(string name, Language language)
+        private IEnumerator RegisterPlayer(string name, Language language, Action<PlayerRegistration> callback)
         {
             Debug.Log("Registering");
             string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name, language));
             UnityWebRequest request = GetBaseRequest("https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users",
                 "POST", requestString);
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-                Debug.Log("Not done yet");
-            }
+            yield return request.SendWebRequest();
 
             string v = request.downloadHandler.text;
-            Debug.Log(v);
 
-            return (PlayerRegistration)v;
+            callback((PlayerRegistration)v);
         }
 
-        private static PlayerDetails FetchPlayerDetails(string uuid)
+        private IEnumerator FetchPlayerDetails(string uuid, Action<PlayerDetails> callback)
         {
             UnityWebRequest request =
                 GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}", "GET", null);
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-            }
+            yield return request.SendWebRequest();
 
             string v = request.downloadHandler.text;
-            return (PlayerDetails)v;
+            callback((PlayerDetails)v);
         }
 
-        private static PlayerDetails UpdatePlayer(PlayerDetails newDetails)
+        private IEnumerator UpdatePlayer(PlayerDetails newDetails, Action<PlayerDetails> callback)
         {
             string requestString = JsonUtility.ToJson(newDetails);
             UnityWebRequest request = GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users",
                 "POST", requestString);
 
 
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-            }
+            yield return request.SendWebRequest();
 
 
             string v = request.downloadHandler.text;
             try
             {
-                return (PlayerRegistration)v;
+                callback((PlayerRegistration)v);
             }
             catch (Exception e)
             {
-                new Toast(e.Message).Show();
+                Debug.Log(e.Message);
             }
 
-            return null;
+            callback(null);
         }
 
-        public static PlayerDetails SetGame(MicrogameState m, string playerId)
+        public IEnumerator SetGame(MicrogameState m, string playerId, Action<PlayerDetails> callback)
         {
             string requestString = JsonUtility.ToJson(m);
             UnityWebRequest request =
@@ -128,44 +134,44 @@ namespace Helpers
                     "POST", requestString);
 
 
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-            }
-
+            yield return request.SendWebRequest();
+            
             string v = request.downloadHandler.text;
-
-
             try
             {
-                PlayerDetails p = FetchPlayerDetails(playerId);
-                return p;
+                StartCoroutine(FetchPlayerDetails(playerId, details =>
+                {
+                    callback(details);
+                }));
             }
             catch (Exception e)
             {
-                new Toast(e.Message).Show();
+                Debug.Log(e.Message);
             }
 
-            return null;
+            callback(null);
         }
 
-        public static void ReserializeGamestate(string uuid)
+        public void ReserializeGamestate(string uuid, Action<PlayerDetails> callback = null)
         {
             try
             {
-                PlayerDetails d = FetchPlayerDetails(uuid);
-                if (d != null)
+                StartCoroutine(FetchPlayerDetails(uuid, details =>
                 {
-                    GameState.Instance.currentGameState = d;
-                }
+                    if (details != null)
+                    {
+                        GameState.Instance.currentGameState = details;
+                        callback?.Invoke(details);
+                    }    
+                }));
             }
             catch (Exception e)
             {
-                new Toast(e.Message).Show();
+                Debug.Log(e.Message);
             }
         }
 
-        public static string GetPlayerDetails(string name, Language language)
+        public void GetPlayerDetails(string playerName, Language language, Action<string> callback)
         {
             string bearer = PlayerPrefs.GetString("bearer", null);
             string uuid = PlayerPrefs.GetString("uuid", null);
@@ -173,60 +179,62 @@ namespace Helpers
             {
                 try
                 {
-                    return FetchPlayerDetails(uuid).id;
+                    StartCoroutine(FetchPlayerDetails(uuid, details =>
+                    {
+                        callback(details.id);
+                    }));
                 }
                 catch (Exception e)
                 {
-                    new Toast(e.Message).Show();
+                    Debug.Log(e.Message);
                 }
 
-                return null;
+                callback(null);
             }
             else
             {
                 try
                 {
-                    PlayerRegistration pr = RegisterPlayer(name, language);
-                    if (pr != null)
+                    StartCoroutine(RegisterPlayer(playerName, language, pr =>
                     {
-                        PlayerPrefs.SetString("bearer", pr.token);
-                        PlayerPrefs.SetString("uuid", pr.id);
-                        PlayerPrefs.Save();
-                        return pr.id;
-                    }
+                        if (pr != null)
+                        {
+                            PlayerPrefs.SetString("bearer", pr.token);
+                            PlayerPrefs.SetString("uuid", pr.id);
+                            PlayerPrefs.Save();
+                            callback(pr.id);
+                        }
+                    }));
                 }
                 catch (Exception e)
                 {
-                    new Toast(e.Message).Show();
+                    Debug.Log(e.Message);
                 }
 
-                return null;
+                callback(null);
             }
         }
 
-        public static LeaderboardArray GetLeaderboard(string uuid)
+        public IEnumerator GetLeaderboard(string uuid, Action<LeaderboardArray> callback)
         {
             UnityWebRequest request =
                 GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}/leaderboard",
                     "GET", null);
 
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-            }
+            yield return request.SendWebRequest();
 
 
             string v = request.downloadHandler.text;
             try
             {
-                return (LeaderboardArray)v;
+                callback((LeaderboardArray)v);
             }
             catch (Exception e)
             {
-                new Toast(e.Message).Show();
+                Debug.Log(e.Message);
             }
 
-            return null;
+            callback(null);
         }
     }
 }

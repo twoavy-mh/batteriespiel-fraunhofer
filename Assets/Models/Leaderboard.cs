@@ -19,9 +19,12 @@ namespace Models
         }
         
         public static Leaderboard ConstructLeaderboard()
-        {
-            LeaderboardArray l = Api.GetLeaderboard(PlayerPrefs.GetString("uuid"));
-            Leaderboard leaderboard = new Leaderboard(l);
+        { 
+            /*StartCoroutine(Api.Instance.GetLeaderboard(PlayerPrefs.GetString("uuid"), array =>
+            {
+                
+            }));*/
+            Leaderboard leaderboard = new Leaderboard(new LeaderboardArray());
             return leaderboard;
         }
 

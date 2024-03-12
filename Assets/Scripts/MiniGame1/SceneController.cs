@@ -73,13 +73,25 @@ namespace Minigame1
 
                     if (GameState.Instance.currentGameState.results.Length == 0)
                     {
-                        UpdateGame(score);
+                        UpdateGame(score, b =>
+                        {
+                            if (!b)
+                            {
+                                Debug.Log("something went wrong");
+                            }
+                        });
                     }
                     else
                     {
                         if (score > GameState.Instance.currentGameState.results[0].result)
                         {
-                           UpdateGame(score);
+                            UpdateGame(score, b =>
+                            {
+                                if (!b)
+                                {
+                                    Debug.Log("something went wrong");
+                                }
+                            });
                         }
                     }
 
@@ -122,23 +134,25 @@ namespace Minigame1
             }
         }
 
-        private bool UpdateGame(int score)
+        private void UpdateGame(int score, Action<bool> callback)
         {
             try
             {
-                PlayerDetails p = Api.SetGame(
+                Api.Instance.SetGame(
                     new MicrogameState()
                     {
                         unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1,
                         jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult
                     },
-                    GameState.Instance.currentGameState.id);
-                GameState.Instance.currentGameState = p;
-                return true;
+                    GameState.Instance.currentGameState.id, details =>
+                    {
+                        GameState.Instance.currentGameState = details;
+                        callback(true);
+                    });
             }
             catch (Exception)
             {
-                return false;
+                callback(false);
             }
         }
 

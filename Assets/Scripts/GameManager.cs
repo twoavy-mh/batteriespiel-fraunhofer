@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Threading.Tasks;
@@ -25,21 +26,33 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        StartCoroutine(WaitUntilApiIsThere(() => StartGameManager()));
+        DontDestroyOnLoad(this);
+        _instance = this;
+
+        StartCoroutine(ARSession.CheckAvailability());
+        StartCoroutine(AllowARScene());
+    }
+
+    private void StartGameManager()
+    {
         if (!skipSerializations)
         {
             if (!PlayerPrefs.GetString("uuid").Empty())
             {
-                string playerId = Api.GetPlayerDetails("test", Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En);
-                if (playerId != null)
-                {
-                    Api.ReserializeGamestate(playerId);
-                }
-                else
-                {
-                    Debug.Log("Failed to log in");
-                }
-                SceneManager.LoadScene("MainMenu");
-                
+                Api.Instance.GetPlayerDetails("test",
+                    Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En,
+                    s =>
+                    {
+                        if (s != null)
+                        {
+                            Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
+                        }
+                        else
+                        {
+                            Debug.Log("Failed to log in");
+                        }
+                    });
             }
             else
             {
@@ -48,11 +61,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            /*
-             * public bool unlocked;
-               public bool finished;
-               public int result;
-             */
             PlayerDetails p = new PlayerDetails();
             p.language = Language.De;
             p.id = "22c7d1dd-bc2b-4d20-8d96-3903d1282386";
@@ -100,15 +108,12 @@ public class GameManager : MonoBehaviour
             };
             GameState.Instance.currentGameState = p;
         }
-        //GameState.Instance.Init();
-        //GameState.Instance.SetVariableAndSave(ref GameState.Instance.current3dModel, GameState.Models.Cells);
-        //Debug.Log(GameState.Instance.current3dModel);
-        
-        DontDestroyOnLoad(this);
-        _instance = this;
-        
-        StartCoroutine(ARSession.CheckAvailability());
-        StartCoroutine(AllowARScene());
+    }
+
+    private IEnumerator WaitUntilApiIsThere(Action cb)
+    {
+        yield return new WaitUntil(() => Api.Instance != null);
+        cb();
     }
 
     IEnumerator AllowARScene()

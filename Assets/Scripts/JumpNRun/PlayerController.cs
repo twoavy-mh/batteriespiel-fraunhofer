@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                             () =>
                             {
                                 Debug.Log("Starting final callbacl");
-                                WaitUntiLSerialized();
+                                SerializeScore();
                             }));
                         
                     }
@@ -152,14 +152,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             }
         }
     }
-
-    private void WaitUntiLSerialized()
-    {
-        MicrogameState t = SerializeScore();
-        SceneManager.LoadScene($"MicroGame{((int)t.game) + 1}Onboard");
-    }
-
-    private MicrogameState SerializeScore()
+    
+    private void SerializeScore()
     {
         MicrogameState m = new MicrogameState();
         m.game = GameState.Instance.GetCurrentMicrogame();
@@ -167,8 +161,12 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         m.finished = false;
         m.result = 0;
         m.jumpAndRunResult = _scoreController.GetScoreForApi();
-        GameState.Instance.currentGameState = Api.SetGame(m, GameState.Instance.currentGameState.id);
-        return m;
+        
+        StartCoroutine(Api.Instance.SetGame(m, GameState.Instance.currentGameState.id, details =>
+        {
+            GameState.Instance.currentGameState = details;
+            SceneManager.LoadScene($"MicroGame{((int)m.game) + 1}Onboard");
+        }));
     }
     
     private void FadeCollectable(SpriteRenderer s)
