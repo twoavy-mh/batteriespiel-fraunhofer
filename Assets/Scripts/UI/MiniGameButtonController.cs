@@ -22,19 +22,15 @@ public class MiniGameButtonController : MonoBehaviour
         {
             Debug.Log(microgameState);
         }*/
-        Debug.Log("isbdfisfgiuhsagoisdfgisdfboidjfbgiosyufghyodifgoidfjgily");
-
         try
         {
             bool exists = GameState.Instance.currentGameState.results.ElementAtOrDefault(index - 1) != null;
-            Debug.Log("does not exist");
             if (!exists)
             {
                 SetStatus(false);
                 return;
             }
             SetStatus(GameState.Instance.currentGameState.results[index - 1].unlocked);
-            Debug.Log("displaying");
         } catch (IndexOutOfRangeException)
         {
             Debug.Log("index out of bounds");

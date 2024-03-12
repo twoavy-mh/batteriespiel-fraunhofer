@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Helpers;
 using Models;
+using TMPro;
 
 public class MainMenuHandler : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class MainMenuHandler : MonoBehaviour
     private RectTransform _menuItemsTransform;
     public GameObject slideShowState;
     public GameObject regularState;
+
+    public TMP_Text finishedGameCounter;
 
     private Boolean menuOpen = false;
 
@@ -32,6 +36,9 @@ public class MainMenuHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        string finishedGames = GameState.Instance.currentGameState.results.Where(state => state.unlocked)
+            .Count().ToString();
+        finishedGameCounter.text = $"{finishedGames}/5";
         _parentCanvas = transform.GetComponent<Canvas>();
 
         instantiationHelper = gameObject.AddComponent<InstantiationHelper>();

@@ -17,7 +17,7 @@ namespace Helpers
         {
             get
             {
-                if (_instance == null) Debug.Log("no Api yet");
+                if (_instance == null) return null;
                 return _instance;
             }
         }

@@ -22,8 +22,9 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
         SceneController.Instance.microgameFinishedEvent.AddListener(UseMicrogameFinishedEvent);
         
         _offsetPerDay = GetComponent<RectTransform>().sizeDelta.x / segments;
-        VideoPlayer vp = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        _timePerDay = 5 + 50 / vp.frameRate;
+        //VideoPlayer vp = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        //framerate is 25, but cannot be inferred in html videoplayer
+        _timePerDay = 5 + 50 / 25f;
         for (int i = 0; i < segments; i++)
         {
             GameObject newSegment = new GameObject("Segment" + i);
