@@ -14,6 +14,8 @@ namespace Extensions
             {
                 _image = GetComponent<Image>();
                 _image.sprite = Utility.GetDevice() == Device.Mobile ? mobileSprite : desktopSprite;
+                
+                GetComponent<ImageBasedAspectRatioFitter>()?.UpdateRatioAndImage();
             }
     }
 }

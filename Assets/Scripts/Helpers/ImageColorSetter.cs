@@ -26,6 +26,8 @@ public class ImageColorSetter : MonoBehaviour
         Color tmp = Settings.ColorMap[ImageColor];
         tmp.a = newOpacity;
         
+        
+        
         GetComponent<Image>().color = tmp;
     }
 }
