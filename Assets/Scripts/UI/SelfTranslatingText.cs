@@ -44,7 +44,11 @@ namespace UI
                 try
                 {
                     GetComponent<TMP_Text>().text = s;
-                    LayoutRebuilder.ForceRebuildLayoutImmediate(transform.GetComponent<RectTransform>()); 
+                    RectTransform[] rectTransforms = transform.GetComponentsInParent<RectTransform>();
+                    foreach (RectTransform rt in rectTransforms)
+                    {
+                        LayoutRebuilder.ForceRebuildLayoutImmediate(rt); 
+                    }
                 } catch {}
             });
         }

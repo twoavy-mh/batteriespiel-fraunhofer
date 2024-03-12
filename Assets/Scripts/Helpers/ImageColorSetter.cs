@@ -4,6 +4,7 @@ using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class ImageColorSetter : MonoBehaviour
 {
 

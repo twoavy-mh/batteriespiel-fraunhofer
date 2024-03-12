@@ -12,7 +12,7 @@ namespace Minigame3
     {
         private static SceneController _instance;
 
-        public int startGame = 5;
+        public int startGame = 1;
         private int _nanoGameIndex;
 
         public float timerToNanoGameSelect = 2f;
@@ -62,7 +62,7 @@ namespace Minigame3
 
         private void SetNextOrEndscreen()
         {
-            if (_nanoGameIndex >= 7)
+            if (_nanoGameIndex >= nanoGameContents.Length)
             {
                 SetEndscreen();
             }
@@ -76,7 +76,7 @@ namespace Minigame3
         
         private void NextNanoGame()
         {
-            if (_nanoGameIndex < 7)
+            if (_nanoGameIndex < nanoGameContents.Length)
             {
                 _nanoGameIndex++;
                 if (Utility.GetDevice() == Device.Mobile)

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using FontStyles = Helpers.FontStyles;
 using FontWeight = Helpers.FontWeight;
 
+[ExecuteInEditMode]
 public class FontStyler : MonoBehaviour
 {
     
