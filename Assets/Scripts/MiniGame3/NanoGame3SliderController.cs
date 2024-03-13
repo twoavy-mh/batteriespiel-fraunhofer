@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -7,6 +8,15 @@ namespace Minigame3
     
     public class NanoGame3SliderController : MonoBehaviour, IPointerUpHandler
     {
+        public event Action OnValueChange;
+        
+        public enum IsInRange
+        {
+            toLow,
+            inRange,
+            toHigh,
+        }
+        
         public float correctSliderValue = .5f;
 
         private Slider _sliderComponent;
@@ -19,6 +29,7 @@ namespace Minigame3
         void Start()
         {
             _sliderComponent = GetComponent<Slider>();
+            _sliderComponent.onValueChanged.AddListener(ValueChange);
         }
 
         // Update is called once per frame
@@ -57,6 +68,26 @@ namespace Minigame3
         public bool GetIsSolved()
         {
             return _isSolved;
+        }
+        
+        public IsInRange IsValueInRange()
+        {
+            if (_sliderComponent.value > correctSliderValue + sliderOffsetValue)
+            {
+                return IsInRange.toHigh;
+            } 
+            
+            if (_sliderComponent.value < correctSliderValue - sliderOffsetValue)
+            {
+                return IsInRange.toLow;
+            }
+            
+            return IsInRange.inRange;
+        }
+        
+        private void ValueChange(float value)
+        {
+            OnValueChange?.Invoke();
         }
     }
 }

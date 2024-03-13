@@ -1,3 +1,4 @@
+using System;
 using Helpers;
 using TMPro;
 using UnityEngine;
@@ -44,15 +45,26 @@ namespace UI
                 try
                 {
                     GetComponent<TMP_Text>().text = s;
-                    RectTransform[] rectTransforms = transform.GetComponentsInParent<RectTransform>();
-                    foreach (RectTransform rt in rectTransforms)
-                    {
-                        LayoutRebuilder.ForceRebuildLayoutImmediate(rt); 
-                    }
+                    LayoutRebuild();
+                    
                 } catch {}
             });
         }
+
+        private void LateUpdate()
+        {
+            LayoutRebuild();
+        }
         
+        private void LayoutRebuild()
+        {
+            RectTransform[] rectTransforms = transform.GetComponentsInParent<RectTransform>();
+            foreach (RectTransform rt in rectTransforms)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(rt); 
+            }   
+        }
+
         private void OnDestroy()
         {
             LocalizationSettings.SelectedLocaleChanged -= LocalizationChanged;

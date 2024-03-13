@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,9 +19,21 @@ namespace Minigame3
         public GameObject spawnPoint;
         public GameObject beltArrowPrefabMobile;
         public GameObject beltArrowPrefabDesktop;
+
+        public SelfTranslatingText helpText;
+        
+        public string helpKeyStandard;
+        public string helpKeyPerfectHeat;
+        public string helpKeyToHot;
+        public string helpKeyToCold;
+        public string helpKeyPrefectSpeed;
+        public string helpKeyToSlow;
+        public string helpKeyToFast;
         
         private bool _gameStarted = false;
         private bool _gameFinished = false;
+        
+        private string _currentHelpKey = "";
 
         private float _beltSpeed = 0;
         public float beltSpeed
@@ -33,7 +46,10 @@ namespace Minigame3
         private static int _screenOffset = 2580;
         
         private NanoGame3SliderController _beltSpeedSlider;
+        private float _beltSpeedValue;
+        
         private NanoGame3SliderController _heatSlider;
+        private float _heatValue;
 
         private Image _heaterImage;
         
@@ -45,8 +61,12 @@ namespace Minigame3
         {
             InstantiateBeltArrows();
             _beltSpeedSlider = GameObject.Find("SpeedSlider").GetComponentInChildren<NanoGame3SliderController>();
+            _beltSpeedSlider.OnValueChange += OnSpeedChange;
             _heatSlider = GameObject.Find("HeatSlider").GetComponentInChildren<NanoGame3SliderController>();
+            _heatSlider.OnValueChange += HeatingMapColorSetter;
             _heaterImage = GameObject.Find("Heater").GetComponentInChildren<Image>();
+            
+            SetHelpText(helpKeyStandard);
             
             skipButton.onClick.AddListener(SkipGame);
             
@@ -61,8 +81,6 @@ namespace Minigame3
                 {
                     MoveBeltDivider(beltArrow);
                 }
-
-                HeatingMapColorSetter();
                 
                 if (_beltSpeedSlider.GetIsSolved() && _heatSlider.GetIsSolved())
                 {
@@ -73,7 +91,7 @@ namespace Minigame3
         
         private void MoveBeltDivider(GameObject beltDivider)
         {
-            float value = _beltSpeedSlider.GetCurrentValue();
+            _beltSpeedValue = _beltSpeedSlider.GetCurrentValue();
             
             if (beltDivider.transform.localPosition.x < -_screenOffset)
             {
@@ -81,19 +99,60 @@ namespace Minigame3
             }
             else
             {
-                beltDivider.transform.localPosition = new Vector3(beltDivider.transform.localPosition.x - (value * 10f),
+                beltDivider.transform.localPosition = new Vector3(beltDivider.transform.localPosition.x - (_beltSpeedValue * 10f),
                     beltDivider.transform.localPosition.y, 0);
+            }
+        }
+
+        private void OnSpeedChange()
+        {
+            NanoGame3SliderController.IsInRange _valueInRange = _beltSpeedSlider.IsValueInRange();
+            switch (_valueInRange)
+            {
+                case NanoGame3SliderController.IsInRange.toLow:
+                    SetHelpText(helpKeyToSlow);
+                    break;
+                case NanoGame3SliderController.IsInRange.inRange:
+                    SetHelpText(helpKeyPrefectSpeed);
+                    break;
+                case NanoGame3SliderController.IsInRange.toHigh:
+                    SetHelpText(helpKeyToFast);
+                    break;
+                default:
+                    SetHelpText(helpKeyStandard);
+                    break;
+            }
+        }
+        
+        public void OnHeatChange()
+        {
+            NanoGame3SliderController.IsInRange _valueInRange = _heatSlider.IsValueInRange();
+            switch (_valueInRange)
+            {
+                case NanoGame3SliderController.IsInRange.toLow:
+                    SetHelpText(helpKeyToCold);
+                    break;
+                case NanoGame3SliderController.IsInRange.inRange:
+                    SetHelpText(helpKeyPerfectHeat);
+                    break;
+                case NanoGame3SliderController.IsInRange.toHigh:
+                    SetHelpText(helpKeyToHot);
+                    break;
+                default:
+                    SetHelpText(helpKeyStandard);
+                    break;
             }
         }
 
         private void HeatingMapColorSetter()
         {
-            float value = _heatSlider.GetCurrentValue();
+            _heatValue = _heatSlider.GetCurrentValue();
+            OnHeatChange();
             
-            if (value < 0.6f)
-                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.BlueUI], Settings.ColorMap[Tailwind.Yellow1], value  / .6f );
+            if (_heatValue < 0.6f)
+                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.BlueUI], Settings.ColorMap[Tailwind.Yellow1], _heatValue  / .6f );
             else 
-                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.Yellow1], Settings.ColorMap[Tailwind.Red2], (value - 0.6f) / (1f - 0.6f));
+                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.Yellow1], Settings.ColorMap[Tailwind.Red2], (_heatValue - 0.6f) / (1f - 0.6f));
         }
 
         private void InstantiateBeltArrows()
@@ -126,7 +185,16 @@ namespace Minigame3
             StopGame();
             OnFinishedGame?.Invoke();
         }
-        
+
+        private void SetHelpText(string key)
+        {
+            if (_currentHelpKey == key)
+                return;
+            
+            _currentHelpKey = key;
+            helpText.translationKey = key;
+        }
+
         private void SkipGame()
         {
             StopGame();
