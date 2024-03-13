@@ -196,7 +196,6 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 _isGrounded = true;
                 _rb.gravityScale = 1f;
                 _mustFall = false;
-                _animator.CrossFadeInFixedTime("walk", 0.1f);
                 _speed = Settings.MovementSpeed;
                 break;
         }
