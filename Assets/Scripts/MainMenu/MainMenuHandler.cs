@@ -36,8 +36,17 @@ public class MainMenuHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string finishedGames = GameState.Instance.currentGameState.results.Where(state => state.unlocked)
-            .Count().ToString();
+        string finishedGames = "";
+        try
+        {
+            finishedGames = GameState.Instance.currentGameState.results.Where(state => state.unlocked)
+                .Count().ToString();
+        }
+        catch (NullReferenceException)
+        {
+            finishedGames = "0";
+        }
+        
         finishedGameCounter.text = $"{finishedGames}/5";
         _parentCanvas = transform.GetComponent<Canvas>();
 

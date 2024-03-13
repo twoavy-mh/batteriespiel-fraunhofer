@@ -35,6 +35,10 @@ public class MiniGameButtonController : MonoBehaviour
         {
             Debug.Log("index out of bounds");
             SetStatus(false);
+        } catch (NullReferenceException)
+        {
+            Debug.Log("null reference");
+            SetStatus(false);
         }
     }
     
