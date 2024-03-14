@@ -103,11 +103,11 @@
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
 	if (window.innerWidth >= window.innerHeight) {
-	   canvas.style.height = window.innerHeight + 'px'
-	   canvas.style.width = window.innerHeight * (16/9) + 'px'
+	   canvas.style.height = document.body.clientHeight + 'px'
+	   canvas.style.width = document.body.clientHeight * (16/9) + 'px'
 	} else {
-	   canvas.style.width = window.innerWidth + 'px'
-	   canvas.style.height = window.innerWidth * (9/16) + 'px'
+	   canvas.style.width = document.body.clientWidth + 'px'
+	   canvas.style.height = document.body.clientWidth * (9/16) + 'px'
 	}
 
       }

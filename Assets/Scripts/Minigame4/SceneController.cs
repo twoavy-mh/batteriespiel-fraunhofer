@@ -12,7 +12,6 @@ namespace Minigame4
         // Start is called before the first frame update
         private static SceneController _instance;
         
-        public GameObject finishedModal;
         public HoveringOverDropzoneEvent hoveringOverDropzoneEvent;
         public int finishedCount = 0;
         
@@ -41,6 +40,11 @@ namespace Minigame4
         public void DroppedCorrectly(string field)
         {
             finishedCount++;
+            if (finishedCount == 6)
+            {
+                GameObject[] modals = GetComponent<RenderUiBasedOnDevice>().DoIt();
+                modals[0].GetComponent<MicrogameFourFinished>().SetScore(0, 6);
+            }
         }
 
         public void Die(int remainingTime)

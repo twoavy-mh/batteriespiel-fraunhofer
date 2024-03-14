@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -16,6 +17,7 @@ namespace Minigame4
         private int score;
         public GameObject again;
         public GameObject next;
+        public UI.ProgressRingController pgc;
 
         private void Start()
         {
@@ -38,8 +40,20 @@ namespace Minigame4
         public void SetScore(int fails, int totalTries)
         {
             int score = Math.Max(0, 100 - (fails * 5));
-            Utility.GetTranslatedText("minigame2Score", s => transform.GetChild(3).GetComponent<TMP_Text>().text = s.Replace("~", score.ToString())
+            Utility.GetTranslatedText("minigame2Score", s => transform.GetChild(4).GetComponent<TMP_Text>().text = s
+                .Replace("~", score.ToString())
                 .Replace("#", totalTries.ToString()));
+            pgc.StartAnimation(score);
+            MicrogameState s = new MicrogameState();
+            s.finished = true;
+            s.unlocked = true;
+            s.result = score;
+            s.jumpAndRunResult = GameState.Instance.currentGameState.results[3].jumpAndRunResult;
+            s.game = GameState.Microgames.Microgame4;
+            StartCoroutine(Api.Instance.SetGame(s, GameState.Instance.currentGameState.id, details =>
+            {
+                GameState.Instance.currentGameState = details;
+            }));
         }
     }
     

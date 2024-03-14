@@ -57,18 +57,6 @@ namespace Helpers
             return request;
         }
 
-        public IEnumerator PushGameStateChange(string uuid, MicrogameState ms)
-        {
-            string updatedGame = JsonUtility.ToJson(ms);
-            UnityWebRequest request =
-                GetBaseRequest(
-                    $"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}/battery-results", "POST",
-                    updatedGame);
-            yield return request.SendWebRequest();
-
-            ReserializeGamestate(uuid);
-        }
-
         public void ToggleLanguage(Language newLanguage, Action<PlayerDetails> callback)
         {
             PlayerDetails p = GameState.Instance.currentGameState;

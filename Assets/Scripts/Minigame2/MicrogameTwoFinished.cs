@@ -1,5 +1,6 @@
 using System;
 using Helpers;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -36,15 +37,23 @@ namespace Minigame2
             SceneManager.LoadScene("MainMenu");
         }
 
-        public int SetScore(int fails, int totalTries)
+        public void SetScore(int fails, int totalTries)
         {
             int innerScore = Math.Max(0, 100 - (fails * 5));
             _score = innerScore;
-            Utility.GetTranslatedText("minigame2Score", s => transform.GetChild(3).GetComponent<TMP_Text>().text = s
-                .Replace("~", innerScore.ToString())
-                .Replace("#", totalTries.ToString()));
+            Utility.GetTranslatedText(innerScore > 60 ? "microgame_2_did_good" : "microgame_2_did_bad", s =>
+                transform.GetChild(4).GetComponent<TMP_Text>().text = s
+                    .Replace("~", innerScore.ToString())
+                    .Replace("#", totalTries.ToString()));
             pgc.StartAnimation(_score);
-            return _score;
+            MicrogameState s = new MicrogameState();
+            s.finished = true;
+            s.unlocked = true;
+            s.result = innerScore;
+            s.jumpAndRunResult = GameState.Instance.currentGameState.results[1].jumpAndRunResult;
+            s.game = GameState.Microgames.Microgame2;
+            StartCoroutine(Api.Instance.SetGame(s, GameState.Instance.currentGameState.id,
+                details => { GameState.Instance.currentGameState = details; }));
         }
     }
 }

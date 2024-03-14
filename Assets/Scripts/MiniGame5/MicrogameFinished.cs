@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -49,6 +50,16 @@ namespace Minigame5
                 .Replace("~t", time)
                 .Replace("~s", score.ToString()));
             pgc.StartAnimation(score);
+            MicrogameState s = new MicrogameState();
+            s.finished = true;
+            s.unlocked = true;
+            s.result = score;
+            s.jumpAndRunResult = GameState.Instance.currentGameState.results[4].jumpAndRunResult;
+            s.game = GameState.Microgames.Microgame5;
+            StartCoroutine(Api.Instance.SetGame(s, GameState.Instance.currentGameState.id, details =>
+            {
+                GameState.Instance.currentGameState = details;
+            }));
         }
     }
    

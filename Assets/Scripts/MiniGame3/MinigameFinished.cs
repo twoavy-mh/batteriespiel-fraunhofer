@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -44,6 +45,18 @@ namespace Minigame3
             Utility.GetTranslatedText("points_reached", s => scoreText.text += "\n\n" + s
                 .Replace("~s", score.ToString()));
             pgc.StartAnimation(score);
+            MicrogameState s = new MicrogameState()
+            {
+                unlocked = true,
+                finished = true,
+                result = score,
+                game = GameState.Microgames.Microgame3,
+                jumpAndRunResult = GameState.Instance.currentGameState.results[2].jumpAndRunResult
+            };
+            StartCoroutine(Api.Instance.SetGame(s, PlayerPrefs.GetString("uuid"), details =>
+            {
+                GameState.Instance.currentGameState = details;
+            }));
         }
     }
    

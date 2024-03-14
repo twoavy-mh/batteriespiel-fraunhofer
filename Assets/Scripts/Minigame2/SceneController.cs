@@ -44,21 +44,12 @@ namespace Minigame2
                 _dropzones["separator"] && _dropzones["lith_charge"] && _dropzones["electrolyte"])
             {
                 GameObject[] all = GetComponent<RenderUiBasedOnDevice>().DoIt();
-                //TODO: figure out why this is undefined below
-                int score = all[0].GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
-                Debug.Log(all[0].transform.Find("Body"));
-                Utility.GetTranslatedText(score > 60 ? "microgame_2_did_good" : "microgame_2_did_bad",
-                    (s) => all[0].transform.Find("Body").GetComponent<TMP_Text>().text = s);
-                MicrogameState s = new MicrogameState();
-                s.finished = true;
-                s.unlocked = true;
-                s.result = score;
-                s.jumpAndRunResult = GameState.Instance.currentGameState.results[1].jumpAndRunResult;
-                s.game = GameState.Microgames.Microgame2;
-                StartCoroutine(Api.Instance.SetGame(s, GameState.Instance.currentGameState.id, details =>
+                foreach (GameObject o in all)
                 {
-                    GameState.Instance.currentGameState = details;
-                }));
+                    Debug.Log(o.name);
+                }
+                
+                all[0].GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
             }
         }
     }

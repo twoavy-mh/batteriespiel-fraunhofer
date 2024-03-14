@@ -137,7 +137,7 @@ namespace Minigame1
         {
             try
             {
-                Api.Instance.SetGame(
+                StartCoroutine(Api.Instance.SetGame(
                     new MicrogameState()
                     {
                         unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1,
@@ -147,7 +147,7 @@ namespace Minigame1
                     {
                         GameState.Instance.currentGameState = details;
                         callback(true);
-                    });
+                    }));
             }
             catch (Exception)
             {
