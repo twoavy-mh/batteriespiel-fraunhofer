@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using Helpers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace Minigame2

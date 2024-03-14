@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using Events;
 using Helpers;
 using Minigame1;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBuyEvent, MicrogameFinishedEvent.IUseMicrogameFinished
 {

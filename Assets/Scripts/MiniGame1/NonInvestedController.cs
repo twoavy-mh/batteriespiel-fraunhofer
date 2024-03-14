@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Events;
 using Minigame1;
 using TMPro;
 using UnityEngine;

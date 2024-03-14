@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Minigame2;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Helpers;
 using Models;
 using TMPro;
@@ -13,6 +11,7 @@ namespace Minigame2
         // Start is called before the first frame update
         private static SceneController _instance;
         private Dictionary<string, bool> _dropzones = new Dictionary<string, bool>();
+        public GameObject modalGo;
 
         public int fails = 0;
 

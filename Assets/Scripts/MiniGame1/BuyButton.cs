@@ -8,7 +8,6 @@ using Minigame1;
 using Minigame1.Classes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, ShowWhatYouBuyEvent.IUseShowWhatYouBuyEvent

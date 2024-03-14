@@ -17,6 +17,9 @@ public class MainMenuHandler : MonoBehaviour
     public GameObject slideShowState;
     public GameObject regularState;
 
+    public GameObject infoCanvas;
+    public Button infoButton;
+    
     public TMP_Text finishedGameCounter;
 
     private Boolean menuOpen = false;

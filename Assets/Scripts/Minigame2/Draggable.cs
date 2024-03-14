@@ -18,7 +18,6 @@ namespace Minigame2
     public string displayName;
     public string requiredDropZone;
     private bool _finished = false;
-    public GameObject modalGo;
     
     public bool fakeBelow = false;
 
@@ -26,14 +25,6 @@ namespace Minigame2
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         
-        GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
-        foreach (GameObject go in all)
-        {
-            if (go.name.Equals("Modal"))
-            {
-                modalGo = go;
-            }
-        }
         _rt = GetComponent<RectTransform>();
         _initialPosition = new Vector3(_rt.position.x, _rt.position.y, _rt.position.z);
 
@@ -55,8 +46,8 @@ namespace Minigame2
 
     private void InfoButton()
     {
-        modalGo.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
-        modalGo.SetActive(true);
+        SceneController.Instance.modalGo.SetActive(true);
+        SceneController.Instance.modalGo.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
     }
     
     private IEnumerator ToFake(Color tmpColor)
