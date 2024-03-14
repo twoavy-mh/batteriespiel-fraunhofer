@@ -34,13 +34,6 @@ namespace Minigame3
         private bool _gameFinished = false;
         
         private string _currentHelpKey = "";
-
-        private float _beltSpeed = 0;
-        public float beltSpeed
-        {
-            get => _beltSpeed;
-            set => _beltSpeed = value;
-        }
         
         private static int _startOffset = 422;
         private static int _screenOffset = 2580;
@@ -57,7 +50,7 @@ namespace Minigame3
         private List<int> _startPositions = new List<int>();
         
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
             InstantiateBeltArrows();
             _beltSpeedSlider = GameObject.Find("SpeedSlider").GetComponentInChildren<NanoGame3SliderController>();
@@ -201,9 +194,21 @@ namespace Minigame3
             OnSkipGame?.Invoke();
         }
 
-        public void ClearNanoGame()
+        public void OnDisable()
         {
-            
+            foreach (GameObject beltArrow in _beltObjects)
+            {
+                DestroyImmediate(beltArrow);
+            }
+
+            _gameStarted = false;
+            _gameFinished = false;
+            _currentHelpKey = "";
+            _beltSpeedValue = 0f;
+            _heatValue = 0f;
+            _heaterImage.color = Settings.ColorMap[Tailwind.BlueUI];
+            _beltObjects = new List<GameObject>();
+            _startPositions = new List<int>();
         }
     }
 }

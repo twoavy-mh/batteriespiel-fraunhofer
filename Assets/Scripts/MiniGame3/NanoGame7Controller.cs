@@ -21,7 +21,7 @@ namespace Minigame3
         private bool _gameFinished = false;
         
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
             skipButton.onClick.AddListener(SkipGame);
             foreach (NanoGame7MaskController maskController in maskControllers)
@@ -61,6 +61,14 @@ namespace Minigame3
         {
             StopGame();
             OnSkipGame?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            checkIcon.UpdateColor(Tailwind.Black, 0f);
+            _filledMaskCount = 0;
+            _gameStarted = false;
+            _gameFinished = false;
         }
     }
 }

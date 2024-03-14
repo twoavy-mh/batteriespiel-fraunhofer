@@ -26,7 +26,7 @@ namespace Minigame3
         private float sliderOffsetValue = 0.05f;
 
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
             _sliderComponent = GetComponent<Slider>();
             _sliderComponent.onValueChanged.AddListener(ValueChange);
@@ -88,6 +88,15 @@ namespace Minigame3
         private void ValueChange(float value)
         {
             OnValueChange?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            _sliderComponent.onValueChanged.RemoveListener(ValueChange); 
+            _sliderComponent.value = 0f; 
+            _sliderComponent.interactable = true;
+            _isCorrect = false; 
+            _isSolved = false;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Minigame3
         private List<int> _startPositions = new List<int>() { -(_screenOffset/2) - _startOffset , -_startOffset,(_screenOffset/2) - _startOffset };
         
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
             foreach (int startOffset in _startPositions)
             {
@@ -120,13 +120,23 @@ namespace Minigame3
                 newCutter.GetComponentInChildren<SetPointToSplinePosition>().OnFinishedCutting += OnGameFinished;
                 _beltObjects.Add(newCutter);
                 
-                
                 GameObject newBeltDivider = Instantiate(Application.isMobilePlatform? beltArrowPrefabMobile:beltArrowPrefabDesktop, cutterSpawnPoint.transform);
                 newBeltDivider.transform.localScale = Vector3.one;
                 newBeltDivider.transform.localPosition = new Vector3(startOffset - _dividerOffset,0,0);
                 newBeltDivider.name = Application.isMobilePlatform? "BeltDividerMobile":"BeltDividerDesktop";
                 _beltObjects.Add(newBeltDivider);
-                
+        }
+
+        private void OnDisable()
+        {
+            foreach (GameObject cutter in _beltObjects)
+            {
+                DestroyImmediate(cutter);
+            }
+            _beltObjects.Clear();
+        
+            _gameStarted = false;
+            _gameFinished = false;
         }
     }
 }

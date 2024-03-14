@@ -24,7 +24,7 @@ namespace Minigame3
         private bool _gameFinished = false;
         
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
             skipButton.onClick.AddListener(SkipGame);
             
@@ -56,6 +56,13 @@ namespace Minigame3
         {
             _ng1Instance = Instantiate(Application.isMobilePlatform? nanoGame1Mobile:nanoGame1Desktop, nanoGame1ParentTarget);
             _ng1Instance.GetComponent<NanoGame1MixtureController>().OnFinished += OnGameFinished;
+        }
+
+        private void OnDisable()
+        {
+            DestroyImmediate(_ng1Instance);
+            _gameStarted = false; 
+            _gameFinished = false;
         }
     }
 }

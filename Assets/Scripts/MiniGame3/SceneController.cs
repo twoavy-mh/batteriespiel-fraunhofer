@@ -269,7 +269,6 @@ namespace Minigame3
         private void OnNanoGameSkipped() 
         {
             RemoveCurrentListener();
-            _nanoGameIndex++;
             SetNextOrEndscreen();
         }
         

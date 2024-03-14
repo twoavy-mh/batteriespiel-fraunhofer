@@ -23,12 +23,14 @@ public class NanoGame7MaskController : MonoBehaviour
     private RectTransform _maskFill;
 
     private bool _isFilled = false;
+    private Vector3 _initialFillPosition;
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         _mask = transform.GetComponentsInChildren<RectTransform>()[0];
         _maskFill = transform.GetComponentsInChildren<RectTransform>()[1];
+        _initialFillPosition = _maskFill.localPosition;
     }
 
     // Update is called once per frame
@@ -102,5 +104,12 @@ public class NanoGame7MaskController : MonoBehaviour
     public bool IsFilled()
     {
         return _isFilled;
+    }
+
+    private void OnDisable()
+    {
+        _maskFill.localPosition = _initialFillPosition;
+        _maskFill.GetComponent<ImageColorSetter>().UpdateColor(Tailwind.Yellow2);
+        _isFilled = false;
     }
 }

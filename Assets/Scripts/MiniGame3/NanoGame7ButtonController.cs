@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Helpers;
@@ -37,6 +38,15 @@ namespace Minigame3
             ImageColorSetter[] imageColorSetters = transform.GetComponentsInChildren<ImageColorSetter>();
             imageColorSetters[0].UpdateColor(Tailwind.Blue5);
             transform.GetComponentInChildren<FontStyler>().fontColor = Tailwind.Blue5;
+        }
+
+        private void OnDisable()
+        {
+            _buttonDisabled = false;
+            _buttonPressed = false;
+            ImageColorSetter[] imageColorSetters = transform.GetComponentsInChildren<ImageColorSetter>();
+            imageColorSetters[0].UpdateColor(Tailwind.Yellow3);
+            transform.GetComponentInChildren<FontStyler>().fontColor = Tailwind.Yellow3;
         }
     }
 }
