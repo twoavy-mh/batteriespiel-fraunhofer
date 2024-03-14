@@ -41,7 +41,7 @@ namespace Minigame3
             
             Utility.GetTranslatedText(score > 60? "mg3_endscreen_good":"mg3_endscreen_well", s => scoreText.text = s);
             
-            Utility.GetTranslatedText("points_reached", s => scoreText.text += s
+            Utility.GetTranslatedText("points_reached", s => scoreText.text += "\n\n" + s
                 .Replace("~s", score.ToString()));
             pgc.StartAnimation(score);
         }

@@ -203,7 +203,11 @@ namespace Minigame3
             if (!nanoGameContents[_nanoGameIndex - 1].nanoGameObject)
             {
                 nanoGameContents[_nanoGameIndex - 1].solved = true;
-                NextNanoGame();
+                if (_nanoGameIndex >= nanoGameContents.Length)
+                {
+                    SetEndscreen();
+                } else 
+                    NextNanoGame();
                 return;
             }
             
