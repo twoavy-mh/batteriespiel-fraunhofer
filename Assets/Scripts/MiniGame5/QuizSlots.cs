@@ -23,60 +23,60 @@ namespace Minigame5
                     "question1",
                     new string[]
                     {
-                        "qeustion1_answer1",
-                        "qeustion1_answer2",
-                        "qeustion1_answer3",
-                        "qeustion1_answer4"
+                        "question1_answer1",
+                        "question1_answer2",
+                        "question1_answer3",
+                        "question1_answer4"
                     },
                     2),
                 new QuizSlot(
                     "question2",
                     new string[]
                     {
-                        "qeustion2_answer1",
-                        "qeustion2_answer2",
-                        "qeustion2_answer3",
-                        "qeustion2_answer4"
+                        "question2_answer1",
+                        "question2_answer2",
+                        "question2_answer3",
+                        "question2_answer4"
                     },
                     0),
                 new QuizSlot(
                     "question3",
                     new string[]
                     {
-                        "qeustion3_answer1",
-                        "qeustion3_answer2",
-                        "qeustion3_answer3",
-                        "qeustion3_answer4"
+                        "question3_answer1",
+                        "question3_answer2",
+                        "question3_answer3",
+                        "question3_answer4"
                     },
                     0),
                 new QuizSlot(
                     "question4",
                     new string[]
                     {
-                        "qeustion4_answer1",
-                        "qeustion4_answer2",
-                        "qeustion4_answer3",
-                        "qeustion4_answer4"
+                        "question4_answer1",
+                        "question4_answer2",
+                        "question4_answer3",
+                        "question4_answer4"
                     },
                     3),
                 new QuizSlot(
                     "question5",
                     new string[]
                     {
-                        "qeustion5_answer1",
-                        "qeustion5_answer2",
-                        "qeustion5_answer3",
-                        "qeustion5_answer4"
+                        "question5_answer1",
+                        "question5_answer2",
+                        "question5_answer3",
+                        "question5_answer4"
                     },
                     2),
                 new QuizSlot(
                     "question6",
                     new string[]
                     {
-                        "qeustion6_answer1",
-                        "qeustion6_answer2",
-                        "qeustion6_answer3",
-                        "qeustion6_answer4"
+                        "question6_answer1",
+                        "question6_answer2",
+                        "question6_answer3",
+                        "question6_answer4"
                     },
                     3),
             };
