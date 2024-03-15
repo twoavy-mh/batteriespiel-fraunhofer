@@ -79,6 +79,7 @@ public class VideoController : MonoBehaviour
     private void OnVideoEnd(VideoPlayer vp)
     {
         videoPlayer.loopPointReached -= OnVideoEnd;
+        videoPlayer.prepareCompleted -= VideoPrepared;
 
         foreach (ImageColorSetter colorSetterInChild in skipButton.GetComponentsInChildren<ImageColorSetter>())
         {
