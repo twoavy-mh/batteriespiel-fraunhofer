@@ -9,6 +9,7 @@ using JumpNRun;
 using Models;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 {
@@ -165,7 +166,15 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         StartCoroutine(Api.Instance.SetGame(m, GameState.Instance.currentGameState.id, details =>
         {
             GameState.Instance.currentGameState = details;
-            SceneManager.LoadScene($"MicroGame{((int)m.game) + 1}Onboard");
+            int game = ((int)m.game) + 1;
+            if (game == 3 || game == 5)
+            {
+                SceneManager.LoadScene($"MicroGame{game}");
+            }
+            else
+            {
+                SceneManager.LoadScene($"MicroGame{game}Onboard");   
+            }
         }));
     }
     
