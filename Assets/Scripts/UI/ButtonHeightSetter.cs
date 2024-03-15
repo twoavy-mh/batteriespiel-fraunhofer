@@ -24,6 +24,6 @@ public class ButtonHeightSetter : MonoBehaviour
         ImageWithRoundedCorners iwrcChild = child.GetComponent<ImageWithRoundedCorners>();
         iwrcChild.radius *= multiplier;
         HorizontalLayoutGroup hlg = child.GetComponent<HorizontalLayoutGroup>();
-        hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(10 * multiplier), (int)Math.Round(10 * multiplier));
+        hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(5 * multiplier), (int)Math.Round(5 * multiplier));
     }
 }
