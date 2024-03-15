@@ -76,6 +76,7 @@ namespace Helpers
             yield return request.SendWebRequest();
 
             string v = request.downloadHandler.text;
+            Debug.Log(v);
 
             callback((PlayerRegistration)v);
         }
