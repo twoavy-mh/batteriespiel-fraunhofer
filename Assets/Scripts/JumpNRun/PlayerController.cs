@@ -9,7 +9,6 @@ using JumpNRun;
 using Models;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 {
