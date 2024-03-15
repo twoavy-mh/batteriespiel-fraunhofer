@@ -15,9 +15,9 @@ public class InstantiationHelper : MonoBehaviour
       if (Utility.GetDevice() == Device.Mobile )
       {
          VerticalLayoutGroup menuItemsVerticalLayoutGroupComponent = menuItemsGameObject.AddComponent<VerticalLayoutGroup>();
-         menuItemsVerticalLayoutGroupComponent.padding = new RectOffset(30, 36, 35, 12);
+         menuItemsVerticalLayoutGroupComponent.padding = new RectOffset(30, 36, 75, 12);
          menuItemsVerticalLayoutGroupComponent.spacing = 13;
-         menuItemsVerticalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
+         menuItemsVerticalLayoutGroupComponent.childAlignment = TextAnchor.UpperLeft;
          menuItemsVerticalLayoutGroupComponent.reverseArrangement = false;
          menuItemsVerticalLayoutGroupComponent.childControlWidth = true;
          menuItemsVerticalLayoutGroupComponent.childControlHeight = true;

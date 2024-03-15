@@ -54,7 +54,7 @@ public class MiniGameButtonController : MonoBehaviour
         }
         else
         {
-            text.color = Settings.ColorMap[Tailwind.Azure2];
+            text.color = Settings.ColorMap[Tailwind.Blue4];
             buttonImage.sprite = inactiveSprite;
         }
     }
