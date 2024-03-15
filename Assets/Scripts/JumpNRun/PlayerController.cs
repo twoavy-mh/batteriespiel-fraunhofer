@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _isGrounded = false;
             _isJumping = true;
             _jumpTimeCounter = _jumpTime;
-            _rb.velocity = Vector2.up * 8f;
+            _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 8f);
         }
 
         if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 &&
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _animator.SetTrigger("jump");
             if (_jumpTimeCounter > 0)
             {
-                _rb.velocity = Vector2.up * 6f;
+                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 6f);
                 _jumpTimeCounter -= Time.deltaTime;
             }
             else

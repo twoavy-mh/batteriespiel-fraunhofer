@@ -21,8 +21,10 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     public int needs;
     public string dictKey;
+    [SerializeField]
     private int _bought = 0;
 
+    [SerializeField]
     public bool Finished
     {
         get => _bought >= needs;
@@ -66,6 +68,10 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         amount.DOColor(Settings.ColorMap[Tailwind.BlueUI], 0.5f);
         outer.DOColor(Settings.ColorMap[backgroundColorWhenBought], 0.5f);
         type.DOColor(Settings.ColorMap[Tailwind.BlueUI], 0.5f);
+        if (Finished)
+        {
+            yield break;
+        }
         yield return new WaitForSeconds(3);
         outer.DOColor(Settings.ColorMap[Tailwind.BlueUI], 0.5f);
         amount.DOColor(Settings.ColorMap[backgroundColorWhenBought], 0.5f);

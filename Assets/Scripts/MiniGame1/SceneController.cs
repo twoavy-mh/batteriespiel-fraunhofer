@@ -115,7 +115,7 @@ namespace Minigame1
                         mobileModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
                         Utility.GetTranslatedText(
                             score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
-                            s => desktopModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
+                            s => mobileModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
                             new Dictionary<string, string>()
                             {
                                 { "~", boughtInTotal.ToString() },
@@ -180,7 +180,7 @@ namespace Minigame1
                                  (boughtCobalt * cobaltPrice);
             int remainingCapital = startCapital - purchasedValue;
 
-            float f = (purchasedValue / (float)desiredValue) * 50;
+            float f = (Math.Min(purchasedValue, desiredValue) / (float)desiredValue) * 50;
             float g = (remainingCapital / (float)startCapital) * 50;
 
             int score = (int)Math.Floor(f + g);
