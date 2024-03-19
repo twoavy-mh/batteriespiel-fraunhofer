@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Helpers;
-using Models;
 using TMPro;
 
 public class MainMenuHandler : MonoBehaviour
@@ -17,8 +14,11 @@ public class MainMenuHandler : MonoBehaviour
     public GameObject slideShowState;
     public GameObject regularState;
 
+    public GameObject InfoLangFairMode;
+    
     public GameObject infoCanvas;
     public Button infoButton;
+    public Button infoCloseButton;
     
     public TMP_Text finishedGameCounter;
 
@@ -39,6 +39,9 @@ public class MainMenuHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        infoButton.onClick.AddListener(OpenInfoModal);
+        infoCloseButton.onClick.AddListener(CloseInfoModal);
+        
         string finishedGames = "";
         try
         {
@@ -67,12 +70,14 @@ public class MainMenuHandler : MonoBehaviour
         }
         else
         {
+            Transform gameProgressGO = GameObject.Find("GameProgressOutline").transform;
+            gameProgressGO.localPosition = new Vector2(gameProgressGO.localPosition.x + 100f, gameProgressGO.localPosition.y);
+            InfoLangFairMode.transform.SetSiblingIndex(4);
+            InfoLangFairMode.transform.GetChild(0).transform.localPosition = new Vector2(-740f + InfoLangFairMode.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.x, -530f);
             m_MainMenuButton.gameObject.SetActive(false);
             ShowDesktopMenu();
         }
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(menuItems.GetComponent<RectTransform>());
-
+        
         if ((int)GameState.Instance.GetCurrentMicrogame() == 0)
         {
             slideShowState.SetActive(true);
@@ -83,6 +88,8 @@ public class MainMenuHandler : MonoBehaviour
             slideShowState.SetActive(false);
             regularState.SetActive(true);
         }
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(menuItems.GetComponent<RectTransform>());
     }
 
     // Update is called once per frame
@@ -165,5 +172,20 @@ public class MainMenuHandler : MonoBehaviour
         {
             canvasGroup.alpha = 1;
         }
+    }
+    
+    private void OpenInfoModal()
+    {
+        infoCanvas.GetComponentInChildren<CanvasGroup>().alpha = 0f;
+        infoCanvas.SetActive(true);
+        infoCanvas.GetComponentInChildren<CanvasGroup>().DOFade(1, .5f).SetEase(Ease.InCubic);
+    }
+    
+    private void CloseInfoModal()
+    {
+        infoCanvas.GetComponentInChildren<CanvasGroup>().DOFade(0, .5f).SetEase(Ease.InCubic).OnComplete(() =>
+        { 
+            infoCanvas.SetActive(false);
+        });
     }
 }

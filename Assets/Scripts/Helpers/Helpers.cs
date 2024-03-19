@@ -52,7 +52,10 @@ namespace Helpers
         Sky3,
         Gray1,
         Black,
-        White
+        White,
+        ShadowDark,
+        ShadowBlue,
+        ShadowYellow,
     }
 
     public enum FontType
@@ -130,7 +133,10 @@ namespace Helpers
             { Tailwind.Sky3, new Color(0 / 255f, 110 / 255f, 146 / 255f, 1) },
             { Tailwind.Gray1, new Color(199 / 255f, 202 / 255f, 204 / 255f, 1) },
             { Tailwind.Black, new Color(0f, 0f, 0f, 1f) },
-            { Tailwind.White, new Color(1f, 1f, 1f, 1f) }
+            { Tailwind.White, new Color(1f, 1f, 1f, 1f) },
+            { Tailwind.ShadowDark, new Color(15 / 255f, 15 / 255f, 15 / 255f, 204 / 255f) },
+            { Tailwind.ShadowBlue, new Color(37 / 255f, 186 / 255f, 226 / 255f, 1) },
+            { Tailwind.ShadowYellow, new Color(211 / 255f, 229 / 255f, 97 / 255f, 102 / 255f) }
         };
 
         public static Dictionary<FontStyles, FontDetails> FontMap = new Dictionary<FontStyles, FontDetails>()

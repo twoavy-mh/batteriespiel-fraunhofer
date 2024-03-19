@@ -14,13 +14,12 @@ public class Open3dModel : MonoBehaviour
     private String _jumpScene;
     void Awake () {
        GetComponent<Button>().onClick.AddListener(ChangeModelAndLoadScene);
-       Debug.Log(GameState.Instance.arAvailable);
     }
 
     private void ChangeModelAndLoadScene()
     {
         _jumpScene = GameState.Instance.arAvailable? "AR-Szene" : "3D-Viewer";
-        Debug.Log("GO TO SCENE = "+_jumpScene);
+        Debug.Log("GO TO SCENE = "+_jumpScene + " WITH MODELL = "+model);
         GameState.Instance.SetVariableAndSave(ref GameState.Instance.currentGameState.current3dModel, model);
         SceneManager.LoadScene(_jumpScene);
     }
