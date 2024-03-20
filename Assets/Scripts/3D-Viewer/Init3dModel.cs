@@ -21,6 +21,7 @@ public class Init3dModel : MonoBehaviour
         switch (GameState.Instance.currentGameState.current3dModel)
         {
             case GameState.Models.Cells:
+                GameObject.Find("OpenCloseAnimation").SetActive(false);
                 InstantiateModel(pouchCell);
                 InstantiateModel(prismCell, new Vector3(0,0,2));
                 InstantiateModel(cylinderCell, new Vector3(0,0,-2));
