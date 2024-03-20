@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,8 +38,13 @@ public class MainMenuHandler : MonoBehaviour
     private InstantiationHelper instantiationHelper;
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => Api.Instance != null);
+        yield return new WaitUntil(() => GameManager.Instance != null);
+        yield return new WaitUntil(() => GameState.Instance.currentGameState != null);
+        Debug.Log("Start MainMenuHandler.cs");
+        
         infoButton.onClick.AddListener(OpenInfoModal);
         infoCloseButton.onClick.AddListener(CloseInfoModal);
         

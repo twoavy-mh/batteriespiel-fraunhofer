@@ -15,8 +15,10 @@ public class StateDisplayController : MonoBehaviour
     public Image imageState;
     public TMP_Text textState;
     
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameState.Instance.currentGameState != null);
+        
         switch (GameState.Instance.currentGameState.results.Length)
         {
             case 1:

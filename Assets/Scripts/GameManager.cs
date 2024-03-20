@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using System.Threading.Tasks;
 using Helpers;
 using Models;
 using UnityEngine.SceneManagement;
@@ -26,6 +25,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+#if UNITY_ANDROID
+        Application.targetFrameRate = 30;
+#endif
+        Debug.Log($"Target frame rate: {Application.targetFrameRate}");
         StartCoroutine(WaitUntilApiIsThere(() => StartGameManager()));
         DontDestroyOnLoad(this);
         _instance = this;
@@ -36,77 +39,25 @@ public class GameManager : MonoBehaviour
 
     private void StartGameManager()
     {
-        if (!skipSerializations)
+        if (!PlayerPrefs.GetString("uuid").Empty())
         {
-            if (!PlayerPrefs.GetString("uuid").Empty())
-            {
-                Api.Instance.GetPlayerDetails("test",
-                    Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En,
-                    s =>
+            Api.Instance.GetPlayerDetails("test",
+                Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En,
+                s =>
+                {
+                    if (s != null)
                     {
-                        if (s != null)
-                        {
-                            Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
-                        }
-                        else
-                        {
-                            Debug.Log("Failed to log in");
-                        }
-                    });
-            }
-            else
-            {
-                Debug.Log("No player id found");
-            }
+                        Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
+                    }
+                    else
+                    {
+                        Debug.Log("Failed to log in");
+                    }
+                });
         }
         else
         {
-            PlayerDetails p = new PlayerDetails();
-            p.language = Language.De;
-            p.id = "22c7d1dd-bc2b-4d20-8d96-3903d1282386";
-            p.name = "dev";
-            p.current3dModel = GameState.Models.Cells;
-            p.finishedIntro = true;
-            p.totalScore = 0;
-            p.results = new[]
-            {
-                new MicrogameState()
-                {
-                    game = GameState.Microgames.Microgame1,
-                    unlocked = true,
-                    finished = true,
-                    result = 1
-                },
-                new MicrogameState()
-                {
-                    game = GameState.Microgames.Microgame2,
-                    unlocked = true,
-                    finished = true,
-                    result = 1
-                },
-                new MicrogameState()
-                {
-                    game = GameState.Microgames.Microgame3,
-                    unlocked = true,
-                    finished = true,
-                    result = 1
-                },
-                new MicrogameState()
-                {
-                    game = GameState.Microgames.Microgame4,
-                    unlocked = true,
-                    finished = true,
-                    result = 1
-                },
-                new MicrogameState()
-                {
-                    game = GameState.Microgames.Microgame5,
-                    unlocked = true,
-                    finished = true,
-                    result = 1
-                },
-            };
-            GameState.Instance.currentGameState = p;
+            Debug.Log("No player id found");
         }
     }
 
