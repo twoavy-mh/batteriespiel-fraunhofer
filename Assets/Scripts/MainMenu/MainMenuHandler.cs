@@ -17,10 +17,6 @@ public class MainMenuHandler : MonoBehaviour
 
     public GameObject InfoLangFairMode;
     
-    public GameObject infoCanvas;
-    public Button infoButton;
-    public Button infoCloseButton;
-    
     public TMP_Text finishedGameCounter;
 
     private Boolean menuOpen = false;
@@ -44,9 +40,6 @@ public class MainMenuHandler : MonoBehaviour
         yield return new WaitUntil(() => GameManager.Instance != null);
         yield return new WaitUntil(() => GameState.Instance.currentGameState != null);
         Debug.Log("Start MainMenuHandler.cs");
-        
-        infoButton.onClick.AddListener(OpenInfoModal);
-        infoCloseButton.onClick.AddListener(CloseInfoModal);
         
         string finishedGames = "";
         try
@@ -178,20 +171,5 @@ public class MainMenuHandler : MonoBehaviour
         {
             canvasGroup.alpha = 1;
         }
-    }
-    
-    private void OpenInfoModal()
-    {
-        infoCanvas.GetComponentInChildren<CanvasGroup>().alpha = 0f;
-        infoCanvas.SetActive(true);
-        infoCanvas.GetComponentInChildren<CanvasGroup>().DOFade(1, .5f).SetEase(Ease.InCubic);
-    }
-    
-    private void CloseInfoModal()
-    {
-        infoCanvas.GetComponentInChildren<CanvasGroup>().DOFade(0, .5f).SetEase(Ease.InCubic).OnComplete(() =>
-        { 
-            infoCanvas.SetActive(false);
-        });
     }
 }
