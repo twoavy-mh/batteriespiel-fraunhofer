@@ -24,8 +24,8 @@ namespace Minigame2
 
         public void SetText(string header, string text)
         {
-            Utility.GetTranslatedText(header, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
-            Utility.GetTranslatedText(text, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText(header, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText(text, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
         }
     }
    
