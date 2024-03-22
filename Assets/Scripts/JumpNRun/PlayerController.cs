@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             Debug.Log("die now");
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) ||
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
              (Input.touchCount > 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Began)) && !_mustFall)
         {
             if (!_isGrounded) _mustFall = true;
@@ -81,9 +81,10 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 8f);
         }
 
-        if ((Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 &&
-                                             (Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Stationary ||
-                                              Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Moved))) &&
+        if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
+             (Input.touchCount > 0 &&
+              (Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Stationary ||
+               Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Moved))) &&
             _isJumping)
         {
             if (_mustFall) return;
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _animator.SetTrigger("jump");
             if (_jumpTimeCounter > 0)
             {
-                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 6f);
+                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 8f);
                 _jumpTimeCounter -= Time.deltaTime;
             }
             else
@@ -145,14 +146,13 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                                 Debug.Log("Starting final callbacl");
                                 SerializeScore();
                             }));
-                        
                     }
 
                     break;
             }
         }
     }
-    
+
     private void SerializeScore()
     {
         MicrogameState m = new MicrogameState();
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         m.finished = false;
         m.result = 0;
         m.jumpAndRunResult = _scoreController.GetScoreForApi();
-        
+
         StartCoroutine(Api.Instance.SetGame(m, GameState.Instance.currentGameState.id, details =>
         {
             GameState.Instance.currentGameState = details;
@@ -172,11 +172,11 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             }
             else
             {
-                SceneManager.LoadScene($"MicroGame{game}Onboard");   
+                SceneManager.LoadScene($"MicroGame{game}Onboard");
             }
         }));
     }
-    
+
     private void FadeCollectable(SpriteRenderer s)
     {
         StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f,

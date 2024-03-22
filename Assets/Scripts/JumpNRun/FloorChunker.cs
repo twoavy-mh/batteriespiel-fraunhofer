@@ -10,7 +10,7 @@ public class FloorChunker : MonoBehaviour
     public GameObject target;
     public const float ChunkSize = 3.37f;
     public int chunkCount = 10;
-    
+
     public GameObject YellowLightning;
     public GameObject BlueLightning;
 
@@ -59,10 +59,9 @@ public class FloorChunker : MonoBehaviour
         float xOffset = 0;
 
         bool[] randomChunkToSpawnObstacle = RandomPlacer((int)GameState.Instance.GetCurrentMicrogame() + 2, chunkCount);
-        
+
         for (int i = 0; i < chunkCount; i++)
         {
-            
             GameObject currentChunk = Instantiate(chunk, new Vector3(i * ChunkSize + xOffset + _blockCount * (
                 (chunkCount + 2) * ChunkSize), transform.parent.position.y, 0), Quaternion.identity);
             currentChunk.transform.SetParent(transform);
@@ -75,7 +74,7 @@ public class FloorChunker : MonoBehaviour
                     (chunkCount + 2) * ChunkSize), -3.5f, 0), Quaternion.identity);
                 obstacle.transform.SetParent(currentChunk.transform);
             }
-            
+
             if (i == chunkCount - 1)
             {
                 _lastTile = currentChunk;
@@ -84,14 +83,26 @@ public class FloorChunker : MonoBehaviour
 
         GameObject col = new GameObject();
         col.transform.SetParent(transform.parent);
-        col.transform.localScale = new Vector3(chunkCount * ChunkSize, 1f, 1f);
+        col.transform.localScale = new Vector3(chunkCount * ChunkSize, 0.1f, 1f);
         col.AddComponent<BoxCollider2D>();
         col.transform.position = new Vector3(
             chunkCount * ChunkSize +
             _blockCount * ((chunkCount + 2) * ChunkSize)
             - col.transform.localScale.x / 2 - ChunkSize / 2,
             transform.parent.position.y, 0f);
-        float randomX = UnityEngine.Random.Range(col.transform.position.x, col.transform.position.x + col.transform.localScale.x);
+
+        GameObject vert = new GameObject();
+        vert.transform.SetParent(transform.parent);
+        vert.transform.localScale = new Vector3(0.1f, 2f, 2f);
+        vert.AddComponent<BoxCollider2D>();
+        vert.transform.position = new Vector3(
+            col.transform.position.x - col.transform.localScale.x / 2 - vert.transform.localScale.x / 2,
+            transform.parent.position.y - vert.transform.localScale.y / 2 - col.transform.localScale.y / 2, 0f);
+        vert.name = "Vertical";
+        vert.transform.tag = "Obstacle";
+
+        float randomX = UnityEngine.Random.Range(col.transform.position.x,
+            col.transform.position.x + col.transform.localScale.x);
         float randomY = UnityEngine.Random.Range(0, 1);
         Instantiate(target, new Vector3(randomX, randomY, 0), Quaternion.identity);
         col.tag = "Floor";
@@ -105,8 +116,8 @@ public class FloorChunker : MonoBehaviour
         {
             throw new ArgumentException("n must be less than the length of the array minus 2.");
         }
-        
-        for(int i = 0; i < array.Length; i++)
+
+        for (int i = 0; i < array.Length; i++)
             array[i] = 0;
 
         List<int> indices = new List<int>();
@@ -133,6 +144,7 @@ public class FloorChunker : MonoBehaviour
         {
             boolArray[i] = intArray[i] == 1;
         }
+
         return boolArray;
     }
 }
