@@ -18,7 +18,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public Sprite[] maps;
     public Sprite emptyMap;
     public Image mapImage;
-    public int secondsPerTimeslot = 5;
+    private int _secondsPerTimeslot = 2;
     public RawImage textureRenderedTo;
     
     void Start()
@@ -178,12 +178,13 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
 
     private IEnumerator EmitBuyableAgain(int startframe, int endframe)
     {
-        yield return new WaitForSeconds(secondsPerTimeslot);
+        float i = (endframe - startframe) / 2f / _vp.frameRate;
+        yield return new WaitForSeconds(_secondsPerTimeslot - i);
         if (!SceneController.Instance.GetFinished())
         {
             _vp.Play();    
         }
-        yield return new WaitForSeconds((endframe - startframe) / _vp.frameRate);
+        yield return new WaitForSeconds(i);
         if (!SceneController.Instance.GetFinished())
         {
             SceneController.Instance.showWhatYouBuyEvent.Invoke(false);    
