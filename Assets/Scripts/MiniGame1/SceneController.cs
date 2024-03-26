@@ -29,7 +29,21 @@ namespace Minigame1
         public MicrogameFinishedEvent microgameFinishedEvent;
 
         private bool _finished = false;
-
+        
+        private int _desiredValue = 3568;
+        private int _startCapital = 6000;
+        public int startCapital
+        {
+            get
+            {
+                return _startCapital;
+            }
+            private set
+            {
+                _startCapital = value;
+            }
+        }
+        
         public static SceneController Instance
         {
             get
@@ -52,23 +66,101 @@ namespace Minigame1
 
         private void Update()
         {
+            int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
+                                stateButtons[2].GetBought();
+            int capitalNow = _startCapital - boughtInTotal;
+            Debug.Log("SCORE = " + CalculateEaseScore(capitalNow));
+            
             if (!_finished)
             {
                 if (stateButtons.All(x => x.Finished))
                 {
+                    SetEndScreen();
+                }
+            }
+        }
+
+        private void UpdateGame(int score, Action<bool> callback)
+        {
+            try
+            {
+                StartCoroutine(Api.Instance.SetGame(
+                    new MicrogameState()
+                    {
+                        unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1,
+                        jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult
+                    },
+                    GameState.Instance.currentGameState.id, details =>
+                    {
+                        GameState.Instance.currentGameState = details;
+                        callback(true);
+                    }));
+            }
+            catch (Exception)
+            {
+                callback(false);
+            }
+        }
+
+        public int AveragePricePerPurchasable(string key)
+        {
+            Timeslot s = GameObject.Find("Video Player").GetComponent<Timeslot>();
+            int sum = 0;
+            foreach (TimeslotEntry timeslotEntry in s.GetBrokerDay())
+            {
+                if (key == "nickle") sum += timeslotEntry.resourceInfo.nicklePrice;
+                else if (key == "lithium") sum += timeslotEntry.resourceInfo.lithiumPrice;
+                else if (key == "cobalt") sum += timeslotEntry.resourceInfo.cobaltPrice;
+            }
+
+            int avg = sum / s.GetBrokerDay().Count;
+            Debug.Log(avg);
+            return avg;
+        }
+
+        private int CalculateScore(int requiredNickle, int boughtNickle, int requiredLithium, int boughtLithium,
+            int requiredCobalt, int boughtCobalt, int startCapital, int nickelPrice, int lithiumPrice, int cobaltPrice)
+        {
+            int desiredValue = (requiredNickle * nickelPrice) + (requiredLithium * lithiumPrice) +
+                               (requiredCobalt * cobaltPrice);
+            int purchasedValue = (boughtNickle * nickelPrice) + (boughtLithium * lithiumPrice) +
+                                 (boughtCobalt * cobaltPrice);
+            int remainingCapital = startCapital - purchasedValue;
+
+            float f = (Math.Min(purchasedValue, desiredValue) / (float)desiredValue) * 50;
+            float g = (remainingCapital / (float)startCapital) * 50;
+
+            int score = (int)Math.Floor(f + g);
+            return score;
+        }
+        
+        private int CalculateEaseScore(int remainingCapital)
+        {
+            int desiredRemainingCapital = _startCapital - _desiredValue;
+
+            float f = (Math.Min(remainingCapital, desiredRemainingCapital) / (float)desiredRemainingCapital) * 100;
+
+            int score = (int)Math.Floor(f);
+            return score;
+        }
+        
+        private void SetEndScreen()
+        {
+            
                     _finished = true;
                     videoPlayer.Stop();
                     microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
                     int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
                                         stateButtons[2].GetBought();
-                    int startCapital = 20000;
-                    int capitalNow = startCapital - boughtInTotal;
-                    int spent = startCapital - capitalNow;
+                    int capitalNow = _startCapital - boughtInTotal;
+                    int spent = _startCapital - capitalNow;
                     int score = CalculateScore(stateButtons[0].needs, stateButtons[0].GetBought(),
                         stateButtons[1].needs, stateButtons[1].GetBought(),
-                        stateButtons[2].needs, stateButtons[2].GetBought(), 20000,
+                        stateButtons[2].needs, stateButtons[2].GetBought(), _startCapital,
                         AveragePricePerPurchasable("nickle"), AveragePricePerPurchasable("lithium"),
                         AveragePricePerPurchasable("cobalt"));
+                    score = CalculateEaseScore(capitalNow);
+                    Debug.Log("SCORE = " + CalculateEaseScore(capitalNow));
 
                     if (GameState.Instance.currentGameState.results.Length == 0)
                     {
@@ -129,62 +221,6 @@ namespace Minigame1
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name));
                     GameObject.Find("NextButton").GetComponent<Button>().onClick.AddListener(() =>
                         SceneManager.LoadScene("MainMenu"));
-                }
-            }
-        }
-
-        private void UpdateGame(int score, Action<bool> callback)
-        {
-            try
-            {
-                StartCoroutine(Api.Instance.SetGame(
-                    new MicrogameState()
-                    {
-                        unlocked = true, finished = true, result = score, game = GameState.Microgames.Microgame1,
-                        jumpAndRunResult = GameState.Instance.currentGameState.results[0].jumpAndRunResult
-                    },
-                    GameState.Instance.currentGameState.id, details =>
-                    {
-                        GameState.Instance.currentGameState = details;
-                        callback(true);
-                    }));
-            }
-            catch (Exception)
-            {
-                callback(false);
-            }
-        }
-
-        public int AveragePricePerPurchasable(string key)
-        {
-            Timeslot s = GameObject.Find("Video Player").GetComponent<Timeslot>();
-            int sum = 0;
-            foreach (TimeslotEntry timeslotEntry in s.GetBrokerDay())
-            {
-                if (key == "nickle") sum += timeslotEntry.resourceInfo.nicklePrice;
-                else if (key == "lithium") sum += timeslotEntry.resourceInfo.lithiumPrice;
-                else if (key == "cobalt") sum += timeslotEntry.resourceInfo.cobaltPrice;
-            }
-
-            int avg = sum / s.GetBrokerDay().Count;
-            Debug.Log(avg);
-            return avg;
-        }
-
-        private int CalculateScore(int requiredNickle, int boughtNickle, int requiredLithium, int boughtLithium,
-            int requiredCobalt, int boughtCobalt, int startCapital, int nickelPrice, int lithiumPrice, int cobaltPrice)
-        {
-            int desiredValue = (requiredNickle * nickelPrice) + (requiredLithium * lithiumPrice) +
-                               (requiredCobalt * cobaltPrice);
-            int purchasedValue = (boughtNickle * nickelPrice) + (boughtLithium * lithiumPrice) +
-                                 (boughtCobalt * cobaltPrice);
-            int remainingCapital = startCapital - purchasedValue;
-
-            float f = (Math.Min(purchasedValue, desiredValue) / (float)desiredValue) * 50;
-            float g = (remainingCapital / (float)startCapital) * 50;
-
-            int score = (int)Math.Floor(f + g);
-            return score;
         }
 
         public bool GetFinished()

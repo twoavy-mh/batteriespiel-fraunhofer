@@ -35,83 +35,82 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
             {
                 new TimeslotEntry(50, 100, new ResourceInfo(25, 120, 40), new[]
                 {
-                    new ResourceAmount(12, 0, 1, "indonesia"),
-                    new ResourceAmount(12, 0, 1, "chile"),
-                    //next no lithium
-                    new ResourceAmount(6, 10, 0, "philippines"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
+                    new ResourceAmount(0, 4, 0, "chile"),
+                    new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[0])
             },
             {
                 new TimeslotEntry(200, 250, new ResourceInfo(20, 60, 50), new[]
                 {
-                    new ResourceAmount(12, 0, 1, "indonesia"),
-                    new ResourceAmount(12, 0, 1, "chile"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
+                    new ResourceAmount(0, 4, 0, "chile"),
                     new ResourceAmount(0, 0, 0, "", true),
                 }, maps[1])
             },
             {
                 new TimeslotEntry(350, 400, new ResourceInfo(80, 15, 60), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 0, 3, "indonesia"),
-                    new ResourceAmount(4, 5, 1, "australia"),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
+                    new ResourceAmount(5, 6, 1, "australia"),
                 }, maps[2])
             },
             {
                 new TimeslotEntry(500, 550, new ResourceInfo(22, 150, 45), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 0, 3, "chile"),
-                    new ResourceAmount(0, 0, 0, "", true),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(0, 4, 0, "chile"),
+                    new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[3])
             },
             {
                 new TimeslotEntry(650, 700, new ResourceInfo(16, 110, 85), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 0, 3, "indonesia"),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
                     new ResourceAmount(0, 0, 0, "", true),
                 }, maps[4])
             },
             {
                 new TimeslotEntry(800, 850, new ResourceInfo(18, 220, 120), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 0, 3, "australia"),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(5, 6, 1, "australia"),
                     //next no lithium
-                    new ResourceAmount(6, 10, 0, "philippines"),
+                    new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[5])
             },
             {
                 new TimeslotEntry(950, 1000, new ResourceInfo(25, 360, 100), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 3, 0, "australia"),
-                    new ResourceAmount(6, 0, 0, "chile"),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(5, 6, 1, "australia"),
+                    new ResourceAmount(0, 4, 0, "chile"),
                 }, maps[6])
             },
             {
                 new TimeslotEntry(1100, 1150, new ResourceInfo(40, 140, 90), new[]
                 {
-                    new ResourceAmount(12, 0, 1, "indonesia"),
-                    new ResourceAmount(12, 0, 1, "australia"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
+                    new ResourceAmount(5, 6, 1, "australia"),
                     new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[7])
             },
             {
                 new TimeslotEntry(1250, 1300, new ResourceInfo(35, 140, 90), new[]
                 {
-                    new ResourceAmount(0, 0, 3, "kongo"),
-                    new ResourceAmount(0, 0, 3, "chile"),
-                    new ResourceAmount(4, 5, 1, "australia"),
+                    new ResourceAmount(0, 0, 4, "kongo"),
+                    new ResourceAmount(0, 4, 0, "chile"),
+                    new ResourceAmount(5, 6, 1, "australia"),
                 }, maps[8])
             },
             {
                 new TimeslotEntry(1400, 1450, new ResourceInfo(20, 100, 70), new[]
                 {
-                    new ResourceAmount(12, 0, 1, "indonesia"),
-                    new ResourceAmount(12, 0, 1, "chile"),
-                    new ResourceAmount(6, 0, 0, "philippines"),
+                    new ResourceAmount(14, 0, 1, "indonesia"),
+                    new ResourceAmount(0, 4, 0, "chile"),
+                    new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[9])
             },
         };

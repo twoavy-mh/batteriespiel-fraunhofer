@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class NonInvestedController : MonoBehaviour
 {
-    public int startMoney = 1000;
+    public SceneController sceneController;
+    private int _currentMoney;
 
     private void Awake()
     {
-        GetComponent<TMP_Text>().text = startMoney + "€";
+        _currentMoney = sceneController.startCapital;
+        GetComponent<TMP_Text>().text = _currentMoney + "€";
     }
 
     public void Spend(int amount)
     {
-        startMoney -= amount;
-        GetComponent<TMP_Text>().text = startMoney + "€";
+        _currentMoney -= amount;
+        GetComponent<TMP_Text>().text = _currentMoney + "€";
         
-        SceneController.Instance.moneySpentEvent.Invoke(startMoney);
+        SceneController.Instance.moneySpentEvent.Invoke(_currentMoney);
     }
 
     public bool AmIBroke(int wantsToSpend)
     {
-        return startMoney - wantsToSpend < 0;
+        return _currentMoney - wantsToSpend < 0;
     }
 }
