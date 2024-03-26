@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class OpenInfoModal : MonoBehaviour
 {
-    public GameObject modal;
     public string header;
     public string text;
     public Sprite sprite;
@@ -18,7 +17,8 @@ public class OpenInfoModal : MonoBehaviour
     
     void OpenModal()
     {
-        modal.SetActive(true);
-        modal.GetComponent<ModalManager>().SetContent(header, text, sprite);
+        GameObject[] modal = GetComponent<RenderUiBasedOnDevice>().DoIt();
+        modal[0].SetActive(true);
+        modal[0].GetComponent<ModalManager>().SetContent(header, text, sprite);
     }
 }

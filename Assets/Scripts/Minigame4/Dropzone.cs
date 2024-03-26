@@ -44,11 +44,13 @@ namespace Minigame4
                     
                     d.Lock();
                     d.SwitchToYellow();
-                    SceneController.Instance.DroppedCorrectly(requires);
+                    Timebar t = GameObject.Find("GoDown").GetComponent<Timebar>();
+                    SceneController.Instance.DroppedCorrectly(requires, t.durationInSeconds - t.RemainingTime);
                 }
                 else
                 {
                     Debug.Log(d.requiredDropZone + " != " + requires);
+                    SceneController.Instance.fails++;
                     d.ResetPosition();
                 }
             }

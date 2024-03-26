@@ -37,12 +37,19 @@ namespace Minigame4
             SceneManager.LoadScene("MainMenu");
         }
 
-        public void SetScore(int fails, int totalTries)
+        public void SetScore(int fails, int totalTries, int durInSec)
         {
-            int score = Math.Max(0, 100 - (fails * 5));
-            Utility.GetTranslatedText("minigame2Score", s => transform.GetChild(4).GetComponent<TMP_Text>().text = s
-                .Replace("~", score.ToString())
-                .Replace("#", totalTries.ToString()));
+            Debug.Log(durInSec);
+            int min = (int)Math.Floor(durInSec / 60f);
+            float sec = durInSec % 60;
+            int score = (int)Math.Floor(Math.Max(0, ((100 / 6f) * (totalTries - fails)) - (fails * 5f)));
+            Utility.GetTranslatedText(totalTries - fails > 4 ? "mg4_end_good" : "mg4_end_bad", s => transform.GetChild(4).GetComponent<TMP_Text>().text = s, new Dictionary<string, string>()
+            {
+                {"~n", totalTries - fails + ""},
+                {"~m", min + ""},
+                {"~s", sec + ""},
+                {"~p", score + ""}
+            });
             pgc.StartAnimation(score);
             MicrogameState s = new MicrogameState();
             s.finished = true;

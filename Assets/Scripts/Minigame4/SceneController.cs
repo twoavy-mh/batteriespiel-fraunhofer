@@ -14,6 +14,7 @@ namespace Minigame4
         
         public HoveringOverDropzoneEvent hoveringOverDropzoneEvent;
         public int finishedCount = 0;
+        public int fails = 0;
         
         public static SceneController Instance
         {
@@ -37,19 +38,21 @@ namespace Minigame4
             GameObject.Find("GoDown").GetComponent<Timebar>().StartTimer();
         }
 
-        public void DroppedCorrectly(string field)
+        public void DroppedCorrectly(string field, int sec)
         {
             finishedCount++;
             if (finishedCount == 6)
             {
+                GameObject.Find("GoDown").GetComponent<Timebar>().Finished();
                 GameObject[] modals = GetComponent<RenderUiBasedOnDevice>().DoIt();
-                modals[0].GetComponent<MicrogameFourFinished>().SetScore(0, 6);
+                modals[0].GetComponent<MicrogameFourFinished>().SetScore(fails, fails + finishedCount, sec);
             }
         }
 
-        public void Die(int remainingTime)
+        public void Die(int dur)
         {
-            Debug.Log(remainingTime);
+            GameObject[] modals = GetComponent<RenderUiBasedOnDevice>().DoIt();
+            modals[0].GetComponent<MicrogameFourFinished>().SetScore(fails, fails + finishedCount, dur);
         }
         
     }   

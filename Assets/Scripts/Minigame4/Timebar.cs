@@ -11,28 +11,34 @@ namespace Minigame4
         public int durationInSeconds = 20;
         private int _remainingTime;
 
+        public int RemainingTime => _remainingTime;
+        
         private void Awake()
         {
             _remainingTime = durationInSeconds;
+            InvokeRepeating(nameof(DecreaseTime), 1f, 1f);
         }
 
         public void StartTimer()
         {
-            transform.GetChild(0).GetComponent<RectTransform>().DOSizeDelta(new Vector2(0f, 20f), durationInSeconds).SetEase(Ease.Linear)
-                .onComplete += () =>
-            {
-                SceneController.Instance.Die(0);
-            };
-        }
-        
-        private void SubtractFromRemainingTime()
-        {
-            _remainingTime--;
+            transform.GetChild(0).GetComponent<RectTransform>().DOSizeDelta(new Vector2(0f, 20f), durationInSeconds)
+                .SetEase(Ease.Linear);
         }
 
-        private int Finished()
+        public void Finished()
         {
-            return _remainingTime;
+            DOTween.KillAll();
+            CancelInvoke();
+        }
+        
+        private void DecreaseTime()
+        {
+            _remainingTime--;
+            if (_remainingTime == 0)
+            {
+                Finished();
+                SceneController.Instance.Die(durationInSeconds);
+            }
         }
     }    
 }
