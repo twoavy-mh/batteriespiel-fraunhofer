@@ -130,7 +130,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
 
     private void Buy()
     {
-        if (_disabled)
+        if (_disabled || Broke)
         {
             return;
         }
