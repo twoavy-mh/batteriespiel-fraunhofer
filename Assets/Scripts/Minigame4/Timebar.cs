@@ -30,7 +30,18 @@ namespace Minigame4
             DOTween.KillAll();
             CancelInvoke();
         }
-        
+
+        public void Pause()
+        {
+            CancelInvoke();
+            DOTween.PauseAll();
+        }
+
+        public void Play()
+        {
+            DOTween.PlayAll();
+            InvokeRepeating(nameof(DecreaseTime), 1f, 1f);
+        }        
         private void DecreaseTime()
         {
             _remainingTime--;

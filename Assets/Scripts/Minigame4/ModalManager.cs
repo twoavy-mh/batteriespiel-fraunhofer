@@ -23,6 +23,7 @@ namespace Minigame4
 
         private void ButtonClicked()
         {
+            GameObject.Find("GoDown").GetComponent<Timebar>().Play();
             gameObject.SetActive(false);
         }
 
