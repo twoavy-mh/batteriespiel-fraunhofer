@@ -39,9 +39,11 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
                 transform.GetChild(1).GetComponent<TMP_Text>().color = Settings.ColorMap[Tailwind.Blue5];
                 transform.GetChild(0).GetComponent<CanvasGroup>().DOFade(0f, 0.5f).SetEase(Ease.InOutSine);
                 transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue5], 0.5f);
+                // GetComponent<Button>().interactable = true;
             }
             else
             {
+                // GetComponent<Button>().interactable = false;
                 transform.GetChild(1).GetComponent<TMP_Text>().color = Settings.ColorMap[Tailwind.Blue1];
                 transform.GetChild(0).GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetEase(Ease.InOutSine);
                 transform.parent.GetComponent<Image>()
