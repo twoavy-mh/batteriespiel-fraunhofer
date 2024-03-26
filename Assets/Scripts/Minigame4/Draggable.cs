@@ -60,7 +60,7 @@ namespace Minigame4
             }
             else
             {
-                transform.GetChild(2).GetComponent<Button>().onClick.AddListener(InfoButton);
+                transform.GetChild(3).GetComponent<Button>().onClick.AddListener(InfoButton);
             }
 
             Utility.GetTranslatedText(displayName, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s);

@@ -58,7 +58,8 @@ public class FloorChunker : MonoBehaviour
         Array.Clear(_chunks, 0, _chunks.Length);
         float xOffset = 0;
 
-        bool[] randomChunkToSpawnObstacle = RandomPlacer((int)GameState.Instance.GetCurrentMicrogame() + 2, chunkCount);
+        int currentGame = (int)GameState.Instance.GetCurrentMicrogame();
+        bool[] randomChunkToSpawnObstacle = RandomPlacer(currentGame < 3 ? currentGame + 2 : currentGame , chunkCount);
 
         for (int i = 0; i < chunkCount; i++)
         {
@@ -121,7 +122,7 @@ public class FloorChunker : MonoBehaviour
             array[i] = 0;
 
         List<int> indices = new List<int>();
-        for (int i = 1; i < array.Length - 1; i++)
+        for (int i = 2; i < array.Length - 1; i++)
         {
             indices.Add(i);
         }

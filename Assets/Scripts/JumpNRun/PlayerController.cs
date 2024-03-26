@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _mustFall = false;
     private bool _isJumping = false;
     private float _jumpTimeCounter;
-    private float _jumpTime = 0.6f;
+    private float _jumpTime = 0.5f;
 
     private Animator _animator;
     private Coroutine _boink = null;
@@ -78,7 +78,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _isGrounded = false;
             _isJumping = true;
             _jumpTimeCounter = _jumpTime;
-            _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 8f);
+            _rb.velocity = Vector2.up *
+                           ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
         }
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _animator.SetTrigger("jump");
             if (_jumpTimeCounter > 0)
             {
-                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * 8f);
+                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
                 _jumpTimeCounter -= Time.deltaTime;
             }
             else
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private void NowFalling()
     {
         _isJumping = false;
-        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 2f,
+        StartCoroutine(Utility.AnimateAnything(0.2f, 1f, 2.0f,
             (progress, start, end) => _rb.gravityScale = Mathf.Lerp(start, end, progress)));
     }
 
@@ -179,8 +180,17 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void FadeCollectable(SpriteRenderer s)
     {
-        StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f,
-            (progress, start, end) => s.color = new Color(1f, 1f, 1f, Mathf.Lerp(start, end, progress))));
+        try
+        {
+            StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f,
+                (progress, start, end) => s.color = new Color(1f, 1f, 1f, Mathf.Lerp(start, end, progress)),
+                () => s.gameObject.SetActive(false)));
+        }
+        catch (Exception)
+        {
+            Debug.Log("Cannot collect same collectable twice");
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D other)

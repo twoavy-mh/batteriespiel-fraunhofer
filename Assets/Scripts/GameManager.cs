@@ -26,10 +26,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
 #if UNITY_ANDROID
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 #endif
         Debug.Log($"Target frame rate: {Application.targetFrameRate}");
-        StartCoroutine(WaitUntilApiIsThere(() => StartGameManager()));
+        StartCoroutine(WaitUntilApiIsThere(StartGameManager));
         DontDestroyOnLoad(this);
         _instance = this;
 

@@ -18,6 +18,12 @@ public class LightningMover : MonoBehaviour
 
     private void RandomDirection()
     {
+
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+        
         float currentHeight = transform.position.y;
         float nextHeight = transform.position.y;
         if (nextHeight + _dir > maxHeight)
@@ -32,8 +38,12 @@ public class LightningMover : MonoBehaviour
         {
             nextHeight += _dir;
         }
+
+        
         StartCoroutine(Helpers.Utility.AnimateAnything(1f, currentHeight, nextHeight,
-            (progress, start, end) => transform.position = new Vector3(transform.position.x,
-                Mathf.Lerp(start, end, progress), transform.position.z)));
+                (progress, start, end) => transform.position = new Vector3(transform.position.x,
+                    Mathf.Lerp(start, end, progress), transform.position.z)));    
+        
+        
     }
 }
