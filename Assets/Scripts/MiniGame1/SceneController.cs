@@ -25,12 +25,14 @@ namespace Minigame1
         public GameObject mobileModal;
         public GameObject desktopModal;
         public VideoPlayer videoPlayer;
+        
+        public NonInvestedController nonInvestedController;
 
         public MicrogameFinishedEvent microgameFinishedEvent;
 
         private bool _finished = false;
         
-        private int _desiredValue = 3568;
+        private int _desiredValue = 3444;
         private int _startCapital = 6000;
         public int startCapital
         {
@@ -62,17 +64,15 @@ namespace Minigame1
             microgameFinishedEvent ??= new MicrogameFinishedEvent();
             _instance = this;
             gameObject.AddComponent<AutoTweenKiller>();
+            
+            videoPlayer.loopPointReached += LoopPointReached;
         }
 
         private void Update()
         {
-            int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
-                                stateButtons[2].GetBought();
-            int capitalNow = _startCapital - boughtInTotal;
-            Debug.Log("SCORE = " + CalculateEaseScore(capitalNow));
-            
             if (!_finished)
             {
+                
                 if (stateButtons.All(x => x.Finished))
                 {
                     SetEndScreen();
@@ -117,31 +117,24 @@ namespace Minigame1
             Debug.Log(avg);
             return avg;
         }
-
-        private int CalculateScore(int requiredNickle, int boughtNickle, int requiredLithium, int boughtLithium,
-            int requiredCobalt, int boughtCobalt, int startCapital, int nickelPrice, int lithiumPrice, int cobaltPrice)
+        
+        private int CalculateScore()
         {
-            int desiredValue = (requiredNickle * nickelPrice) + (requiredLithium * lithiumPrice) +
-                               (requiredCobalt * cobaltPrice);
-            int purchasedValue = (boughtNickle * nickelPrice) + (boughtLithium * lithiumPrice) +
-                                 (boughtCobalt * cobaltPrice);
-            int remainingCapital = startCapital - purchasedValue;
+            int sumNeeds = stateButtons[0].needs + stateButtons[1].needs + stateButtons[2].needs;
+            int sumBought = stateButtons[0].GetBought() + stateButtons[1].GetBought() + stateButtons[2].GetBought();
+            
+            int desiredRemainingCapital = _startCapital - _desiredValue;
 
-            float f = (Math.Min(purchasedValue, desiredValue) / (float)desiredValue) * 50;
-            float g = (remainingCapital / (float)startCapital) * 50;
+            float resources = (Math.Min(sumBought, sumNeeds) / (float)sumNeeds) * 40;
+            float capital = (Math.Min(nonInvestedController.currentMoney, desiredRemainingCapital) / (float)desiredRemainingCapital) * 60;
 
-            int score = (int)Math.Floor(f + g);
+            int score = (int)Math.Floor(capital + resources);
             return score;
         }
         
-        private int CalculateEaseScore(int remainingCapital)
+        private void LoopPointReached(VideoPlayer vp)
         {
-            int desiredRemainingCapital = _startCapital - _desiredValue;
-
-            float f = (Math.Min(remainingCapital, desiredRemainingCapital) / (float)desiredRemainingCapital) * 100;
-
-            int score = (int)Math.Floor(f);
-            return score;
+            SetEndScreen();
         }
         
         private void SetEndScreen()
@@ -154,13 +147,8 @@ namespace Minigame1
                                         stateButtons[2].GetBought();
                     int capitalNow = _startCapital - boughtInTotal;
                     int spent = _startCapital - capitalNow;
-                    int score = CalculateScore(stateButtons[0].needs, stateButtons[0].GetBought(),
-                        stateButtons[1].needs, stateButtons[1].GetBought(),
-                        stateButtons[2].needs, stateButtons[2].GetBought(), _startCapital,
-                        AveragePricePerPurchasable("nickle"), AveragePricePerPurchasable("lithium"),
-                        AveragePricePerPurchasable("cobalt"));
-                    score = CalculateEaseScore(capitalNow);
-                    Debug.Log("SCORE = " + CalculateEaseScore(capitalNow));
+                    int score = CalculateScore();
+                    Debug.Log("SCORE = " + CalculateScore());
 
                     if (GameState.Instance.currentGameState.results.Length == 0)
                     {

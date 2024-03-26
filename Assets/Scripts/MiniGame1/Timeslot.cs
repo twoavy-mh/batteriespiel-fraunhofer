@@ -18,7 +18,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public Sprite[] maps;
     public Sprite emptyMap;
     public Image mapImage;
-    private int _secondsPerTimeslot = 2;
+    private int _secondsPerTimeslot = 3;
     public RawImage textureRenderedTo;
     
     void Start()
@@ -49,7 +49,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 }, maps[1])
             },
             {
-                new TimeslotEntry(350, 400, new ResourceInfo(80, 15, 60), new[]
+                new TimeslotEntry(350, 400, new ResourceInfo(15, 80, 60), new[]
                 {
                     new ResourceAmount(0, 0, 4, "kongo"),
                     new ResourceAmount(14, 0, 1, "indonesia"),
@@ -90,7 +90,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 }, maps[6])
             },
             {
-                new TimeslotEntry(1100, 1150, new ResourceInfo(40, 140, 90), new[]
+                new TimeslotEntry(1100, 1150, new ResourceInfo(40, 160, 90), new[]
                 {
                     new ResourceAmount(14, 0, 1, "indonesia"),
                     new ResourceAmount(5, 6, 1, "australia"),
