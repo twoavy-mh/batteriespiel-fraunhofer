@@ -32,7 +32,16 @@ namespace Minigame4
                 Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
                 if (d.requiredDropZone.Equals(requires))
                 {
-                    eventData.pointerDrag.GetComponent<RectTransform>().DOMove(GetComponent<RectTransform>().position, 0.5f);
+                    if (requires.Equals("car"))
+                    {
+                        RectTransform rt = GetComponent<RectTransform>();
+                        eventData.pointerDrag.GetComponent<RectTransform>().DOMove(new Vector3(rt.position.x + 200, rt.position.y + 200, rt.position.z), 0.5f);
+                    }
+                    else
+                    {
+                        eventData.pointerDrag.GetComponent<RectTransform>().DOMove(GetComponent<RectTransform>().position, 0.5f);    
+                    }
+                    
                     d.Lock();
                     d.SwitchToYellow();
                     SceneController.Instance.DroppedCorrectly(requires);

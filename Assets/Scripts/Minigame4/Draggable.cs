@@ -22,7 +22,6 @@ namespace Minigame4
         public string displayName;
         public string requiredDropZone;
         private bool _finished = false;
-        private GameObject _modalGo;
 
         private GraphicRaycaster _raycaster;
 
@@ -53,15 +52,7 @@ namespace Minigame4
 
             i.sprite = battery;
             i.SetNativeSize();
-
-            GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
-            foreach (GameObject go in all)
-            {
-                if (go.name.Equals("Modal"))
-                {
-                    _modalGo = go;
-                }
-            }
+            
 
             _rt = GetComponent<RectTransform>();
             _initialPosition = new Vector3(_rt.position.x, _rt.position.y, _rt.position.z);
@@ -73,18 +64,8 @@ namespace Minigame4
                 transform.GetChild(1).GetComponent<TMP_Text>().color = tmpColor;
                 StartCoroutine(ToFake(tmpColor));
             }
-            else
-            {
-                transform.GetChild(3).GetComponent<Button>().onClick.AddListener(InfoButton);
-            }
 
             Utility.GetTranslatedText(displayName, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s);
-        }
-
-        private void InfoButton()
-        {
-            _modalGo.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
-            _modalGo.SetActive(true);
         }
 
         private IEnumerator ToFake(Color tmpColor)
@@ -132,13 +113,12 @@ namespace Minigame4
             Debug.Log("Drag begin");
             if (!fakeBelow)
             {
-                transform.GetChild(2).GetComponent<Button>().interactable = false;
                 transform.GetChild(2).GetComponent<Image>().raycastTarget = false;
             }
 
             if (!_finished && !fakeBelow)
             {
-                GetComponent<CanvasGroup>().interactable = false;
+                //GetComponent<CanvasGroup>().interactable = false;
                 GetComponent<Image>().raycastTarget = false;
             }
         }
@@ -148,7 +128,6 @@ namespace Minigame4
             Debug.Log("Drag end");
             if (!fakeBelow)
             {
-                transform.GetChild(2).GetComponent<Button>().interactable = true;
                 transform.GetChild(2).GetComponent<Image>().raycastTarget = true;
             }
 
@@ -169,6 +148,7 @@ namespace Minigame4
         public void Lock()
         {
             _finished = true;
+            transform.GetChild(4).GetComponent<Button>().interactable = true;
             Debug.Log("finished");
         }
 

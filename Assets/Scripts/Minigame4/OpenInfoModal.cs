@@ -6,22 +6,19 @@ using UnityEngine.UI;
 
 public class OpenInfoModal : MonoBehaviour
 {
-    private GameObject _modal;
+    public GameObject modal;
     public string header;
     public string text;
     public Sprite sprite;
     
     void Start()
     {
-        //_modal = GameObject.Find("Modal");
         GetComponent<Button>().onClick.AddListener(OpenModal);
-        Debug.Log("DID THIS MOUNT?");
     }
     
     void OpenModal()
     {
-        Debug.Log("HELLOOO????");
-        //_modal.SetActive(true);
-        //_modal.GetComponent<ModalManager>().SetContent(header, text, sprite);
+        modal.SetActive(true);
+        modal.GetComponent<ModalManager>().SetContent(header, text, sprite);
     }
 }

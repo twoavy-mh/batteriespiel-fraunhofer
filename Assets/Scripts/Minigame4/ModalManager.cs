@@ -26,10 +26,11 @@ namespace Minigame4
             gameObject.SetActive(false);
         }
 
-        public void SetText(string header, string text)
+        public void SetContent(string header, string text, Sprite sprite)
         {
-            Utility.GetTranslatedText(header, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
-            Utility.GetTranslatedText(text, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText(header, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText(text, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
+            transform.GetChild(4).GetComponent<Image>().sprite = sprite;
         }
     }    
 }
