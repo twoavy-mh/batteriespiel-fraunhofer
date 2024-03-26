@@ -49,7 +49,7 @@ namespace Minigame4
 
         public void Die(int remainingTime)
         {
-            
+            Debug.Log(remainingTime);
         }
         
     }   

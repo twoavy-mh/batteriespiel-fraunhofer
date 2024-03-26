@@ -8,7 +8,7 @@ namespace Minigame4
 {
     public class Timebar : MonoBehaviour
     {
-        public int durationInSeconds = 120;
+        public int durationInSeconds = 20;
         private int _remainingTime;
 
         private void Awake()

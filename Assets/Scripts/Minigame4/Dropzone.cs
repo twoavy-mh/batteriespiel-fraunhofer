@@ -32,10 +32,10 @@ namespace Minigame4
                 Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
                 if (d.requiredDropZone.Equals(requires))
                 {
-                    SceneController.Instance.DroppedCorrectly(requires);
                     eventData.pointerDrag.GetComponent<RectTransform>().DOMove(GetComponent<RectTransform>().position, 0.5f);
                     d.Lock();
                     d.SwitchToYellow();
+                    SceneController.Instance.DroppedCorrectly(requires);
                 }
                 else
                 {

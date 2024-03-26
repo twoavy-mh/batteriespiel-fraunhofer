@@ -30,6 +30,21 @@ namespace Minigame4
 
         void Start()
         {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                RectTransform sa = GameObject.Find("SafeArea").GetComponent<RectTransform>();
+                float spaceToRight = sa.offsetMax.x;
+                RectTransform rt = GetComponent<RectTransform>();
+                rt.sizeDelta = new Vector2(rt.sizeDelta.x - spaceToRight, rt.sizeDelta.y);
+                rt.localPosition = new Vector3(rt.localPosition.x + Mathf.Abs(spaceToRight), rt.localPosition.y, rt.localPosition.z);
+
+                RectTransform rt1 = transform.GetChild(0).GetComponent<RectTransform>();
+                rt1.sizeDelta = new Vector2(rt1.sizeDelta.x - spaceToRight, rt1.sizeDelta.y);
+                RectTransform rt2 = transform.GetChild(1).GetComponent<RectTransform>();
+                rt2.sizeDelta = new Vector2(rt2.sizeDelta.x - spaceToRight, rt2.sizeDelta.y);    
+            }
+            
+            
             GameObject c = GameObject.Find("MainCanvasGame");
             canvas = c.GetComponent<Canvas>();
             _raycaster = c.GetComponent<GraphicRaycaster>();
@@ -54,7 +69,7 @@ namespace Minigame4
             if (fakeBelow)
             {
                 Color tmpColor = Settings.ColorMap[Tailwind.Blue1];
-                tmpColor.a = 0.5f;
+                tmpColor.a = 0.2f;
                 transform.GetChild(1).GetComponent<TMP_Text>().color = tmpColor;
                 StartCoroutine(ToFake(tmpColor));
             }
@@ -76,6 +91,7 @@ namespace Minigame4
         {
             yield return new WaitForEndOfFrame();
             GetComponent<Image>().color = tmpColor;
+            transform.GetChild(2).gameObject.SetActive(false);
         }
 
         public void OnDrag(PointerEventData eventData)
