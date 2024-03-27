@@ -9,6 +9,8 @@ public class ClickToChangeSzene : MonoBehaviour
 {
     [SerializeField]
     public String jumpScene;
+    
+    public Boolean goBackToLastScene = false;
 
     void Awake () {
        GetComponent<Button>().onClick.AddListener(LoadScene);
@@ -16,6 +18,13 @@ public class ClickToChangeSzene : MonoBehaviour
 
     private void LoadScene()
     {
+        Debug.Log(GameManager.Instance.lastScene);
+        if (goBackToLastScene &&  GameManager.Instance.lastScene != "")
+        {
+            Debug.Log("SZENE = " + GameManager.Instance.lastScene);
+            SceneManager.LoadScene(GameManager.Instance.lastScene);
+            return;
+        }
         Debug.Log("SZENE = " + jumpScene);
         SceneManager.LoadScene(jumpScene);
     }

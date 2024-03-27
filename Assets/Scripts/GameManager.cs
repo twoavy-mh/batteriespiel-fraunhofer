@@ -5,13 +5,15 @@ using Helpers;
 using Models;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     private static GameManager _instance;
     public bool skipSerializations = true;
     public int currentJumpAndRunLevel = 0;
+    public string lastScene = "";
+    public string currentScene = "";
 
     public static GameManager Instance
     {
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     private void StartGameManager()
     {
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+        
         if (!PlayerPrefs.GetString("uuid").Empty())
         {
             Api.Instance.GetPlayerDetails("test",
@@ -91,6 +95,18 @@ public class GameManager : MonoBehaviour
                 Debug.Log("AR supported");
                 yield break;
             }
+        }
+    }
+    
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        if (currentScene == "")
+        {
+            currentScene = next.name;
+        } else if ( currentScene != next.name)
+        {
+            lastScene = currentScene;
+            currentScene = next.name;
         }
     }
 }
