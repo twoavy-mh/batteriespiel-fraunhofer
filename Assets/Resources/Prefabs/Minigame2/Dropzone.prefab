@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4362193121860857594}
   - component: {fileID: 4693644598698120484}
   - component: {fileID: 1139587285127988071}
+  - component: {fileID: 9096318229142032077}
   m_Layer: 0
   m_Name: Dropzone
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.007843138, g: 0.10980392, b: 0.22352941, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -120,6 +121,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requires: kathode
+--- !u!114 &9096318229142032077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326003095050131983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 126
+  heightScreendesign: 40
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 0
 --- !u!1 &6898684770623856826
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +152,7 @@ GameObject:
   - component: {fileID: 275677743475027138}
   - component: {fileID: 4260661249238859439}
   - component: {fileID: 8497731375535891805}
+  - component: {fileID: 2902581883448444513}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -188,15 +209,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: '?'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f2df35fed57bb40d5b66e618dd359b64, type: 2}
+  m_sharedMaterial: {fileID: 5063254486034049256, guid: f2df35fed57bb40d5b66e618dd359b64,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4285215744
+  m_fontColor: {r: 0, g: 0.20392157, b: 0.41960785, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -213,8 +235,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33.103447
+  m_fontSizeBase: 33.103447
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -274,6 +296,25 @@ MonoBehaviour:
   _borderSize: 0
   _glowColor: 0
   _glowSizeOutwards: 0
+--- !u!114 &2902581883448444513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6898684770623856826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 126
+  heightScreendesign: 40
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 0
 --- !u!1 &7695974540184675114
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +328,7 @@ GameObject:
   - component: {fileID: 654967125355643404}
   - component: {fileID: 3120777371812705282}
   - component: {fileID: 1359495043217060562}
+  - component: {fileID: 2775245783046056068}
   m_Layer: 11
   m_Name: Dropzone
   m_TagString: Untagged
@@ -335,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.20392157, b: 0.41960785, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -380,3 +422,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImageColor: 5
   opacity: 1
+--- !u!114 &2775245783046056068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7695974540184675114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 128
+  heightScreendesign: 42
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  multiplyByResizeFactor: 0
