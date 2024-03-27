@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Helpers;
 using Models;
 using TMPro;
@@ -39,12 +40,20 @@ namespace Minigame2
 
         public void SetScore(int fails, int totalTries)
         {
+            int totalTime = (int)Math.Floor((DateTime.Now - SceneController.Instance.startTime).TotalSeconds);
+            int minutes = totalTime / 60;
+            int seconds = totalTime % 60;
+            
             int innerScore = Math.Max(0, 100 - (fails * 5));
             _score = innerScore;
             Utility.GetTranslatedText(innerScore > 60 ? "microgame_2_did_good" : "microgame_2_did_bad", s =>
-                transform.GetChild(4).GetComponent<TMP_Text>().text = s
-                    .Replace("~", innerScore.ToString())
-                    .Replace("#", totalTries.ToString()));
+                transform.GetChild(4).GetComponent<TMP_Text>().text = s, new Dictionary<string, string>()
+            {
+                { "~n", totalTries - fails + "" },
+                { "~p", innerScore + "" },
+                { "~m", (minutes + "").PadLeft(2, '0') },
+                { "~h", (seconds + "").PadLeft(2, '0') }
+            });
             pgc.StartAnimation(_score);
             MicrogameState s = new MicrogameState();
             s.finished = true;

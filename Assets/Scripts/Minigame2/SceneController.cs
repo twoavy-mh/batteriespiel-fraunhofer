@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Helpers;
 using Models;
@@ -11,7 +12,10 @@ namespace Minigame2
         // Start is called before the first frame update
         private static SceneController _instance;
         private Dictionary<string, bool> _dropzones = new Dictionary<string, bool>();
-        public GameObject modalGo;
+        public GameObject modalGoDekstop;
+        public GameObject modalGoMobile;
+        
+        public DateTime startTime;
 
         public int fails = 0;
 
@@ -27,6 +31,7 @@ namespace Minigame2
         // Start is called before the first frame update
         private void Awake()
         {
+            startTime = DateTime.Now;
             _dropzones.Add("kathode", false);
             _dropzones.Add("anode", false);
             _dropzones.Add("lith_discharge", false);

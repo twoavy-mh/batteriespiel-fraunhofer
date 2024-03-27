@@ -25,6 +25,11 @@ namespace Minigame4
         private void ButtonClicked()
         {
             GameObject.Find("GoDown").GetComponent<Timebar>().Play();
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                RectTransform rt = GameObject.Find("ScrollableCanvasContainer").GetComponent<RectTransform>();
+                rt.localPosition = new Vector3(rt.localPosition.x, 0, 0);
+            }
             gameObject.SetActive(false);
         }
 

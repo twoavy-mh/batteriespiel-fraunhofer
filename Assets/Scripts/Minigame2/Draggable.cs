@@ -46,8 +46,17 @@ namespace Minigame2
 
     private void InfoButton()
     {
-        SceneController.Instance.modalGo.SetActive(true);
-        SceneController.Instance.modalGo.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
+        if (Utility.GetDevice() == Device.Desktop)
+        {
+            SceneController.Instance.modalGoDekstop.SetActive(true);
+            SceneController.Instance.modalGoDekstop.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");    
+        }
+        else
+        {
+            SceneController.Instance.modalGoMobile.SetActive(true);
+            SceneController.Instance.modalGoMobile.GetComponent<ModalManager>().SetText(displayName, $"{displayName}_info");
+        }
+        
     }
     
     private IEnumerator ToFake(Color tmpColor)
