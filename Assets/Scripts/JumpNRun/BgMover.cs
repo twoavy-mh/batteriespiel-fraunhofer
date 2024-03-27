@@ -57,9 +57,9 @@ public class BgMover : MonoBehaviour, DieEvent.IUseDie
             rt.pivot = new Vector2(0f, 1f);
             Image img = go.AddComponent<Image>();
             img.sprite = _sprites[(int)GameState.Instance.GetCurrentMicrogame()][i];
-            rt.sizeDelta = new Vector2(img.sprite.rect.width, img.sprite.rect.height);
+            rt.sizeDelta = new Vector2(img.sprite.rect.width, 373);
             rt.localScale = new Vector3(1, 1, 1);
-            rt.localPosition = new Vector3(2048 * i, isUpper ? -300 : -450, 0);
+            rt.localPosition = new Vector3(2048 * i, 0, 0);
             _children[i] = rt;
         }
     }
