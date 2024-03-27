@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using Helpers;
 using TMPro;
 using UnityEngine;
@@ -29,9 +30,17 @@ namespace Minigame4
 
         public void SetContent(string header, string text, Sprite sprite)
         {
+            if (Utility.GetDevice() == Device.Desktop)
+            {
+                Utility.GetTranslatedText(text, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
+            }
+            else
+            {
+                Utility.GetTranslatedText(text, s => GameObject.Find("InfoText").GetComponent<TMP_Text>().text = s);
+            }
             Utility.GetTranslatedText(header, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
-            Utility.GetTranslatedText(text, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
             transform.GetChild(4).GetComponent<Image>().sprite = sprite;
+            transform.GetChild(4).GetComponent<ImageBasedAspectRatioFitter>().UpdateRatioAndImage();
         }
     }    
 }

@@ -46,8 +46,8 @@ namespace Minigame4
             Utility.GetTranslatedText(totalTries - fails > 4 ? "mg4_end_good" : "mg4_end_bad", s => transform.GetChild(4).GetComponent<TMP_Text>().text = s, new Dictionary<string, string>()
             {
                 {"~n", totalTries - fails + ""},
-                {"~m", min + ""},
-                {"~s", sec + ""},
+                {"~m", (min + "").PadLeft(2, '0')},
+                {"~s", (sec + "").PadLeft(2, '0')},
                 {"~p", score + ""}
             });
             pgc.StartAnimation(score);
