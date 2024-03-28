@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     {
         _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
         SceneController.Instance.dieEvent.AddListener(UseDie);
+        _animator.speed = 2.5f;
     }
 
     public void StartRunning()
@@ -80,6 +81,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _jumpTimeCounter = _jumpTime;
             _rb.velocity = Vector2.up *
                            ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
+            _animator.SetTrigger("jump");
         }
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
@@ -89,11 +91,11 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _isJumping)
         {
             if (_mustFall) return;
-
-            _animator.SetTrigger("jump");
+                
             if (_jumpTimeCounter > 0)
             {
-                _rb.velocity = Vector2.up * ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
+                _rb.velocity = Vector2.up *
+                               ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
                 _jumpTimeCounter -= Time.deltaTime;
             }
             else
@@ -107,6 +109,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         {
             NowFalling();
         }
+
+        Debug.ClearDeveloperConsole();
     }
 
     private void NowFalling()
@@ -190,7 +194,6 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         {
             Debug.Log("Cannot collect same collectable twice");
         }
-        
     }
 
     private void OnCollisionEnter2D(Collision2D other)

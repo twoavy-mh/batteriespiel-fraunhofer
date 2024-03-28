@@ -43,6 +43,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
     private HealthState _healthState = HealthState.Start;
     private HealthState _lastHealthState = HealthState.Start;
+
+    private Animator _animator;
     
     public float Health
 
@@ -71,6 +73,11 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
                 _isInit = false;
             }
         }
+    }
+
+    private void Awake()
+    {
+        _animator = GameObject.Find("Player").GetComponent<Animator>();
     }
 
     void Start()
@@ -159,6 +166,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
             _bar.DOColor(c, doTween ? 0.5f : 0f);
             borderImage.DOColor(c, doTween ? 0.5f : 0f);
             _lastHealthState = _healthState;
+            _animator.SetInteger("BatteryState", (int)_healthState);
         }
     }
 
