@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using Models;
 using UnityEngine;
@@ -85,8 +86,16 @@ namespace Helpers
         {
             UnityWebRequest request =
                 GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}", "GET", null);
+            request.timeout = 10;
             yield return request.SendWebRequest();
-
+            
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(request.error);
+                GameManager.Instance.apiErrorEvent.Invoke(new Exception(request.error));
+                yield break;
+            }
+            
             string v = request.downloadHandler.text;
             Debug.Log(v);
             callback((PlayerDetails)v);
@@ -177,6 +186,8 @@ namespace Helpers
                 catch (Exception e)
                 {
                     Debug.Log(e.Message);
+                    throw new HttpRequestException("backend not reachable");
+                    return;
                 }
 
                 callback(null);
@@ -199,6 +210,8 @@ namespace Helpers
                 catch (Exception e)
                 {
                     Debug.Log(e.Message);
+                    throw new HttpRequestException("backend not reachable");
+                    return;
                 }
 
                 callback(null);

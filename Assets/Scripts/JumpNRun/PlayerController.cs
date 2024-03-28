@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _mustFall = false;
     private bool _isJumping = false;
     private float _jumpTimeCounter;
-    private float _jumpTime = 0.5f;
+    private float _jumpTime = 0.2f;
 
     private Animator _animator;
     private Coroutine _boink = null;
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             _isJumping = true;
             _jumpTimeCounter = _jumpTime;
             _rb.velocity = Vector2.up *
-                           ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
+                           ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 12f : 10f));
             _animator.SetTrigger("jump");
         }
 
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private void NowFalling()
     {
         _isJumping = false;
-        StartCoroutine(Utility.AnimateAnything(0.2f, 1f, 2.0f,
+        StartCoroutine(Utility.AnimateAnything(0.2f, 1f, 3.0f,
             (progress, start, end) => _rb.gravityScale = Mathf.Lerp(start, end, progress)));
     }
 
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 break;
             case "Floor":
                 _isGrounded = true;
-                _rb.gravityScale = 1f;
+                _rb.gravityScale = 2f;
                 _mustFall = false;
                 _speed = Settings.MovementSpeed;
                 break;

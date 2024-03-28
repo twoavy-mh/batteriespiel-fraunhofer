@@ -1,19 +1,27 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Events;
 using Helpers;
 using Models;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
 {
     private static GameManager _instance;
     public bool skipSerializations = true;
     public int currentJumpAndRunLevel = 0;
     public string lastScene = "";
     public string currentScene = "";
+
+    public ApiErrorEvent apiErrorEvent;
+    private GameObject _errorPrefab;
+
+    private List<Exception> _errorStack = new List<Exception>();
+    private GameObject _errorLogInstance = null;
 
     public static GameManager Instance
     {
@@ -27,6 +35,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        _errorPrefab = Resources.Load<GameObject>("Prefabs/UI/ErrorLog");
+        apiErrorEvent ??= new ApiErrorEvent();
+        apiErrorEvent.AddListener(UseApiError);
 #if UNITY_ANDROID
         Application.targetFrameRate = 60;
 #endif
@@ -42,22 +53,29 @@ public class GameManager : MonoBehaviour
     private void StartGameManager()
     {
         SceneManager.activeSceneChanged += ChangedActiveScene;
-        
+
         if (!PlayerPrefs.GetString("uuid").Empty())
         {
-            Api.Instance.GetPlayerDetails("test",
-                Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En,
-                s =>
-                {
-                    if (s != null)
+            try
+            {
+                Api.Instance.GetPlayerDetails("test",
+                    Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En,
+                    s =>
                     {
-                        Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
-                    }
-                    else
-                    {
-                        Debug.Log("Failed to log in");
-                    }
-                });
+                        if (s != null)
+                        {
+                            Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
+                        }
+                        else
+                        {
+                            Debug.Log("Failed to log in");
+                        }
+                    });
+            }
+            catch (Exception e)
+            {
+                Debug.Log("backend probbaly not reachable");
+            }
         }
         else
         {
@@ -97,16 +115,35 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
     private void ChangedActiveScene(Scene current, Scene next)
     {
         if (currentScene == "")
         {
             currentScene = next.name;
-        } else if ( currentScene != next.name)
+        }
+        else if (currentScene != next.name)
         {
             lastScene = currentScene;
             currentScene = next.name;
+        }
+    }
+
+    public void UseApiError(Exception e)
+    {
+        if (_errorLogInstance == null)
+        {
+            _errorLogInstance = Instantiate(_errorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            StartCoroutine(_errorLogInstance.transform.GetChild(0).GetChild(0).GetComponent<ErrorBuilder>().WaitASec(e));
+        }
+    }
+
+    public void ClearError()
+    {
+        if (_errorLogInstance != null)
+        {
+            Destroy(_errorLogInstance);
+            _errorLogInstance = null;
         }
     }
 }
