@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _mustFall = false;
     private bool _isJumping = false;
     private float _jumpTimeCounter;
-    private float _jumpTime = 0.3f;
+    private float _jumpTime = 0.2f;
 
     private Animator _animator;
     private Coroutine _boink = null;
@@ -71,38 +71,24 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         {
             Debug.Log("die now");
         }
-
+        
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
              (Input.touchCount > 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Began)) && !_mustFall)
         {
             Debug.Log("Jump");
             if (!_isGrounded) _mustFall = true;
             _isGrounded = false;
-            _isJumping = true;
-            _jumpTimeCounter = _jumpTime;
-            _rb.velocity = Vector2.up * (Utility.GetDevice() == Device.Desktop ? 14f : 12f);
-            _animator.SetTrigger("jump");
-        }
-
-        if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
-             (Input.touchCount > 0 &&
-              (Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Stationary ||
-               Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Moved))) &&
-            _isJumping)
-        {
-            if (_mustFall) return;
-                
-            if (_jumpTimeCounter > 0)
-            {
-                _rb.velocity = Vector2.up *
-                               ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 8f : 6f));
-                _jumpTimeCounter -= Time.deltaTime;
-            }
-            else
+            _rb.velocity = Vector2.up * (_isJumping ? 8f : 10f);
+            if (_isJumping)
             {
                 NowFalling();
             }
+            _isJumping = true;
+            _jumpTimeCounter = _jumpTime;
+            
+            _animator.SetTrigger("jump");
         }
+        
 
         if (Input.GetKeyUp(KeyCode.Space) ||
             (Input.touchCount == 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Ended))
@@ -144,7 +130,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                     if (_collectedCount == 5)
                     {
                         _finished = true;
-                        StartCoroutine(Utility.AnimateAnything(2f, _speed, 0,
+                        StartCoroutine(Utility.AnimateAnything(0f, _speed, 0,
                             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress),
                             () =>
                             {
