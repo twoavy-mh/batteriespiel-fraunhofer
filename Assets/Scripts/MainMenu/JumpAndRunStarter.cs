@@ -21,7 +21,7 @@ namespace MainMenu
             if (GameState.Instance.currentGameState.results.Length == 0)
             {
                 Debug.Log("in 1?");
-                SceneManager.LoadScene("JumpNRun");
+                SceneManager.LoadSceneAsync("JumpNRun");
                 return;
             }
 
@@ -29,7 +29,7 @@ namespace MainMenu
             if (GameState.Instance.currentGameState.results.Last().finished)
             {
                 Debug.Log("in 2?");
-                SceneManager.LoadScene("JumpNRun");
+                SceneManager.LoadSceneAsync("JumpNRun");
             }
             else
             {
