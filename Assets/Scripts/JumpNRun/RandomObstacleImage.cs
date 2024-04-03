@@ -27,7 +27,7 @@ public class RandomObstacleImage : MonoBehaviour
             
             GameObject second = new GameObject();
             second.transform.SetParent(transform.parent.parent);
-            second.transform.position = transform.position;
+            second.transform.position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
             second.AddComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
             PolygonCollider2D secondPoly = second.AddComponent<PolygonCollider2D>();
             List<Vector2> secondPoints = new List<Vector2>();
