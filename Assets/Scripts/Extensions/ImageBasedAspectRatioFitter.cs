@@ -16,11 +16,11 @@ namespace Extensions
 
             public void UpdateRatioAndImage()
             {
-                AspectRatioFitter aspectRatioFitter = GetComponent<AspectRatioFitter>();
+                //AspectRatioFitter aspectRatioFitter = GetComponent<AspectRatioFitter>();
                 // aspectRatioFitter.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
                 _image = GetComponent<Image>();
                 float aspectRatio = (float)_image.sprite.texture.width / _image.sprite.texture.height;
-                aspectRatioFitter.aspectRatio = aspectRatio;
+                base.aspectRatio = aspectRatio;
             }
         }
 }

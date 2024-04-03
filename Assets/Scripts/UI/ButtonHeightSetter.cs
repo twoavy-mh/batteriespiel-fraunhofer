@@ -10,20 +10,43 @@ public class ButtonHeightSetter : MonoBehaviour
 {
     void Start()
     {
-        float multiplier = Device.Mobile == Utility.GetDevice()?Settings.RESIZE_FACTOR:1f;
+        float multiplier = Device.Mobile == Utility.GetDevice() ? Settings.RESIZE_FACTOR : 1f;
         
         RectTransform rt = GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, Utility.GetDevice() == Device.Mobile ? 40 * multiplier : 60);
         rt.localScale = Vector3.one;
         ImageWithRoundedCorners iwrc = GetComponent<ImageWithRoundedCorners>();
-        iwrc.radius *= multiplier;
+        if (iwrc)
+        {
+            iwrc.radius *= multiplier;    
+        }
         VerticalLayoutGroup vlg = GetComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset((int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier), (int)Math.Round(1 * multiplier));
+        if (vlg)
+        {
+            RectOffset padding = vlg.padding;
+            vlg.padding = new RectOffset((int)Math.Round(padding.left * multiplier), (int)Math.Round(padding.right * multiplier), (int)Math.Round(padding.top * multiplier), (int)Math.Round(padding.bottom * multiplier));    
+        }
+        
         
         GameObject child = transform.GetChild(0).gameObject;
         ImageWithRoundedCorners iwrcChild = child.GetComponent<ImageWithRoundedCorners>();
-        iwrcChild.radius *= multiplier;
+        if (iwrcChild)
+        {
+            iwrcChild.radius *= multiplier;    
+        }
+        
         HorizontalLayoutGroup hlg = child.GetComponent<HorizontalLayoutGroup>();
-        hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(5 * multiplier), (int)Math.Round(5 * multiplier));
+        if (hlg)
+        {
+            if (Utility.GetDevice() == Device.Mobile)
+            {
+                hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(10 * multiplier), (int)Math.Round(10 * multiplier));    
+            }
+            else
+            {
+                hlg.padding = new RectOffset((int)Math.Round(24 * multiplier), (int)Math.Round(24 * multiplier), (int)Math.Round(18 * multiplier), (int)Math.Round(18 * multiplier));
+            }
+                
+        }
     }
 }
