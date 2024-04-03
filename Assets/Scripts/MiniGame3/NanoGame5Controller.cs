@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Helpers;
 
 namespace Minigame3
 {
@@ -113,17 +114,17 @@ namespace Minigame3
         
         private void InstantiateNewCutter(int startOffset)
         {
-                GameObject newCutter = Instantiate(Application.isMobilePlatform? cutterPrefabMobile:cutterPrefabDesktop, cutterSpawnPoint.transform);
+                GameObject newCutter = Instantiate(Utility.GetDevice() == Device.Mobile? cutterPrefabMobile:cutterPrefabDesktop, cutterSpawnPoint.transform);
                 newCutter.transform.localScale = Vector3.one;
                 newCutter.transform.localPosition = new Vector3(startOffset,-(newCutter.GetComponent<RectTransform>().sizeDelta.y/2),0);
-                newCutter.name = Application.isMobilePlatform? "CutterMobile":"CutterDesktop";
+                newCutter.name = Utility.GetDevice() == Device.Mobile? "CutterMobile":"CutterDesktop";
                 newCutter.GetComponentInChildren<SetPointToSplinePosition>().OnFinishedCutting += OnGameFinished;
                 _beltObjects.Add(newCutter);
                 
-                GameObject newBeltDivider = Instantiate(Application.isMobilePlatform? beltArrowPrefabMobile:beltArrowPrefabDesktop, cutterSpawnPoint.transform);
+                GameObject newBeltDivider = Instantiate(Utility.GetDevice() == Device.Mobile? beltArrowPrefabMobile:beltArrowPrefabDesktop, cutterSpawnPoint.transform);
                 newBeltDivider.transform.localScale = Vector3.one;
                 newBeltDivider.transform.localPosition = new Vector3(startOffset - _dividerOffset,0,0);
-                newBeltDivider.name = Application.isMobilePlatform? "BeltDividerMobile":"BeltDividerDesktop";
+                newBeltDivider.name = Utility.GetDevice() == Device.Mobile? "BeltDividerMobile":"BeltDividerDesktop";
                 _beltObjects.Add(newBeltDivider);
         }
 

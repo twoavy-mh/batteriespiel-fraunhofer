@@ -14,6 +14,7 @@ public class RectSizer : MonoBehaviour
     public float zDiff;
 
     public bool adjustRoundedCorners = false;
+    public float roundedCornersRadius = 0;
     public bool multiplyByResizeFactor = false;
     
     private void Start()
@@ -29,11 +30,18 @@ public class RectSizer : MonoBehaviour
             rt.localPosition = new Vector3(rt.localPosition.x + xDiff, rt.localPosition.y + yDiff, rt.localPosition.z + zDiff);
         }
 
-        if (!adjustRoundedCorners) return;
-        ImageWithRoundedCorners i = GetComponent<ImageWithRoundedCorners>();
-        if (i != null)
+        if (adjustRoundedCorners || roundedCornersRadius > 0)
         {
-            i.radius = rt.sizeDelta.x / 2;
+            ImageWithRoundedCorners i = GetComponent<ImageWithRoundedCorners>();
+            if (adjustRoundedCorners && rt.sizeDelta.x > 0)
+            {
+                i.radius = rt.sizeDelta.x / 2;
+            }
+
+            if (roundedCornersRadius > 0)
+            {
+                i.radius = roundedCornersRadius * Settings.RESIZE_FACTOR;
+            }
             i.Refresh();
         }
     }
