@@ -59,7 +59,7 @@ public class FloorChunker : MonoBehaviour
         float xOffset = 0;
 
         int currentGame = (int)GameState.Instance.GetCurrentMicrogame();
-        bool[] randomChunkToSpawnObstacle = RandomPlacer(currentGame < 3 ? currentGame + 2 : currentGame , chunkCount);
+        bool[] randomChunkToSpawnObstacle = RandomPlacer(currentGame < 3 ? currentGame + 1 : currentGame - 1, chunkCount);
 
         for (int i = 0; i < chunkCount; i++)
         {
@@ -72,7 +72,7 @@ public class FloorChunker : MonoBehaviour
             if (randomChunkToSpawnObstacle[i])
             {
                 GameObject obstacle = Instantiate(_obstacle, new Vector3(i * 3.42f + _blockCount * (
-                    (chunkCount + 2) * ChunkSize), -3.5f, 0), Quaternion.identity);
+                    (chunkCount + 2) * ChunkSize), UnityEngine.Random.Range(-3.0f, -3.5f), 0), Quaternion.identity);
                 obstacle.transform.SetParent(currentChunk.transform);
             }
 
