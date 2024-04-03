@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _mustFall = false;
     private bool _isJumping = false;
     private float _jumpTimeCounter;
-    private float _jumpTime = 0.2f;
+    private float _jumpTime = 0.3f;
 
     private Animator _animator;
     private Coroutine _boink = null;
@@ -75,12 +75,12 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
              (Input.touchCount > 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Began)) && !_mustFall)
         {
+            Debug.Log("Jump");
             if (!_isGrounded) _mustFall = true;
             _isGrounded = false;
             _isJumping = true;
             _jumpTimeCounter = _jumpTime;
-            _rb.velocity = Vector2.up *
-                           ((Screen.height / 1080f) * (Utility.GetDevice() == Device.Desktop ? 12f : 10f));
+            _rb.velocity = Vector2.up * (Utility.GetDevice() == Device.Desktop ? 14f : 12f);
             _animator.SetTrigger("jump");
         }
 
@@ -214,10 +214,12 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 }));
                 break;
             case "Floor":
+                Debug.Log("Floor");
                 _isGrounded = true;
                 _rb.gravityScale = 2f;
                 _mustFall = false;
                 _speed = Settings.MovementSpeed;
+                _animator.SetTrigger("walk");
                 break;
         }
     }
