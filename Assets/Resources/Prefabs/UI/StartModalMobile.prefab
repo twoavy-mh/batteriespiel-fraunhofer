@@ -526,6 +526,7 @@ MonoBehaviour:
   yDiff: 0
   zDiff: 0
   adjustRoundedCorners: 0
+  roundedCornersRadius: 0
   multiplyByResizeFactor: 1
 --- !u!1 &2172468780904802270
 GameObject:
@@ -844,18 +845,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Punkte gibt es, wenn du die Fragen korrekt beantwortest. Zus\xE4tzlich
-    solltest du die Fragen innerhalb der angegebenen Zeit beantworten."
+  m_text: Punkte gibt es, wenn du die Fragen korrekt beantwortest.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e22e834d5b684ec6ac1a41aeb7d7ed2, type: 2}
+  m_sharedMaterial: {fileID: -6279486284835555516, guid: 2e22e834d5b684ec6ac1a41aeb7d7ed2,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278246655
+  m_fontColor: {r: 1, g: 0.8627451, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -872,8 +873,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 42.561577
+  m_fontSizeBase: 42.561577
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1306,7 +1307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 1
 --- !u!1 &4484147637690821039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1529,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &4928533891483415812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,8 +1716,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 56
     m_Right: 56
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 71
+    m_Bottom: 71
   m_ChildAlignment: 4
   m_Spacing: 71
   m_ChildForceExpandWidth: 0
@@ -3466,6 +3467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpScene: MainMenu
+  goBackToLastScene: 0
 --- !u!224 &9050169213383801467 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3539181836527204247, guid: 6569a1af78aa14cd39c134e580cd03e9,
@@ -3704,6 +3706,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092550297732613998, guid: 748a3378a3a7047da8aca593ab256a95,
+        type: 3}
+      propertyPath: ImageColor
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
