@@ -38,11 +38,11 @@ public class StateDisplayController : MonoBehaviour
         string r;
         switch (GameState.Instance.currentGameState.results.Length)
         {
-            case 1:
+            case 1: 
             case 2:
             case 3:
                 r = ((int)GameState.Instance.currentGameState.results.Last().game + 1).ToString();
-                k = "main_menu_default";
+                k = ((int)GameState.Instance.currentGameState.results.Last().game + 1) > 1 ? "main_menu_default_n": "main_menu_default_1";
                 break;
             case 4:
                 r = "";
@@ -54,7 +54,7 @@ public class StateDisplayController : MonoBehaviour
                 break;
             default:
                 Debug.Log("is default");
-                k = "main_menu_default";
+                k = "main_menu_default_1";
                 r = "";
                 break;
         }
