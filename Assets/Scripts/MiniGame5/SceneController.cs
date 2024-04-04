@@ -81,6 +81,7 @@ namespace Minigame5
         private void StartQuiz()
         {
             videoCanvas.SetActive(false);
+            
             if (Utility.GetDevice() == Device.Mobile)
             {
                 quizMasterMobile.SetActive(true);
@@ -91,6 +92,7 @@ namespace Minigame5
                 quizMasterDesktop.SetActive(true);
                 _quizController = quizMasterDesktop.GetComponent<QuizController>();
             }
+            _quizController.StartQuiz();
             _quizController.TimerEndEvent += TimerEnded;
             _quizController.MaximumQuizTimeEndEvent += SetEndscreen;
             _quizSlots.InitQuiz();

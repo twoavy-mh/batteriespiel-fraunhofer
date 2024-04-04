@@ -31,13 +31,18 @@ namespace Minigame5
 
         public RectTransform quizProgress;
         public float maximumQuizTime = 120;
-        private float _quizStartTime;
+        private float? _quizStartTime = null;
         
     // Start is called before the first frame update
         void Awake()
         {
-            _quizStartTime = Time.time;
             _quizSlots = GameObject.Find("Main").GetComponent<QuizSlots>();
+        }
+        
+        public void StartQuiz()
+        {
+            _quizStartTime = Time.time;
+            Debug.Log($"Start Quiz {_quizStartTime.Value}");
         }
 
         // Update is called once per frame
@@ -53,8 +58,11 @@ namespace Minigame5
                     TimerEndEvent?.Invoke();
                 }
             }
-            
-            quizProgress.localScale = new Vector3(( Time.time / (_quizStartTime + maximumQuizTime)), 1, 1);
+
+            if (_quizStartTime != null)
+            {
+                quizProgress.localScale = new Vector3((Time.time - _quizStartTime.Value) / maximumQuizTime, 1, 1);
+            }
             
             if (_quizStartTime + maximumQuizTime < Time.time)
             {
