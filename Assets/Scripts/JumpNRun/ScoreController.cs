@@ -18,6 +18,10 @@ public class ScoreController : MonoBehaviour, CollectedEvent.IUseCollectable
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
         _scoreText = GetComponent<TMP_Text>();
         _scoreText.text = _score.ToString().PadLeft(5, '0');
+        if ((int)GameState.Instance.GetCurrentMicrogame() == 4)
+        {
+            GetComponent<FontStyler>().fontColor = Tailwind.Blue2;
+        }
     }
 
     public int GetScoreForApi()
