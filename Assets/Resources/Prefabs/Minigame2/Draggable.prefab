@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3864853725551600297}
   - component: {fileID: 8341165267704790997}
   - component: {fileID: 3884947622061816264}
+  - component: {fileID: 1238080403195396255}
   m_Layer: 9
   m_Name: Image (1)
   m_TagString: Untagged
@@ -106,6 +107,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImageColor: 18
   opacity: 1
+--- !u!114 &1238080403195396255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968527925733677444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 24
+  heightScreendesign: 24
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  roundedCornersRadius: 12
+  multiplyByResizeFactor: 0
 --- !u!1 &1445705294038389976
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +237,7 @@ MonoBehaviour:
   yDiff: 0
   zDiff: 0
   adjustRoundedCorners: 0
+  roundedCornersRadius: 0
   multiplyByResizeFactor: 0
 --- !u!114 &5284014332954717160
 MonoBehaviour:
@@ -242,6 +264,8 @@ GameObject:
   - component: {fileID: 2930410223656123318}
   - component: {fileID: 6150051574655844591}
   - component: {fileID: 6818452255051967962}
+  - component: {fileID: 6862445053454107296}
+  - component: {fileID: 3482313350128666215}
   m_Layer: 9
   m_Name: Info
   m_TagString: Untagged
@@ -296,9 +320,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3d669a46fa9ea44af9b09730ad0c2b57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f5825302a03924c829dd6554aca47cf4, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -306,6 +330,40 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6862445053454107296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4950389212879135055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 6
+  heightScreendesign: 14
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  roundedCornersRadius: 0
+  multiplyByResizeFactor: 0
+--- !u!114 &3482313350128666215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4950389212879135055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d281f6d5e2c744aebc74f365943600f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageColor: 20
+  opacity: 1
 --- !u!1 &5592662749403468580
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +520,7 @@ MonoBehaviour:
   yDiff: 0
   zDiff: 0
   adjustRoundedCorners: 0
+  roundedCornersRadius: 0
   multiplyByResizeFactor: 0
 --- !u!1 &7693188172542674202
 GameObject:
@@ -637,6 +696,7 @@ MonoBehaviour:
   yDiff: 0
   zDiff: 0
   adjustRoundedCorners: 0
+  roundedCornersRadius: 0
   multiplyByResizeFactor: 0
 --- !u!1 &7966428799738642075
 GameObject:
@@ -653,6 +713,7 @@ GameObject:
   - component: {fileID: 3610284988298337246}
   - component: {fileID: 5704271132719990053}
   - component: {fileID: 4368959737884934408}
+  - component: {fileID: 7544520974994255579}
   m_Layer: 9
   m_Name: circle
   m_TagString: Untagged
@@ -802,3 +863,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7544520974994255579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966428799738642075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3ef6e42514261aa8daa7f462fa5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthScreendesign: 28
+  heightScreendesign: 28
+  xDiff: 0
+  yDiff: 0
+  zDiff: 0
+  adjustRoundedCorners: 0
+  roundedCornersRadius: 14
+  multiplyByResizeFactor: 0

@@ -12,14 +12,14 @@ namespace Minigame3
         public event Action OnValueChange;
 
         public int correctSliderValue = 10;
+        public int sliderOffsetValue = 2;
+        
         public GameObject icon;
         public ImageColorSetter fillColor;
 
         private Slider _sliderComponent;
         private bool _isCorrect = false;
         private bool _isSolved = false;
-
-        private int sliderOffsetValue = 2;
 
         // Start is called before the first frame update
         void Start()
