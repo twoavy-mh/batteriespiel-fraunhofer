@@ -231,6 +231,7 @@ namespace Helpers
             try
             {
                 callback((LeaderboardArray)v);
+                yield break;
             }
             catch (Exception e)
             {

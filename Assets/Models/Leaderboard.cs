@@ -18,13 +18,9 @@ namespace Models
             this.isMeInTop10 = this.entries.Any((entry) => entry.isMe);
         }
         
-        public static Leaderboard ConstructLeaderboard()
+        public static Leaderboard ConstructLeaderboard(LeaderboardArray e)
         { 
-            /*StartCoroutine(Api.Instance.GetLeaderboard(PlayerPrefs.GetString("uuid"), array =>
-            {
-                
-            }));*/
-            Leaderboard leaderboard = new Leaderboard(new LeaderboardArray());
+            Leaderboard leaderboard = new Leaderboard(e);
             return leaderboard;
         }
 
@@ -54,6 +50,8 @@ namespace Models
     {
         public string id;
         public string name;
+        public int microGameScore;
+        public int jumpAndRunScore;
         public int totalScore;
         public int rank;
         public bool isMe;
@@ -64,6 +62,8 @@ namespace Models
                    "id='" + id + '\'' +
                    ", name='" + name + '\'' +
                    ", totalScore=" + totalScore +
+                   ", microgameScore=" + microGameScore +
+                   ", jumpScore=" + jumpAndRunScore +
                    ", rank=" + rank +
                    ", isMe=" + isMe +
                    '}';

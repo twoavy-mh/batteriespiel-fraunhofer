@@ -30,8 +30,12 @@ namespace Highscore
         // Start is called before the first frame update
         private void Awake()
         {
-            leaderboard = Leaderboard.ConstructLeaderboard();
-            myScore = leaderboard.entries[0];
+            StartCoroutine(Api.Instance.GetLeaderboard(PlayerPrefs.GetString("uuid"), array =>
+            {
+                leaderboard = Leaderboard.ConstructLeaderboard(array);
+                Debug.Log(leaderboard.ToString());
+                myScore = leaderboard.entries[0];
+            }));
             _instance = this;
         }
         
