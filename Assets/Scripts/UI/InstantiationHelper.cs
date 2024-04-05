@@ -16,7 +16,7 @@ public class InstantiationHelper : MonoBehaviour
       {
          VerticalLayoutGroup menuItemsVerticalLayoutGroupComponent = menuItemsGameObject.AddComponent<VerticalLayoutGroup>();
          menuItemsVerticalLayoutGroupComponent.padding = new RectOffset(30, 36, 75, 12);
-         menuItemsVerticalLayoutGroupComponent.spacing = 13;
+         menuItemsVerticalLayoutGroupComponent.spacing = 140;
          menuItemsVerticalLayoutGroupComponent.childAlignment = TextAnchor.UpperLeft;
          menuItemsVerticalLayoutGroupComponent.reverseArrangement = false;
          menuItemsVerticalLayoutGroupComponent.childControlWidth = true;
@@ -29,7 +29,7 @@ public class InstantiationHelper : MonoBehaviour
       else
       {
          HorizontalLayoutGroup menuItemsHorizontalLayoutGroupComponent = menuItemsGameObject.AddComponent<HorizontalLayoutGroup>();
-         menuItemsHorizontalLayoutGroupComponent.padding = new RectOffset(0, 0, 0, 0);
+         menuItemsHorizontalLayoutGroupComponent.padding = new RectOffset(170, 0, 0, 0);
          menuItemsHorizontalLayoutGroupComponent.spacing = 130;
          menuItemsHorizontalLayoutGroupComponent.childAlignment = TextAnchor.MiddleCenter;
          menuItemsHorizontalLayoutGroupComponent.reverseArrangement = true;
