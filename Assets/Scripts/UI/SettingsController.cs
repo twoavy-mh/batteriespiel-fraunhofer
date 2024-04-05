@@ -30,10 +30,17 @@ namespace UI
             _settingsCanvas.SetActive(true);
             _settingsCanvas.GetComponentInChildren<CanvasGroup>().alpha = 0f;
             _settingsCanvas.GetComponentInChildren<CanvasGroup>().DOFade(1, .5f).SetEase(Ease.InCubic);
-
-            _resetPlayerPrefsButton = GameObject.Find("ResetPlayerPrefsButton")?.GetComponentInChildren<Button>();
-            _resetPlayerPrefsButton?.onClick.AddListener(ResetPlayerPrefsModal);   
             
+            _resetPlayerPrefsButton = GameObject.Find("ResetPlayerPrefsButton")?.GetComponentInChildren<Button>();
+            if (PlayerPrefs.HasKey("uuid"))
+            {
+                _resetPlayerPrefsButton?.onClick.AddListener(ResetPlayerPrefsModal);
+            }
+            else
+            {
+                _resetPlayerPrefsButton.gameObject.SetActive(false);
+            }
+
             _closeButton = GameObject.Find("SettingsCloseButton").GetComponentInChildren<Button>();
             _closeButton.onClick.AddListener(CloseInfoModal);
         }

@@ -22,6 +22,10 @@ public class LanguageToggleController : MonoBehaviour
         _currentLanguage = Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En;
         LocalizationSettings.SelectedLocale = _currentLanguage == Language.De ? LocalizationSettings.AvailableLocales.GetLocale("de") : LocalizationSettings.AvailableLocales.GetLocale("en");
         _image = GetComponent<Image>();
+        if (!_image)
+        {
+            _image = GetComponentInChildren<Image>();
+        }
         _image.sprite = _currentLanguage == Language.De ? en : de;
         GetComponent<Button>().onClick.AddListener(ToggleLanguage);
     }
