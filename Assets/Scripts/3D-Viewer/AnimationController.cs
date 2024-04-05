@@ -44,22 +44,38 @@ public class AnimationController : MonoBehaviour
         {
             _animator.ResetTrigger("open");
             _animator.SetTrigger("close");
-            _animateStartCloseGameObject.SetActive(false);
-            _animateStartOpenGameObject.SetActive(true);
-            _disabledOpenButtonGameObject.SetActive(false);
-            _disabledCloseButtonGameObject.SetActive(true);
+            SetButtonState(true);
         }
         else
         {
             _animator.ResetTrigger("close");
             _animator.SetTrigger("open");
-            _animateStartCloseGameObject.SetActive(true);
-            _animateStartOpenGameObject.SetActive(false);
-            _disabledOpenButtonGameObject.SetActive(true);
-            _disabledCloseButtonGameObject.SetActive(false);
+            SetButtonState(false);
         }
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(openCloseAnimationGameObject.GetComponent<RectTransform>());
+    }
+
+    private void SetButtonState(bool isOpen)
+    {
+        _animateStartCloseGameObject.SetActive(isOpen);
+        _animateStartOpenGameObject.SetActive(!isOpen);
+        _disabledOpenButtonGameObject.SetActive(isOpen);
+        _disabledCloseButtonGameObject.SetActive(!isOpen);
+    }
+
+    public void HideButtons()
+    {
+        _animateStartCloseGameObject.SetActive(false);
+        _animateStartOpenGameObject.SetActive(false);
+        _disabledOpenButtonGameObject.SetActive(false);
+        _disabledCloseButtonGameObject.SetActive(false);
+    }
+
+    public void ShowInitialButtons()
+    {
+        _animateStartOpenGameObject.SetActive(true); 
+        _animateStartCloseGameObject.SetActive(true);
     }
 
     private GameObject FindHiddenOpenCloseContainer()
