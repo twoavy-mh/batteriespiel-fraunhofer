@@ -118,10 +118,9 @@ namespace Minigame1
             return avg;
         }
         
-        private int CalculateScore()
+        private int CalculateScore(int sumBought)
         {
             int sumNeeds = stateButtons[0].needs + stateButtons[1].needs + stateButtons[2].needs;
-            int sumBought = stateButtons[0].GetBought() + stateButtons[1].GetBought() + stateButtons[2].GetBought();
             
             int desiredRemainingCapital = _startCapital - _desiredValue;
 
@@ -141,14 +140,14 @@ namespace Minigame1
         {
             
                     _finished = true;
+
+                    int playedRounds = videoPlayer.GetComponentInChildren<Timeslot>().GetPlayedRounds();
                     videoPlayer.Stop();
                     microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
                     int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
                                         stateButtons[2].GetBought();
-                    int capitalNow = _startCapital - boughtInTotal;
-                    int spent = _startCapital - capitalNow;
-                    int score = CalculateScore();
-                    Debug.Log("SCORE = " + CalculateScore());
+                    int spent = _startCapital - nonInvestedController.currentMoney;
+                    int score = CalculateScore(boughtInTotal);
 
                     if (GameState.Instance.currentGameState.results.Length == 0)
                     {
@@ -185,7 +184,7 @@ namespace Minigame1
                             {
                                 { "~", boughtInTotal.ToString() },
                                 { "#", spent.ToString() },
-                                { "_", "playedRounds" },
+                                { "_", playedRounds.ToString() },
                                 { "=", score.ToString() }
                             });
                     }

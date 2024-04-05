@@ -21,6 +21,8 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     private int _secondsPerTimeslot = 3;
     public RawImage textureRenderedTo;
     
+    private int _playedRounds = 0;
+    
     void Start()
     {
         SceneController.Instance.brokerBuyEvent.AddListener(UseBrokerBuyEvent);
@@ -156,6 +158,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         if (t.start != _currentTimeslot)
         {
             _vp.Pause();
+            _playedRounds++;
             mapImage.sprite = t.map;
             SceneController.Instance.showWhatYouBuyEvent.Invoke(true);
             StartCoroutine(EmitBuyableAgain(t.start, t.end));
@@ -205,6 +208,11 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         }
 
         return currentSlot;
+    }
+    
+    public int GetPlayedRounds()
+    {
+        return _playedRounds;
     }
 
     public void UseBrokerBuyEvent(Dictionary<string, int> boughtAmount)
