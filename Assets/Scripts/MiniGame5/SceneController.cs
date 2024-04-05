@@ -29,6 +29,8 @@ namespace Minigame5
         
         public GameObject finishedModalDesktop;
         public GameObject finishedModalMobile;
+
+        public GameObject homeButtonQuiz;
         
         public static SceneController Instance
         {
@@ -81,6 +83,7 @@ namespace Minigame5
         private void StartQuiz()
         {
             videoCanvas.SetActive(false);
+            homeButtonQuiz.SetActive(true);
             
             if (Utility.GetDevice() == Device.Mobile)
             {
@@ -131,6 +134,9 @@ namespace Minigame5
             if (_completedTime == 0) _completedTime = Time.time - _time;
             
             int answerCount = _quizSlots.GetSlotsListLengh();
+            
+            homeButtonQuiz.SetActive(false);
+            
             if (Utility.GetDevice() == Device.Desktop)
             {
                 quizMasterDesktop.SetActive(false);
