@@ -1,22 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Helpers;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class FairModeController : MonoBehaviour
     {
         public GameObject prefabCanvas;
-         //  TODO: IF ALLREADY IN FAIR MODE THEN JOIN BUTTON SHOULD BE LEAVE | ADD GAMESTATE!!!
-        public bool isFairMode = false;
         
         private GameObject _fairModeCanvas;
         private SelfTranslatingText _fairModeBody;
         private Button _joinLeaveButton;
         private Button _closeButton;
         
+        private bool _isInFairMode = false;
+        
         void OnEnable()
         {
+            _isInFairMode = GameState.Instance.currentGameState.fairModeCode != 0;
             transform.GetComponent<Button>().onClick.AddListener(OpenInfoModal);
         }
         
@@ -34,7 +37,7 @@ namespace UI
 
             _fairModeBody = GameObject.Find("FairModeBody").GetComponent<SelfTranslatingText>();
             _joinLeaveButton = GameObject.Find("Join/LeaveButton"). GetComponent<Button>();
-            if (isFairMode)
+            if (_isInFairMode)
             {
                 _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
                 _fairModeBody.translationKey = "fair_mode_leave_body";
@@ -68,7 +71,7 @@ namespace UI
         
         private void JoinFairMode()
         {
-            isFairMode = true;
+            _isInFairMode = true;
             _joinLeaveButton.onClick.RemoveListener(JoinFairMode);
             _joinLeaveButton.onClick.AddListener(LeaveFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
@@ -77,7 +80,7 @@ namespace UI
         
         private void LeaveFairMode()
         {
-            isFairMode = false;
+            _isInFairMode = false;
             _joinLeaveButton.onClick.RemoveListener(LeaveFairMode);
             _joinLeaveButton.onClick.AddListener(JoinFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_join";

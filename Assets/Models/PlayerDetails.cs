@@ -35,6 +35,7 @@ namespace Models
         public GameState.Models current3dModel;
         public int totalScore;
         public MicrogameState[] results;
+        public int fairModeCode = 0;
 
         public override string ToString()
         {
