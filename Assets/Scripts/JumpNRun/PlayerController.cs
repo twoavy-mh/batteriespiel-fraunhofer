@@ -118,14 +118,17 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 case "BlueLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
+                    GetComponent<AudioSource>().Play();
                     break;
                 case "YellowLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
+                    GetComponent<AudioSource>().Play();
                     break;
                 case "Target":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     _collectedCount++;
+                    GetComponent<AudioSource>().Play();
                     SceneController.Instance.collectEvent.Invoke(Collectable.LevelSpecific);
                     if (_collectedCount == 5)
                     {
