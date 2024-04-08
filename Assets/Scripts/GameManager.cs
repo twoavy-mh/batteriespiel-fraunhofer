@@ -134,7 +134,8 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
         if (_errorLogInstance == null)
         {
             _errorLogInstance = Instantiate(_errorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            StartCoroutine(_errorLogInstance.transform.GetChild(0).GetChild(0).GetComponent<ErrorBuilder>().WaitASec(e));
+            StartCoroutine(_errorLogInstance.transform.GetChild(0).GetChild(0).GetComponent<ErrorBuilder>()
+                .WaitASec(e));
         }
     }
 

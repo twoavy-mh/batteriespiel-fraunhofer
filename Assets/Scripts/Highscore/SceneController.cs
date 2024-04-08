@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Helpers;
 using Models;
@@ -34,7 +35,7 @@ namespace Highscore
             {
                 leaderboard = Leaderboard.ConstructLeaderboard(array);
                 Debug.Log(leaderboard.ToString());
-                myScore = leaderboard.entries[0];
+                myScore = leaderboard.entries.Single(l => l.isMe);
             }));
             _instance = this;
         }

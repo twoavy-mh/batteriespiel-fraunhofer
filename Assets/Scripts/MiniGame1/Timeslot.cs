@@ -6,6 +6,7 @@ using Minigame1;
 using UnityEngine;
 using UnityEngine.Video;
 using Minigame1.Classes;
+using TMPro.EditorUtilities;
 using UnityEngine.UI;
 
 public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
@@ -135,13 +136,15 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     private void VideoPrepared(VideoPlayer source)
     {
         Debug.Log($"prepared {_vp.source}");
-        StartCoroutine(StartVideo(2));
+        StartCoroutine(StartVideo());
         SceneController.Instance.showWhatYouBuyEvent.Invoke(false);
     }
 
-    private IEnumerator StartVideo(int wait)
+    private IEnumerator StartVideo()
     {
-        yield return new WaitForSeconds(wait);
+        _vp.Play();
+        _vp.Pause();
+        yield return new WaitUntil(() => false);
         textureRenderedTo.DOFade(1f, 0.5f);
         _vp.Play();
     }
