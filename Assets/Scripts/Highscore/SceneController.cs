@@ -14,6 +14,11 @@ namespace Highscore
         private static SceneController _instance;
         public Leaderboard leaderboard;
         public LeaderboardEntry myScore;
+
+        public bool hasScore
+        {
+            get => myScore != null;
+        }
                 
         public static SceneController Instance
         {

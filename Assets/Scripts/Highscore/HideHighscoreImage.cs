@@ -21,6 +21,15 @@ namespace Highscore
             yield return new WaitUntil(() =>
                 (SceneController.Instance != null && SceneController.Instance.myScore != null));
             GameObject o;
+
+            if (!SceneController.Instance.hasScore)
+            {
+                RectTransform rt = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponent<RectTransform>();
+                rt.position = new Vector3(rt.position.x, 0, rt.position.z);
+                gameObject.SetActive(false);
+                yield break;
+            }
+            
             if (SceneController.Instance.myScore.rank == 0)
             {
                 GetComponent<Image>().sprite = high;
