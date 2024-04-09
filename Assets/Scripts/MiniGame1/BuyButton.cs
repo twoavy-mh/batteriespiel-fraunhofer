@@ -174,9 +174,15 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
     
     public void UseShowWhatYouBuyEvent(bool show)
     {
+        Debug.Log(_countryKey);
         transform.GetChild(0).GetComponent<CanvasGroup>().DOFade(show ? 1f : 0f, 0.5f).SetEase(Ease.InOutSine);
         if (show)
         {
+            if (_countryKey == null)
+            {
+                return;
+            }
+            
             if (_countryKey.Equals(""))
             {
                 transform.GetChild(1).GetComponent<TMP_Text>().text = "";

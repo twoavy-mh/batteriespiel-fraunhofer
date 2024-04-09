@@ -32,8 +32,8 @@ namespace Highscore
                 return _instance;
             }
         }
-
-        // Start is called before the first frame update
+        
+        
         private void Awake()
         {
             StartCoroutine(Api.Instance.GetLeaderboard(PlayerPrefs.GetString("uuid"), array =>

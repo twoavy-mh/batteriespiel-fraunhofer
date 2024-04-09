@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Events;
 using Helpers;
@@ -55,5 +56,11 @@ public class CountdownBar : MonoBehaviour, ShowWhatYouBuyEvent.IUseShowWhatYouBu
         {
             DOTween.Kill(GetComponent<RectTransform>());
         }
+    }
+
+    private void OnDisable()
+    {
+        SceneController.Instance.showWhatYouBuyEvent.RemoveListener(UseShowWhatYouBuyEvent);
+        SceneController.Instance.microgameFinishedEvent.RemoveListener(UseMicrogameFinishedEvent);
     }
 }

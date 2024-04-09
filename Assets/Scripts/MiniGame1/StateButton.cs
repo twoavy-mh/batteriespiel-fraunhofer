@@ -70,6 +70,7 @@ public class StateButton : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         type.DOColor(Settings.ColorMap[Tailwind.BlueUI], 0.5f);
         if (Finished)
         {
+            plus.gameObject.SetActive(false);
             yield break;
         }
         yield return new WaitForSeconds(3);

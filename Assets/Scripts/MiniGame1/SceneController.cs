@@ -25,27 +25,22 @@ namespace Minigame1
         public GameObject mobileModal;
         public GameObject desktopModal;
         public VideoPlayer videoPlayer;
-        
+
         public NonInvestedController nonInvestedController;
 
         public MicrogameFinishedEvent microgameFinishedEvent;
 
         private bool _finished = false;
-        
+
         private int _desiredValue = 3444;
         private int _startCapital = 6000;
+
         public int startCapital
         {
-            get
-            {
-                return _startCapital;
-            }
-            private set
-            {
-                _startCapital = value;
-            }
+            get { return _startCapital; }
+            private set { _startCapital = value; }
         }
-        
+
         public static SceneController Instance
         {
             get
@@ -64,7 +59,7 @@ namespace Minigame1
             microgameFinishedEvent ??= new MicrogameFinishedEvent();
             _instance = this;
             gameObject.AddComponent<AutoTweenKiller>();
-            
+
             videoPlayer.loopPointReached += LoopPointReached;
         }
 
@@ -72,7 +67,6 @@ namespace Minigame1
         {
             if (!_finished)
             {
-                
                 if (stateButtons.All(x => x.Finished))
                 {
                     SetEndScreen();
@@ -117,97 +111,97 @@ namespace Minigame1
             Debug.Log(avg);
             return avg;
         }
-        
+
         private int CalculateScore(int sumBought)
         {
             int sumNeeds = stateButtons[0].needs + stateButtons[1].needs + stateButtons[2].needs;
-            
+
             int desiredRemainingCapital = _startCapital - _desiredValue;
 
             float resources = (Math.Min(sumBought, sumNeeds) / (float)sumNeeds) * 40;
-            float capital = (Math.Min(nonInvestedController.currentMoney, desiredRemainingCapital) / (float)desiredRemainingCapital) * 60;
+            float capital = (Math.Min(nonInvestedController.currentMoney, desiredRemainingCapital) /
+                             (float)desiredRemainingCapital) * 60;
 
             int score = (int)Math.Floor(capital + resources);
             return score;
         }
-        
+
         private void LoopPointReached(VideoPlayer vp)
         {
             SetEndScreen();
         }
-        
+
         private void SetEndScreen()
         {
-            
-                    _finished = true;
+            _finished = true;
 
-                    int playedRounds = videoPlayer.GetComponentInChildren<Timeslot>().GetPlayedRounds();
-                    videoPlayer.Stop();
-                    microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
-                    int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
-                                        stateButtons[2].GetBought();
-                    int spent = _startCapital - nonInvestedController.currentMoney;
-                    int score = CalculateScore(boughtInTotal);
+            int playedRounds = videoPlayer.GetComponentInChildren<Timeslot>().GetPlayedRounds();
+            videoPlayer.Stop();
+            microgameFinishedEvent.Invoke(GameState.Microgames.Microgame1);
+            int boughtInTotal = stateButtons[0].GetBought() + stateButtons[1].GetBought() +
+                                stateButtons[2].GetBought();
+            int spent = _startCapital - nonInvestedController.currentMoney;
+            int score = CalculateScore(boughtInTotal);
 
-                    if (GameState.Instance.currentGameState.results.Length == 0)
+            if (GameState.Instance.currentGameState.results.Length == 0)
+            {
+                UpdateGame(score, b =>
+                {
+                    if (!b)
                     {
-                        UpdateGame(score, b =>
-                        {
-                            if (!b)
-                            {
-                                Debug.Log("something went wrong");
-                            }
-                        });
+                        Debug.Log("something went wrong");
                     }
-                    else
+                });
+            }
+            else
+            {
+                if (score > GameState.Instance.currentGameState.results[0].result)
+                {
+                    UpdateGame(score, b =>
                     {
-                        if (score > GameState.Instance.currentGameState.results[0].result)
+                        if (!b)
                         {
-                            UpdateGame(score, b =>
-                            {
-                                if (!b)
-                                {
-                                    Debug.Log("something went wrong");
-                                }
-                            });
+                            Debug.Log("something went wrong");
                         }
-                    }
+                    });
+                }
+            }
 
-                    if (Utility.GetDevice() == Device.Desktop)
+            if (Utility.GetDevice() == Device.Desktop)
+            {
+                desktopModal.SetActive(true);
+                desktopModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
+                Utility.GetTranslatedText(
+                    score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
+                    s => desktopModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
+                    new Dictionary<string, string>()
                     {
-                        desktopModal.SetActive(true);
-                        desktopModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
-                        Utility.GetTranslatedText(
-                            score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
-                            s => desktopModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
-                            new Dictionary<string, string>()
-                            {
-                                { "~", boughtInTotal.ToString() },
-                                { "#", spent.ToString() },
-                                { "_", playedRounds.ToString() },
-                                { "=", score.ToString() }
-                            });
-                    }
-                    else
+                        { "~", boughtInTotal.ToString() },
+                        { "#", spent.ToString() },
+                        { "_", playedRounds.ToString() },
+                        { "=", score.ToString() }
+                    });
+            }
+            else
+            {
+                mobileModal.SetActive(true);
+                mobileModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
+                Utility.GetTranslatedText(
+                    score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
+                    s => mobileModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
+                    new Dictionary<string, string>()
                     {
-                        mobileModal.SetActive(true);
-                        mobileModal.GetComponentInChildren<ProgressRingController>().StartAnimation(score);
-                        Utility.GetTranslatedText(
-                            score > 60 ? "microgame_1_finished_text_good" : "microgame_1_finished_text_bad",
-                            s => mobileModal.transform.Find("Body").GetComponent<TMP_Text>().text = s,
-                            new Dictionary<string, string>()
-                            {
-                                { "~", boughtInTotal.ToString() },
-                                { "#", spent.ToString() },
-                                { "_", "playedRounds" },
-                                { "=", score.ToString() }
-                            });
-                    }
+                        { "~", boughtInTotal.ToString() },
+                        { "#", spent.ToString() },
+                        { "_", "playedRounds" },
+                        { "=", score.ToString() }
+                    });
+            }
 
-                    GameObject.Find("BackButton").GetComponent<Button>().onClick.AddListener(() =>
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().name));
-                    GameObject.Find("NextButton").GetComponent<Button>().onClick.AddListener(() =>
-                        SceneManager.LoadScene("MainMenu"));
+            GameObject.Find("BackButton").GetComponent<Button>().onClick.AddListener(() =>
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+            GameObject.Find("NextButton").GetComponent<Button>().onClick.AddListener(() =>
+                SceneManager.LoadScene("MainMenu"));
         }
 
         public bool GetFinished()

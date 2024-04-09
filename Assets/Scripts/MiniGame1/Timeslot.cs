@@ -6,7 +6,6 @@ using Minigame1;
 using UnityEngine;
 using UnityEngine.Video;
 using Minigame1.Classes;
-using TMPro.EditorUtilities;
 using UnityEngine.UI;
 
 public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
@@ -23,6 +22,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public RawImage textureRenderedTo;
     
     private int _playedRounds = 0;
+    public bool startGame = false;
     
     void Start()
     {
@@ -137,14 +137,12 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     {
         Debug.Log($"prepared {_vp.source}");
         StartCoroutine(StartVideo());
-        SceneController.Instance.showWhatYouBuyEvent.Invoke(false);
     }
 
     private IEnumerator StartVideo()
     {
-        _vp.Play();
-        _vp.Pause();
-        yield return new WaitUntil(() => false);
+        yield return new WaitUntil(() => startGame);
+        SceneController.Instance.showWhatYouBuyEvent.Invoke(false);
         textureRenderedTo.DOFade(1f, 0.5f);
         _vp.Play();
     }
@@ -163,7 +161,6 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
             _vp.Pause();
             _playedRounds++;
             mapImage.sprite = t.map;
-            SceneController.Instance.showWhatYouBuyEvent.Invoke(true);
             StartCoroutine(EmitBuyableAgain(t.start, t.end));
             int i = 0;
             foreach (BuyButton buyButton in buyButtons)
@@ -176,7 +173,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 }, t.resourceAmount[i].countryKey, t.resourceAmount[i].disabled);
                 i++;
             }
-
+            SceneController.Instance.showWhatYouBuyEvent.Invoke(true);
             _currentTimeslot = t.start;
         }
     }
