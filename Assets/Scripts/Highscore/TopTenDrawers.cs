@@ -13,9 +13,10 @@ public class TopTenDrawers : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => SceneController.Instance != null && SceneController.Instance.leaderboard != null);
+        yield return new WaitForEndOfFrame();
         GetComponent<RectTransform>().sizeDelta =
-            new Vector2(Utility.GetDevice() == Device.Desktop ? 583 : 583 * Settings.RESIZE_FACTOR, SceneController.Instance.leaderboard.entries.Length * (
-                (Utility.GetDevice() == Device.Desktop ? 140 : 140 * Settings.RESIZE_FACTOR) + 27));
+            new Vector2(Utility.GetDevice() == Device.Desktop ? 583f : 350 * Settings.RESIZE_FACTOR, SceneController.Instance.leaderboard.entries.Length * (
+                Utility.GetDevice() == Device.Desktop ? 140 + 27 : 100 * Settings.RESIZE_FACTOR + (27 * Settings.RESIZE_FACTOR)));
         foreach (LeaderboardEntry leaderboardEntry in SceneController.Instance.leaderboard.entries)
         {
             GameObject block = Instantiate(blockPrefab, transform);

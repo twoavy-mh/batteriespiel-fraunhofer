@@ -24,6 +24,30 @@ namespace Models
             current3dModel = GameState.Models.Cells;
         }
     }
+
+    [Serializable]
+    public class PlayerUpdateDetails
+    {
+        public string id;
+        public string name;
+        public Language language;
+        public bool finishedIntro;
+        public GameState.Models current3dModel;
+        
+        private PlayerUpdateDetails(PlayerDetails player)
+        {
+            id = player.id;
+            name = player.name;
+            language = player.language;
+            finishedIntro = player.finishedIntro;
+            current3dModel = player.current3dModel;
+        }
+        
+        public static explicit operator PlayerUpdateDetails(PlayerDetails v)
+        {
+            return new PlayerUpdateDetails(v);
+        }
+    }
     
     [Serializable]
     public class PlayerDetails

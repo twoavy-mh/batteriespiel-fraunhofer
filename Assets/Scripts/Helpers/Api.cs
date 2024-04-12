@@ -58,16 +58,6 @@ namespace Helpers
             return request;
         }
 
-        public void ToggleLanguage(Language newLanguage, Action<PlayerDetails> callback)
-        {
-            PlayerDetails p = GameState.Instance.currentGameState;
-            p.language = newLanguage;
-            StartCoroutine(UpdatePlayer(p, details =>
-            {
-                callback(details);
-            }));
-        }
-
         private IEnumerator RegisterPlayer(string name, Language language, Action<PlayerRegistration> callback)
         {
             Debug.Log("Registering");
@@ -101,9 +91,10 @@ namespace Helpers
             callback((PlayerDetails)v);
         }
 
-        private IEnumerator UpdatePlayer(PlayerDetails newDetails, Action<PlayerDetails> callback)
+        public IEnumerator UpdatePlayer(PlayerDetails newDetails, Action<PlayerDetails> callback)
         {
-            string requestString = JsonUtility.ToJson(newDetails);
+            string requestString = JsonUtility.ToJson((PlayerUpdateDetails)newDetails);
+            Debug.Log(requestString);
             UnityWebRequest request = GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users",
                 "POST", requestString);
 
@@ -112,6 +103,7 @@ namespace Helpers
 
 
             string v = request.downloadHandler.text;
+            Debug.Log(v);
             try
             {
                 callback((PlayerRegistration)v);

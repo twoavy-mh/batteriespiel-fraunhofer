@@ -8,7 +8,7 @@ namespace Minigame4
 {
     public class Timebar : MonoBehaviour
     {
-        public int durationInSeconds = 20;
+        public int durationInSeconds = 120;
         private int _remainingTime;
 
         public int RemainingTime => _remainingTime;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightningMover : MonoBehaviour
 {
     private Rigidbody2D _rb;
-    public float maxHeight = 3.17f;
+    public float maxHeight = 2.17f;
     public float minHeight = -1.51f;
     private float _dir = 1;
 

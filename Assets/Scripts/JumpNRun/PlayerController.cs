@@ -118,17 +118,27 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 case "BlueLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.BlueLightning);
-                    GetComponent<AudioSource>().Play();
+                    if (!Debug.isDebugBuild)
+                    {
+                        GetComponent<AudioSource>().Play();    
+                    }
+                    
                     break;
                 case "YellowLightning":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     SceneController.Instance.collectEvent.Invoke(Collectable.YellowLightning);
-                    GetComponent<AudioSource>().Play();
+                    if (!Debug.isDebugBuild)
+                    {
+                        GetComponent<AudioSource>().Play();    
+                    }
                     break;
                 case "Target":
                     FadeCollectable(other.GetComponent<SpriteRenderer>());
                     _collectedCount++;
-                    GetComponent<AudioSource>().Play();
+                    if (!Debug.isDebugBuild)
+                    {
+                        GetComponent<AudioSource>().Play();    
+                    }
                     SceneController.Instance.collectEvent.Invoke(Collectable.LevelSpecific);
                     if (_collectedCount == 5)
                     {
@@ -221,7 +231,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     {
         isColliding = true;
         _animator.SetTrigger("bounce");
-        StartCoroutine(Utility.AnimateAnything(0.5f, 0, -6,
+        StartCoroutine(Utility.AnimateAnything(0.5f, 0, -6.5f,
             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(Utility.AnimateAnything(1f, _speed, 0,

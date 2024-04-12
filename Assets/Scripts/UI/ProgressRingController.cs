@@ -13,6 +13,7 @@ namespace UI
         
         public void StartAnimation(float scored)
         {
+            Debug.Log(scored);
             StartCoroutine(Helpers.Utility.AnimateAnything(1f, 0f, scored, ((progress, start, end) =>
             {
                 fillingRing.fillAmount = Mathf.Lerp(start, end, progress) / 100f;

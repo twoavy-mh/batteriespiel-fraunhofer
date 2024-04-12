@@ -30,7 +30,15 @@ namespace UI
                 bubbles[2].DOColor(Settings.ColorMap[Tailwind.Yellow3], 0.5f);
                 MoveTo(-1184 * 2);
             });
-            _actions.Add(() => SceneManager.LoadScene("JumpNRun"));
+            _actions.Add(() =>
+            {
+                GameState.Instance.currentGameState.finishedIntro = true;
+                StartCoroutine(Api.Instance.UpdatePlayer(GameState.Instance.currentGameState, (player) =>
+                {
+                    SceneManager.LoadScene("JumpNRun");
+                }));
+                
+            });
 
             int i = 0;
             foreach (Button button in actionButtons)
