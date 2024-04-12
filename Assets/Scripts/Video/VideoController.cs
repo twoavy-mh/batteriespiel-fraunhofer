@@ -83,7 +83,7 @@ public class VideoController : MonoBehaviour
 
         foreach (ImageColorSetter colorSetterInChild in skipButton.GetComponentsInChildren<ImageColorSetter>())
         {
-            if (colorSetterInChild.name == "Image")
+            if (colorSetterInChild.name == "Background")
             {
                 colorSetterInChild.UpdateColor(Tailwind.Yellow3);
             }
