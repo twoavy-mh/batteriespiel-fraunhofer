@@ -15,8 +15,9 @@ public class OpenInfoModal : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(OpenModal);
     }
     
-    void OpenModal()
+    public void OpenModal()
     {
+        Debug.Log("aisfdoaisf?");
         GameObject.Find("GoDown").GetComponent<Timebar>().Pause();
         GameObject[] modal = GetComponent<RenderUiBasedOnDevice>().DoIt();
         modal[0].SetActive(true);

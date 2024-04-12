@@ -98,6 +98,7 @@ namespace Minigame2
         {
             GetComponent<CanvasGroup>().interactable = true;
             GetComponent<Image>().raycastTarget = true;
+            
             //_rt.position = _initialPosition;
             _rt.DOMove(_initialPosition, 0.5f, false);
         }
@@ -110,6 +111,7 @@ namespace Minigame2
 
     public void Lock()
     {
+        transform.GetChild(2).GetComponent<CanvasGroup>().ignoreParentGroups = true;
         _finished = true;
         Debug.Log("finished");
     }
@@ -119,7 +121,7 @@ namespace Minigame2
         transform.GetChild(1).GetComponent<TMP_Text>().color = Settings.ColorMap[Tailwind.Blue1];
         GetComponent<Image>().color = Settings.ColorMap[Tailwind.Blue1];
         
-        if (!fakeBelow)
+        /*if (!fakeBelow)
         {
             CanvasGroup cg = transform.GetChild(2).GetComponent<CanvasGroup>();
             StartCoroutine(Utility.AnimateAnything(0.5f, 1f, 0f, (progress, start, end) =>
@@ -131,7 +133,7 @@ namespace Minigame2
                 cg.interactable = false;
                 cg.blocksRaycasts = false;
             }));    
-        }
+        }*/
         
     }
 }   

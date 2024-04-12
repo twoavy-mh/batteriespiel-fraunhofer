@@ -30,6 +30,11 @@ public class RectSizer : MonoBehaviour
             rt.localPosition = new Vector3(rt.localPosition.x + xDiff, rt.localPosition.y + yDiff, rt.localPosition.z + zDiff);
         }
 
+        if (Utility.GetDevice() != Device.Mobile)
+        {
+            return;
+        }
+        
         if (adjustRoundedCorners || roundedCornersRadius > 0)
         {
             ImageWithRoundedCorners i = GetComponent<ImageWithRoundedCorners>();

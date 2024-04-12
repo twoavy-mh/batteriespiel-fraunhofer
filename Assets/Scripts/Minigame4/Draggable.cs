@@ -6,6 +6,7 @@ using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
@@ -134,6 +135,7 @@ namespace Minigame4
         {
             _finished = true;
             transform.GetChild(4).GetComponent<Button>().interactable = true;
+            transform.GetChild(4).GetComponent<Button>().onClick.Invoke();
             Debug.Log("finished");
         }
 

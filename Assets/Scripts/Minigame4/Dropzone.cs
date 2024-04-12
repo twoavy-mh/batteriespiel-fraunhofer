@@ -35,13 +35,15 @@ namespace Minigame4
                     if (requires.Equals("car"))
                     {
                         RectTransform rt = GetComponent<RectTransform>();
-                        eventData.pointerDrag.GetComponent<RectTransform>().DOMove(new Vector3(rt.position.x + 200, rt.position.y + 200, rt.position.z), 0.5f);
+                        eventData.pointerDrag.GetComponent<RectTransform>()
+                            .DOMove(new Vector3(rt.position.x + 200, rt.position.y + 200, rt.position.z), 0.5f);
                     }
                     else
                     {
-                        eventData.pointerDrag.GetComponent<RectTransform>().DOMove(GetComponent<RectTransform>().position, 0.5f);    
+                        eventData.pointerDrag.GetComponent<RectTransform>()
+                            .DOMove(GetComponent<RectTransform>().position, 0.5f);
                     }
-                    
+
                     d.Lock();
                     d.SwitchToYellow();
                     Timebar t = GameObject.Find("GoDown").GetComponent<Timebar>();
@@ -65,7 +67,7 @@ namespace Minigame4
                 //GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
                 return;
             }
-            
+
             if (hoveringOver.name == gameObject.name)
             {
                 GetComponent<Image>().sprite = hoverSprite;
@@ -77,5 +79,5 @@ namespace Minigame4
                 //GetComponent<ImageColorSetter>().UpdateColor(_initialColor);
             }
         }
-    }   
+    }
 }
