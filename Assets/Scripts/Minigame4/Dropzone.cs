@@ -26,7 +26,6 @@ namespace Minigame4
 
         public void OnDrop(PointerEventData eventData)
         {
-            Debug.Log(eventData.pointerDrag.layer);
             if (LayerMask.NameToLayer("Player").Equals(eventData.pointerDrag.layer))
             {
                 Draggable d = eventData.pointerDrag.GetComponent<Draggable>();

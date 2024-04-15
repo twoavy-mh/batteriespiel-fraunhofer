@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     public float smallest = 0f;
     private bool _dead = false;
+    
+    private bool _willjumpInFixedUpdate = false;
 
     void Awake()
     {
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void Start()
     {
+        Debug.Log(Camera.main.orthographicSize);
         _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
         SceneController.Instance.dieEvent.AddListener(UseDie);
         _animator.speed = 2.5f;
@@ -58,6 +61,23 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     void FixedUpdate()
     {
         _rb.velocity = new Vector2(_speed, _rb.velocity.y);
+        if (_willjumpInFixedUpdate)
+        {
+            Debug.Log("Jump");
+            if (!_isGrounded) _mustFall = true;
+            _isGrounded = false;
+            //_rb.AddForce(Vector2.up * (_isJumping ? 80f : 100f));
+            _rb.velocity = Vector2.up * (_isJumping ? 10f : 12f);
+            if (_isJumping)
+            {
+                NowFalling();
+            }
+            _isJumping = true;
+            _jumpTimeCounter = _jumpTime;
+            
+            _animator.SetTrigger("jump");
+            _willjumpInFixedUpdate = false;
+        }
     }
 
     private void Update()
@@ -75,18 +95,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow) ||
              (Input.touchCount > 0 && Input.touches.ElementAtOrDefault(0).phase == TouchPhase.Began)) && !_mustFall)
         {
-            Debug.Log("Jump");
-            if (!_isGrounded) _mustFall = true;
-            _isGrounded = false;
-            _rb.velocity = Vector2.up * (_isJumping ? 8f : 10f);
-            if (_isJumping)
-            {
-                NowFalling();
-            }
-            _isJumping = true;
-            _jumpTimeCounter = _jumpTime;
-            
-            _animator.SetTrigger("jump");
+            _willjumpInFixedUpdate = true;
         }
         
 

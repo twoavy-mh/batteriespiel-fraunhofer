@@ -96,7 +96,6 @@ namespace Minigame4
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("Drag begin");
             if (!fakeBelow)
             {
                 transform.GetChild(2).GetComponent<Image>().raycastTarget = false;
@@ -111,7 +110,6 @@ namespace Minigame4
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("Drag end");
             if (!fakeBelow)
             {
                 transform.GetChild(2).GetComponent<Image>().raycastTarget = true;
@@ -136,7 +134,6 @@ namespace Minigame4
             _finished = true;
             transform.GetChild(4).GetComponent<Button>().interactable = true;
             transform.GetChild(4).GetComponent<Button>().onClick.Invoke();
-            Debug.Log("finished");
         }
 
         public void SwitchToYellow()

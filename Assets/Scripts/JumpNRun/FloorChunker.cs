@@ -64,7 +64,7 @@ public class FloorChunker : MonoBehaviour
         for (int i = 0; i < chunkCount; i++)
         {
             GameObject currentChunk = Instantiate(chunk, new Vector3(i * ChunkSize + xOffset + _blockCount * (
-                (chunkCount + 2) * ChunkSize), transform.parent.position.y, 0), Quaternion.identity);
+                (chunkCount + 1.5f) * ChunkSize), transform.parent.position.y, 0), Quaternion.identity);
             currentChunk.transform.SetParent(transform);
             SpriteRenderer s = currentChunk.transform.GetChild(0).GetComponent<SpriteRenderer>();
             s.sortingOrder = -i;
@@ -72,7 +72,7 @@ public class FloorChunker : MonoBehaviour
             if (randomChunkToSpawnObstacle[i])
             {
                 GameObject obstacle = Instantiate(_obstacle, new Vector3(i * 3.42f + _blockCount * (
-                    (chunkCount + 2) * ChunkSize), UnityEngine.Random.Range(-3.0f, -3.5f), 0), Quaternion.identity);
+                    (chunkCount + 1.5f) * ChunkSize), UnityEngine.Random.Range(-3.0f, -3.5f), 0), Quaternion.identity);
                 obstacle.transform.SetParent(currentChunk.transform);
             }
 
@@ -88,7 +88,7 @@ public class FloorChunker : MonoBehaviour
         col.AddComponent<BoxCollider2D>();
         col.transform.position = new Vector3(
             chunkCount * ChunkSize +
-            _blockCount * ((chunkCount + 2) * ChunkSize)
+            _blockCount * ((chunkCount + 1.5f) * ChunkSize)
             - col.transform.localScale.x / 2 - ChunkSize / 2,
             transform.parent.position.y, 0f);
 

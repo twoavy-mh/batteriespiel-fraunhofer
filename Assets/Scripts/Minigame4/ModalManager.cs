@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Extensions;
 using Helpers;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ namespace Minigame4
     {
     
         private Button _closeModalButton;
-    
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -33,8 +34,14 @@ namespace Minigame4
             gameObject.SetActive(false);
         }
 
-        public void SetContent(string header, string text, Sprite sprite)
+        public void SetContent(string header, string text, Sprite sprite, bool isFinal = false)
         {
+            /*if (isFinal)
+            {
+            //TODO: Mit GetComponentInChildren<SelfTranslatingText>
+                transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<SelfTranslatingText>()
+                    .translationKey = "end_game";
+            }*/
             if (Utility.GetDevice() == Device.Desktop)
             {
                 Utility.GetTranslatedText(text, s => transform.GetChild(3).GetComponent<TMP_Text>().text = s);
