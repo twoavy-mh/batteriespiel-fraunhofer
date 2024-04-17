@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 _mustFall = false;
                 _speed = Settings.MovementSpeed;
                 _animator.ResetTrigger("jump");
-                _animator.CrossFadeInFixedTime("walking_green 0", 1f);
+                _animator.SetTrigger("walk");
                 break;
         }
     }

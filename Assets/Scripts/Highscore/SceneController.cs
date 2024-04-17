@@ -44,6 +44,5 @@ namespace Highscore
                 _instance = this;
             }));
         }
-        
     }   
 }

@@ -21,7 +21,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private bool _isInit = true;
 
     private float _multiplier = 1f;
-    
+
     public float maxHealth = 330f;
     public float efficiency = 1f;
     public RectTransform reference;
@@ -32,12 +32,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private Coroutine _decayCoroutine;
 
     private float _health = 1f;
-    
+
     private enum HealthState
     {
         High,
         Mid,
-        Low, 
+        Low,
         Start
     }
 
@@ -45,7 +45,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private HealthState _lastHealthState = HealthState.Start;
 
     private Animator _animator;
-    
+
     public float Health
 
     {
@@ -58,12 +58,14 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
                 _health = 0;
                 SceneController.Instance.dieEvent.Invoke();
             }
-            
+
             SetColor(GetColor());
-            
+
             if (_rt)
             {
-                _rt.DOSizeDelta(new Vector2(_health.MapBetween(0f, maxHealth * efficiency, 0, reference.sizeDelta.x * efficiency), _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
+                _rt.DOSizeDelta(
+                    new Vector2(_health.MapBetween(0f, maxHealth * efficiency, 0, reference.sizeDelta.x * efficiency),
+                        _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
                 {
                     if (_isInit)
                     {
@@ -83,7 +85,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     void Start()
     {
         Debug.Log("Lifebar mounted");
-        
+
         _health = maxHealth * startWithHealthPercent;
         _bar = GetComponent<Image>();
         SetColor(GetColor(), false);
@@ -146,11 +148,13 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         {
             c = Settings.ColorMap[Tailwind.Green3];
             _healthState = HealthState.High;
-        } else if (_health < maxHealth * 0.3f && _health > maxHealth * 0.1f)
+        }
+        else if (_health < maxHealth * 0.3f && _health > maxHealth * 0.1f)
         {
             c = Settings.ColorMap[Tailwind.Orange3];
             _healthState = HealthState.Mid;
-        } else
+        }
+        else
         {
             c = Settings.ColorMap[Tailwind.Red1];
             _healthState = HealthState.Low;
@@ -158,41 +162,16 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
         return c;
     }
-    
+
     private void SetColor(Color c, bool doTween = true)
     {
-        if (_healthState != _lastHealthState)
-        {
-            _bar.DOColor(c, doTween ? 0.5f : 0f);
-            borderImage.DOColor(c, doTween ? 0.5f : 0f);
-            _lastHealthState = _healthState;
-            _animator.SetInteger("BatteryState", (int)_healthState);
-        }
+        _bar.DOColor(c, doTween ? 0.5f : 0f);
+        borderImage.DOColor(c, doTween ? 0.5f : 0f);
+        _lastHealthState = _healthState;
+        Debug.Log((int)_healthState);
+        _animator.SetInteger("BatteryState", (int)_healthState);
     }
-
-    private void SetToMobile()
-    {
-        GameObject life = GameObject.Find("Life");
-        GameObject glow = GameObject.Find("Glow");
-        GameObject wrapper = transform.parent.gameObject;
-        GameObject bar = transform.gameObject;
-        GameObject border = GameObject.Find("border");
-        GameObject score = GameObject.Find("Score");
-        GameObject ladezustand = GameObject.Find("Ladezustand");
-        GameObject energiestatus = GameObject.Find("Energiestatus");
-
-        //ladezustand.GetComponent<RectTransform>().localPosition = new Vector3(-1405f, 128f, 0);
-        //score.GetComponent<RectTransform>().localPosition = new Vector3(-1405f, 128f, 0);
-        
-        life.GetComponent<RectTransform>().sizeDelta = new Vector2(228f * Settings.RESIZE_FACTOR, 78f * Settings.RESIZE_FACTOR);
-        glow.GetComponent<RectTransform>().sizeDelta = new Vector2(205.4f * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
-        glow.GetComponent<RectTransform>().localPosition = new Vector3(114f * Settings.RESIZE_FACTOR, (-39.7f + 1.4f) * Settings.RESIZE_FACTOR, 0f);
-        wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(203.4f * Settings.RESIZE_FACTOR, 53f * Settings.RESIZE_FACTOR);
-        wrapper.GetComponent<RectTransform>().localPosition = new Vector3(12f * Settings.RESIZE_FACTOR, -11.5f * Settings.RESIZE_FACTOR, 0f);
-        bar.GetComponent<RectTransform>().sizeDelta = new Vector2(198f * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
-        border.GetComponent<RectTransform>().sizeDelta = new Vector2(border.GetComponent<RectTransform>().sizeDelta.x * Settings.RESIZE_FACTOR, 55f * Settings.RESIZE_FACTOR);
-    }
-
+    
     public void UseDie()
     {
         _dead = true;
