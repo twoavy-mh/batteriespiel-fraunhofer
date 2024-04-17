@@ -54,6 +54,10 @@ public class MiniGameButtonController : MonoBehaviour
         }
         else
         {
+            if (!Application.isEditor)
+            {
+                GetComponent<Button>().interactable = false;
+            }
             text.color = Settings.ColorMap[Tailwind.Blue4];
             buttonImage.sprite = inactiveSprite;
         }

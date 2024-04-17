@@ -42,6 +42,17 @@ namespace Minigame2
             _instance = this;
         }
 
+        public void End()
+        {
+            int done = 0;
+            foreach (var (key, value) in _dropzones)
+            {
+                if (value) done++;
+            }
+            GameObject[] all = GetComponent<RenderUiBasedOnDevice>().DoIt();
+            all[0].GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + done);
+        }
+        
         public void DroppedCorrectly(string field)
         {
             _dropzones[field] = true;
@@ -49,11 +60,6 @@ namespace Minigame2
                 _dropzones["separator"] && _dropzones["lith_charge"] && _dropzones["electrolyte"])
             {
                 GameObject[] all = GetComponent<RenderUiBasedOnDevice>().DoIt();
-                foreach (GameObject o in all)
-                {
-                    Debug.Log(o.name);
-                }
-                
                 all[0].GetComponent<MicrogameTwoFinished>().SetScore(fails, fails + 6);
             }
         }

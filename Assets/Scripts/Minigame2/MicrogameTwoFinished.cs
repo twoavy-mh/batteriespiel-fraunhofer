@@ -44,7 +44,7 @@ namespace Minigame2
             int minutes = totalTime / 60;
             int seconds = totalTime % 60;
             
-            int innerScore = Math.Max(0, 100 - (fails * 5));
+            int innerScore = Math.Max(Math.Max(0, 100 - (fails * 5)) - (6 - (totalTries - fails)) * 17, 0);
             _score = innerScore;
             Utility.GetTranslatedText(innerScore > 60 ? "microgame_2_did_good" : "microgame_2_did_bad", s =>
                 transform.GetChild(4).GetComponent<TMP_Text>().text = s, new Dictionary<string, string>()

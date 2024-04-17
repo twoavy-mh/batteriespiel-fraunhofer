@@ -41,8 +41,8 @@ namespace Highscore
                 leaderboard = Leaderboard.ConstructLeaderboard(array);
                 Debug.Log(leaderboard.ToString());
                 myScore = leaderboard.entries.Single(l => l.isMe);
+                _instance = this;
             }));
-            _instance = this;
         }
         
     }   
