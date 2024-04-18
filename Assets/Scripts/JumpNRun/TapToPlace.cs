@@ -39,8 +39,6 @@ public class TapToPlace : MonoBehaviour
     public Vector3 position;
     public Quaternion rotation;
     public TextMeshProUGUI debugText;
-
-    private GameObject _displaying;
     
     void Awake()
     {
@@ -88,15 +86,14 @@ public class TapToPlace : MonoBehaviour
             switch (GameState.Instance.currentGameState.current3dModel)
             {
                 case GameState.Models.Cells:
-                    _displaying = InstantiateModel("cells", cells, plane.transform);
+                    InstantiateModel("cells", cells, plane.transform);
                     break;
                 case GameState.Models.Pouch:
-                    _displaying = InstantiateModel("pouchcell", pouchCell, plane.transform);
-                    _displaying.AddComponent<AnimationController>();
-                    _displaying.GetComponent<AnimationController>().ShowInitialButtons();
+                    GameObject cell = InstantiateModel("pouchcell", pouchCell, plane.transform);
+                    cell.AddComponent<AnimationController>();
                     break;
                 case GameState.Models.Car:
-                    _displaying = InstantiateModel("car", car, plane.transform, Vector3.zero, .2f);
+                    InstantiateModel("car", car, plane.transform, Vector3.zero, .2f);
                     break;
             }
             debugText.text = "PLANE = " + plane.alignment;
@@ -116,17 +113,6 @@ public class TapToPlace : MonoBehaviour
         
         _isReseting = true;
         _currentResetTime = Time.time;
-
-        if (_displaying)
-        {
-            AnimationController c = _displaying.GetComponent<AnimationController>();
-            if (c != null)
-            {
-                c.HideButtons();
-            }
-
-            _displaying = null;
-        }
         
         DestroyImmediate(modelGameObject);
         

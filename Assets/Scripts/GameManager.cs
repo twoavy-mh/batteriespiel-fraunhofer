@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     public string currentScene = "";
 
     public ApiErrorEvent apiErrorEvent;
+    public FairChanged fairChangedEvent;
     private GameObject _errorPrefab;
 
     private List<Exception> _errorStack = new List<Exception>();
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     {
         _errorPrefab = Resources.Load<GameObject>("Prefabs/UI/ErrorLog");
         apiErrorEvent ??= new ApiErrorEvent();
+        fairChangedEvent ??= new FairChanged();
         apiErrorEvent.AddListener(UseApiError);
 #if UNITY_ANDROID
         Application.targetFrameRate = 60;

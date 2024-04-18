@@ -112,11 +112,11 @@
     }
 
     const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/deploy.loader.js";
+    const loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
     const config = {
-        dataUrl: buildUrl + "/deploy.data.unityweb",
-        frameworkUrl: buildUrl + "/deploy.framework.js.unityweb",
-        codeUrl: buildUrl + "/deploy.wasm.unityweb",
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "2av",
         productName: "Batteriespiel",

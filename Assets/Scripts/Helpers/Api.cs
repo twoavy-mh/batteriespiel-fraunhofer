@@ -210,6 +210,17 @@ namespace Helpers
             }
         }
 
+        public IEnumerator CreateNewFair(Action<int> callback)
+        {
+            UnityWebRequest request =
+                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/fair",
+                    "POST", null);
+
+            yield return request.SendWebRequest();
+            string v = request.downloadHandler.text;
+            callback(Int32.Parse(v));
+        }
+
         public IEnumerator GetLeaderboard(string uuid, Action<LeaderboardArray> callback)
         {
             UnityWebRequest request =
