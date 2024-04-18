@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,6 +47,8 @@ namespace Highscore
                 o = transform.GetChild(2).gameObject;
                 Set(o, _meh);
             }
+
+            GetComponent<Image>().DOColor(Color.white, 0.5f);
         }
 
         private void Set(GameObject o, string k)

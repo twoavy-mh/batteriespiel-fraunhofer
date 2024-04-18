@@ -63,8 +63,12 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         _rb.velocity = new Vector2(_speed, _rb.velocity.y);
         if (_willjumpInFixedUpdate)
         {
-            Debug.Log("Jump");
             if (!_isGrounded) _mustFall = true;
+            if (_mustFall)
+            {
+                _animator.ResetTrigger("jump");
+                _animator.SetTrigger("walk");
+            }
             _isGrounded = false;
             //_rb.AddForce(Vector2.up * (_isJumping ? 80f : 100f));
             _rb.velocity = Vector2.up * (_isJumping ? 10f : 12f);
@@ -224,13 +228,15 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                 }));
                 break;
             case "Floor":
-                Debug.Log("Floor");
+                if (!_isGrounded)
+                {
+                    _animator.ResetTrigger("jump");
+                    _animator.SetTrigger("walk");
+                }
                 _isGrounded = true;
                 _rb.gravityScale = 2f;
                 _mustFall = false;
                 _speed = Settings.MovementSpeed;
-                _animator.ResetTrigger("jump");
-                _animator.SetTrigger("walk");
                 break;
         }
     }

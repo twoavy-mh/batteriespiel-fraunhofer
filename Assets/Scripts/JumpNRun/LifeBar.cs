@@ -165,10 +165,10 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
     private void SetColor(Color c, bool doTween = true)
     {
+        if (_healthState == _lastHealthState) return;
         _bar.DOColor(c, doTween ? 0.5f : 0f);
         borderImage.DOColor(c, doTween ? 0.5f : 0f);
         _lastHealthState = _healthState;
-        Debug.Log((int)_healthState);
         _animator.SetInteger("BatteryState", (int)_healthState);
     }
     
