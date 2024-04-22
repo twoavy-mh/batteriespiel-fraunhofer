@@ -14,9 +14,9 @@ namespace JumpNRun
         {
             _targets = Resources.LoadAll<Sprite>("Images/JnRLevel/target");
             int cg = (int)GameState.Instance.GetCurrentMicrogame();
-            if (cg == 6)
+            if (cg == 5)
             {
-                cg = 0;
+                cg = new System.Random().Next(0, _targets.Length - 1);
             }
             GetComponent<SpriteRenderer>().sprite = _targets[cg];
             tag = "Target";

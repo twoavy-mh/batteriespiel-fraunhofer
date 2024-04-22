@@ -38,6 +38,7 @@ public class BgMover : MonoBehaviour, DieEvent.IUseDie
         spritesLvl4.CopyTo(spritesLvl6, spritesLvl1.Length + spritesLvl2.Length + spritesLvl3.Length);
         spritesLvl5.CopyTo(spritesLvl6, spritesLvl1.Length + spritesLvl2.Length + spritesLvl3.Length +
                                         spritesLvl4.Length);
+        Debug.Log(spritesLvl6.Length);
         SceneController.Instance.dieEvent.AddListener(UseDie);
         _sprites = new List<Sprite[]>()
         {
