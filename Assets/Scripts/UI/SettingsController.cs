@@ -31,7 +31,7 @@ namespace UI
             _settingsCanvas.GetComponentInChildren<CanvasGroup>().alpha = 0f;
             _settingsCanvas.GetComponentInChildren<CanvasGroup>().DOFade(1, .5f).SetEase(Ease.InCubic);
             
-            _resetPlayerPrefsButton = GameObject.Find("ResetPlayerPrefsButton")?.GetComponentInChildren<Button>();
+            /*_resetPlayerPrefsButton = GameObject.Find("ResetPlayerPrefsButton")?.GetComponentInChildren<Button>();
             if (PlayerPrefs.HasKey("uuid"))
             {
                 _resetPlayerPrefsButton?.onClick.AddListener(ResetPlayerPrefsModal);
@@ -39,18 +39,18 @@ namespace UI
             else
             {
                 _resetPlayerPrefsButton.gameObject.SetActive(false);
-            }
+            }*/
 
             _closeButton = GameObject.Find("SettingsCloseButton").GetComponentInChildren<Button>();
             _closeButton.onClick.AddListener(CloseInfoModal);
         }
         
-        private void ResetPlayerPrefsModal()
+        /*private void ResetPlayerPrefsModal()
         {
             //TODO: Add a confirmation modal
             PlayerPrefs.DeleteKey("uuid");
             SceneManager.LoadScene("Onboarding");
-        }
+        }*/
     
         private void CloseInfoModal()
         {

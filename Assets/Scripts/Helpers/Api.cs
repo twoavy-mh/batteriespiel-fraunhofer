@@ -49,6 +49,10 @@ namespace Helpers
             }
 
             request.SetRequestHeader("X-DIRECT", "y6biadzsv3t58kv2t8");
+            if (!PlayerPrefs.GetString("fairCode").Empty())
+            {
+                request.SetRequestHeader("Fair-Code", PlayerPrefs.GetString("fairCode"));
+            }
             if (!PlayerPrefs.GetString("bearer").Empty())
             {
                 request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("bearer"));
