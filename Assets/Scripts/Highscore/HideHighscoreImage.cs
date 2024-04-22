@@ -31,19 +31,21 @@ namespace Highscore
                 yield break;
             }
             
-            if (SceneController.Instance.myScore.rank == 0)
+            if (SceneController.Instance.myScore.rank == 1)
             {
                 GetComponent<Image>().sprite = high;
                 
-            } else if (SceneController.Instance.myScore.rank < 10 && SceneController.Instance.myScore.rank > 0)
+            } else if (SceneController.Instance.myScore.rank < 10 && SceneController.Instance.myScore.rank > 1)
             {
                 GetComponent<Image>().sprite = mid;
                 o = transform.GetChild(1).gameObject;
+                transform.GetChild(2).gameObject.SetActive(false);
                 Set(o, _meh);
             }
             else
             {
                 GetComponent<Image>().sprite = low;
+                transform.GetChild(1).gameObject.SetActive(false);
                 o = transform.GetChild(2).gameObject;
                 Set(o, _meh);
             }

@@ -55,11 +55,11 @@ namespace Models
         public string id;
         public string name;
         public Language language;
+        public int? tradeShowCode;
         public bool finishedIntro;
         public GameState.Models current3dModel;
         public int totalScore;
         public MicrogameState[] results;
-        public int fairModeCode = 0;
 
         public override string ToString()
         {
@@ -67,6 +67,7 @@ namespace Models
                    "id='" + id + '\'' +
                    ", name='" + name + '\'' +
                    ", language=" + language +
+                   ", tradeShowCode=" + tradeShowCode +
                    ", finishedIntro=" + finishedIntro +
                    ", current3dModel=" + current3dModel +
                    ", totalScore=" + totalScore +
@@ -77,6 +78,10 @@ namespace Models
         public static explicit operator PlayerDetails(string v)
         {
             PlayerDetails casted = JsonUtility.FromJson<PlayerDetails>(v);
+            if (casted.tradeShowCode == 0)
+            {
+                casted.tradeShowCode = -1;
+            }
             return casted;
         }
     }

@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Helpers;
+using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace UI
@@ -19,7 +21,7 @@ namespace UI
         
         void OnEnable()
         {
-            _isInFairMode = GameState.Instance.currentGameState.fairModeCode != 0;
+            _isInFairMode = GameState.Instance.currentGameState.tradeShowCode > 0;
             transform.GetComponent<Button>().onClick.AddListener(OpenInfoModal);
         }
         
@@ -76,6 +78,10 @@ namespace UI
             _joinLeaveButton.onClick.AddListener(LeaveFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
             _fairModeBody.translationKey = "fair_mode_leave_body";
+            int fairCode = int.Parse(_fairModeCanvas.GetComponentInChildren<TMP_InputField>().text);
+            PlayerPrefs.DeleteKey("uuid");
+            PlayerPrefs.SetInt("fairCode", fairCode);
+            SceneManager.LoadScene("Onboarding");
         }
         
         private void LeaveFairMode()

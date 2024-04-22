@@ -245,7 +245,6 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         }
     }
 
-
     private IEnumerator Boink(Collider2D obstacle, Action cb = null)
     {
         isColliding = true;

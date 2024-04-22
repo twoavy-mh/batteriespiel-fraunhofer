@@ -4,6 +4,8 @@ using System.Linq;
 using Helpers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,10 +16,15 @@ public class StateDisplayController : MonoBehaviour
     public Button playJumpAndRun;
     public Image imageState;
     public TMP_Text textState;
+
+    private string r;
+    private string k;
     
     IEnumerator Start()
     {
         yield return new WaitUntil(() => GameState.Instance.currentGameState != null);
+        
+        LocalizationSettings.SelectedLocaleChanged += LocalizationChanged;
         
         switch (GameState.Instance.currentGameState.results.Length)
         {
@@ -34,8 +41,6 @@ public class StateDisplayController : MonoBehaviour
                 break;
         }
         imageState.SetNativeSize();
-        string k;
-        string r;
         switch (GameState.Instance.currentGameState.results.Length)
         {
             case 1: 
@@ -72,23 +77,22 @@ public class StateDisplayController : MonoBehaviour
     private void PlayJumpAndRun()
     {
         SceneManager.LoadScene("JumpNRun");
-        return;
-        if (GameState.Instance.currentGameState.results.Length == 0)
+    }
+    
+    private void LocalizationChanged(Locale locale)
+    {
+        if (r == null || k == null)
         {
-            
             return;
         }
-
-            
-        if (GameState.Instance.currentGameState.results.Last().finished)
+        
+        Utility.GetTranslatedText(k, s =>
         {
-            SceneManager.LoadScene("JumpNRun");
-        }
-        else
-        {
-            Debug.Log($"Now do minigame {GameState.Instance.currentGameState.results.Length - 1}");
-
-            SceneManager.LoadScene($"Microgame{(int)GameState.Instance.currentGameState.results.Last().game + 1}Onboard");
-        }
+            try
+            {
+                textState.text = s.Replace("~n", r);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(transform.GetComponent<RectTransform>()); 
+            } catch {}
+        });
     }
 }
