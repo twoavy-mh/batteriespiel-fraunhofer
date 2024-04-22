@@ -19,7 +19,9 @@ public class CorrectImageBasedOnLevel : MonoBehaviour
     
     void Start()
     {
-        transform.GetChild(0).GetComponent<TMP_Text>().text = sprites[(int)GameState.Instance.GetCurrentMicrogame()].t;
-        transform.GetChild(1).GetComponent<Image>().sprite = sprites[(int)GameState.Instance.GetCurrentMicrogame()].s;
+        int i = (int)GameState.Instance.GetCurrentMicrogame();
+        if (i == 5) return;
+        transform.GetChild(0).GetComponent<TMP_Text>().text = sprites[i].t;
+        transform.GetChild(1).GetComponent<Image>().sprite = sprites[i].s;
     }
 }

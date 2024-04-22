@@ -27,7 +27,7 @@ namespace Helpers
         
         public enum Microgames
         {
-            Microgame1, Microgame2, Microgame3, Microgame4, Microgame5
+            Microgame1, Microgame2, Microgame3, Microgame4, Microgame5, Microgame6
         }
         
         public enum Models

@@ -14,6 +14,11 @@ public class CurrentStepAlongKetteImage : MonoBehaviour
     
     void Start()
     {
+        if (GameState.Instance.GetCurrentMicrogame() == GameState.Microgames.Microgame6)
+        {
+            GetComponent<Image>().color = new Color(255, 255, 255, 0);
+            return;
+        }
         GetComponent<Image>().sprite = images[(int)GameState.Instance.GetCurrentMicrogame()].GetSprite(); 
         GetComponent<Image>().SetNativeSize();
     }

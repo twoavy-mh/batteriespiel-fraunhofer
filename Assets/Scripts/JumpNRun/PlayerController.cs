@@ -153,6 +153,10 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                         GetComponent<AudioSource>().Play();    
                     }
                     SceneController.Instance.collectEvent.Invoke(Collectable.LevelSpecific);
+                    if (GameState.Instance.GetCurrentMicrogame() == GameState.Microgames.Microgame6)
+                    {
+                        return;
+                    }
                     if (_collectedCount == 5)
                     {
                         _finished = true;

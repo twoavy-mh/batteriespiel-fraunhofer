@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Fair;
 using Helpers;
 using Models;
 using UnityEngine.SceneManagement;
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
         DontDestroyOnLoad(this);
         _instance = this;
 
+        if (SystemInfo.operatingSystem.Contains("Windows") || Application.isEditor)
+        {
+            gameObject.AddComponent<IdleTimer>();
+        }
+        
         StartCoroutine(ARSession.CheckAvailability());
         StartCoroutine(AllowARScene());
     }

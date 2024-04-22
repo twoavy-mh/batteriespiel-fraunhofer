@@ -19,6 +19,7 @@ namespace Extensions
                 //AspectRatioFitter aspectRatioFitter = GetComponent<AspectRatioFitter>();
                 // aspectRatioFitter.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
                 _image = GetComponent<Image>();
+                if (_image.sprite == null) return;
                 float aspectRatio = (float)_image.sprite.texture.width / _image.sprite.texture.height;
                 base.aspectRatio = aspectRatio;
             }
