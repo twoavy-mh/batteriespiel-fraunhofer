@@ -193,7 +193,7 @@ namespace Minigame1
                     {
                         { "~", boughtInTotal.ToString() },
                         { "#", spent.ToString() },
-                        { "_", "playedRounds" },
+                        { "_", playedRounds.ToString() },
                         { "=", score.ToString() }
                     });
             }
