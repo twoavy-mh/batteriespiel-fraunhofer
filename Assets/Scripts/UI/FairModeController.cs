@@ -21,7 +21,15 @@ namespace UI
         
         void OnEnable()
         {
-            _isInFairMode = GameState.Instance.currentGameState.tradeShowCode > 0;
+            if (GameState.Instance.currentGameState == null)
+            {
+                _isInFairMode = false;
+            }
+            else
+            {
+                _isInFairMode = GameState.Instance.currentGameState.tradeShowCode > 0;   
+            }
+             
             transform.GetComponent<Button>().onClick.AddListener(OpenInfoModal);
         }
         
@@ -39,6 +47,7 @@ namespace UI
 
             _fairModeBody = GameObject.Find("FairModeBody").GetComponent<SelfTranslatingText>();
             _joinLeaveButton = GameObject.Find("Join/LeaveButton"). GetComponent<Button>();
+            Debug.Log(_isInFairMode);
             if (_isInFairMode)
             {
                 _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
@@ -91,6 +100,12 @@ namespace UI
             _joinLeaveButton.onClick.AddListener(JoinFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_join";
             _fairModeBody.translationKey = "fair_mode_join_body";
+            StartCoroutine(Api.Instance.LeaveFairMode(details =>
+            {
+                GameState.Instance.currentGameState = details;
+                PlayerPrefs.DeleteKey("fairCode");
+            }));
+            Destroy(_fairModeCanvas);
         }
     }
 }

@@ -247,5 +247,24 @@ namespace Helpers
 
             callback(null);
         }
+        
+        public IEnumerator LeaveFairMode(Action<PlayerDetails> callback)
+        {
+            UnityWebRequest request =
+                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{PlayerPrefs.GetString("uuid")}/leave-trade-show",
+                    "POST", "");
+
+            yield return request.SendWebRequest();
+            string v = request.downloadHandler.text;
+            try
+            {
+                callback((PlayerDetails)v);
+            }
+            catch (Exception e) 
+            {
+                Debug.Log(e.Message);
+            }
+        }
+        
     }
 }
