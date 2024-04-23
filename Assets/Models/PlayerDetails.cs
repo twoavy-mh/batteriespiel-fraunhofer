@@ -55,7 +55,7 @@ namespace Models
         public string id;
         public string name;
         public Language language;
-        public int? tradeShowCode;
+        public int tradeShowCode;
         public bool finishedIntro;
         public GameState.Models current3dModel;
         public int totalScore;
