@@ -34,6 +34,7 @@ namespace Highscore
             if (SceneController.Instance.myScore.rank == 1)
             {
                 GetComponent<Image>().sprite = high;
+                transform.GetChild(0).gameObject.SetActive(true);
                 
             } else if (SceneController.Instance.myScore.rank < 10 && SceneController.Instance.myScore.rank > 1)
             {
