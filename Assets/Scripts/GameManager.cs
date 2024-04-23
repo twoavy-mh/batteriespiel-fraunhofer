@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     public int currentJumpAndRunLevel = 0;
     public string lastScene = "";
     public string currentScene = "";
+    public bool arPopupShown = false;
 
     public ApiErrorEvent apiErrorEvent;
     public FairChanged fairChangedEvent;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,22 +24,32 @@ public class Toggle3dArModal : MonoBehaviour
         saveAreaGameObject.SetActive(false);
         saveAreaGameObject.SetActive(true);
         contentGameObject.SetActive(true);
+
+        if (GameManager.Instance.arPopupShown)
+        {
+            OpenModal();
+        }
     }
 
     void OpenModal()
-    {
+    {  
         contentGameObject.SetActive(false);
         saveAreaGameObject.SetActive(false);
         saveAreaGameObject.SetActive(true);
         contentGameObject.SetActive(true);
         modal.interactable = true;
         modal.blocksRaycasts = true;
-        modal.DOFade(1, .5f).SetEase(Ease.InCubic);
+        modal.DOFade(1, GameManager.Instance.arPopupShown? 0f: .5f).SetEase(Ease.InCubic);
+        
+        GameManager.Instance.arPopupShown = true;
+            
     }
     
 
     void CloseModal()
     {
+        GameManager.Instance.arPopupShown = false;
+        
         modal.interactable = false;
         modal.blocksRaycasts = false;
         modal.DOFade(0, .5f).SetEase(Ease.InCubic);
