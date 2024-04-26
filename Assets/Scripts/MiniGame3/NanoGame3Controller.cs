@@ -20,6 +20,8 @@ namespace Minigame3
         public GameObject beltArrowPrefabMobile;
         public GameObject beltArrowPrefabDesktop;
 
+        public GameObject checkIcon;
+
         public SelfTranslatingText helpText;
         
         public string helpKeyStandard;
@@ -142,10 +144,10 @@ namespace Minigame3
             _heatValue = _heatSlider.GetCurrentValue();
             OnHeatChange();
             
-            if (_heatValue < 0.6f)
-                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.BlueUI], Settings.ColorMap[Tailwind.Yellow1], _heatValue  / .6f );
+            if (_heatValue < 0.55f)
+                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.BlueUI], Settings.ColorMap[Tailwind.Yellow1], _heatValue  / .55f );
             else 
-                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.Yellow1], Settings.ColorMap[Tailwind.Red2], (_heatValue - 0.6f) / (1f - 0.6f));
+                _heaterImage.color = Color.Lerp(Settings.ColorMap[Tailwind.Yellow1], Settings.ColorMap[Tailwind.Red2], (_heatValue - .55f) / (1f - 0.55f));
         }
 
         private void InstantiateBeltArrows()
@@ -171,6 +173,7 @@ namespace Minigame3
             skipButton.onClick.RemoveListener(SkipGame);
             _gameFinished = true;
             _heaterImage.color = Settings.ColorMap[Tailwind.Yellow3];
+            checkIcon.SetActive(true);
         }
 
         void OnGameFinished()
