@@ -8,6 +8,8 @@ namespace Minigame3
     
     public class NanoGame7ButtonController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
+        public ImageColorSetter imageColorSetter;
+        
         [SerializeField]
         private bool _buttonPressed = false;
         
@@ -21,10 +23,12 @@ namespace Minigame3
             }
 
             _buttonPressed = true;
+            imageColorSetter?.UpdateColor(Tailwind.Yellow3, 1f, true);
         }
  
         public void OnPointerUp(PointerEventData eventData){
-            _buttonPressed = false;
+            _buttonPressed = false; 
+            imageColorSetter?.UpdateColor(Tailwind.Yellow3, 0f, true);
         }
 
         public bool ButtonPressed()
