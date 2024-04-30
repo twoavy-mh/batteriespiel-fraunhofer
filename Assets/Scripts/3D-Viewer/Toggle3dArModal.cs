@@ -24,7 +24,7 @@ public class Toggle3dArModal : MonoBehaviour
         saveAreaGameObject.SetActive(false);
         saveAreaGameObject.SetActive(true);
         contentGameObject.SetActive(true);
-
+        
         if (GameManager.Instance.arPopupShown)
         {
             OpenModal();
