@@ -149,9 +149,9 @@
     const warningBanner = document.querySelector("#unity-warning");
 
     window.addEventListener('resize', setCanvasDimensions);
-    unityContainer.addEventListener('fullscreenchange', () => {
+    unityContainer.addEventListener('fullscreenchange', async () => {
         if (!document.fullscreenElement) {
-            exitFullscreen();
+            await exitFullscreen();
         }
     });
 
@@ -247,15 +247,14 @@
             }
         }
         
-        
-
         canvas.style.width = width + 'px'
         canvas.style.height = height + 'px'
 
         setCanvasDimensions()
     }
     
-    function exitFullscreen() {
+    async function exitFullscreen() {
+        await new Promise(resolve => setTimeout(resolve, 250));
         unityContainer.classList.add('desktop-padding')
         canvas.style.removeProperty('width')
         canvas.style.removeProperty('height')
