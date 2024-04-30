@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns="/Users/nb/Library/Application Support/JetBrains/Toolbox/apps/Rider/ch-0/233.14015.60/Rider.app/Contents/lib/app.jar!/resources/html5-schema/html5.rnc"
-      xsi:schemaLocation="/Users/nb/Library/Application Support/JetBrains/Toolbox/apps/Rider/ch-0/233.14015.60/Rider.app/Contents/lib/app.jar!/resources/html5-schema/html5.rnc file:/Users/nb/Coding/2av/fraunhofer/batteriespiel-fraunhofer/UIElementsSchema/Users/nb/Library/Application%20Support/JetBrains/Toolbox/apps/Rider/ch-0/233.14015.60/Rider.app/Contents/lib/app.jar!/resources/html5-schema/html5.rnc.xsd">
+      xsi:schemaLocation="html5/html5.rnc file:/Users/nb/Coding/2av/fraunhofer/batteriespiel-fraunhofer/UIElementsSchema/Users/nb/Library/Application%20Support/JetBrains/Toolbox/apps/Rider/ch-0/233.14015.60/Rider.app/Contents/lib/app.jar!/resources/html5-schema/html5.rnc.xsd">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -29,13 +29,16 @@
         justify-content: start;
         align-items: center;
         flex-direction: column;
+        position: relative;
+    }
+    
+    .desktop-padding {
         padding: 2vw 1vw 1vw;
     }
-
-    #unity-canvas {
-        width: 90%;
+    
+    .unity-canvas-non-fullscreen {
+        width: 75%;
         aspect-ratio: 16 / 9;
-        background-color: aqua;
     }
 
     .roboto {
@@ -49,29 +52,95 @@
     }
 
     #unity-loading-bar {
-        width: 90%;
+        flex-grow: 1;
+        height: 20px;
+        background-color: #D4E6F4;
     }
 
     #unity-progress-bar-full {
-        background-color: #00ff00;
+        background-color: #00346B;
         height: 100%;
+    }
+    
+    #unity-footer {
+        width: 75%;
+        height: 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: start;
+        flex-grow: 0;
+        gap: 1vw;
+        margin-top: 1vw;
+    }
+    
+    #unity-fullscreen-button {
+        aspect-ratio: 1 / 1;
+        height: 60px;
+        background-color: #021C39;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #FFDC00;
+        border-radius: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #unity-progress-bar-empty {
+        width: 100%;
+        height: 100%;
+    }
+    .fixed-max-canvas-in-aspect-ratio {
+        aspect-ratio: 16 / 9;
+        position: fixed;
+        margin: auto;
+    }
+    .h-max {
+        height: 100%;
+    }
+    .w-max {
+        width: 100%;
     }
 </style>
 <body>
-<div id="unity-container" class="unity-desktop">
+<div id="unity-container" class="unity-desktop desktop-padding">
     <div id="unity-build-title" class="roboto">Batteriespiel</div>
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
-    <div id="unity-loading-bar" style="height: 2%">
-        <div id="unity-progress-bar-empty">
-            <div id="unity-progress-bar-full"></div>
-        </div>
-    </div>
+    <canvas id="unity-canvas" tabindex="-1" class="unity-canvas-non-fullscreen" style="background-color: antiquewhite"></canvas>
     <div id="unity-warning"></div>
     <div id="unity-footer">
-        <div id="unity-fullscreen-button"></div>
+        <div id="unity-loading-bar" style="height: 100%">
+            <div id="unity-progress-bar-empty">
+                <div style="width: 0" id="unity-progress-bar-full"></div>
+            </div>
+        </div>
+        <div id="unity-fullscreen-button">
+            <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="120" height="120" viewBox="100 100 924 924" >
+<defs>
+</defs>
+                <g transform="matrix(1 0 0 1 540 540)" id="6e96fa05-dceb-4d22-b7ed-8d8ccbdbe501"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;" vector-effect="non-scaling-stroke"  x="-540" y="-540" rx="0" ry="0" width="1080" height="1080" />
+</g>
+                <g transform="matrix(1 0 0 1 540 540)" id="24401e3b-7e30-466c-b1da-a443990b3b70"  >
+</g>
+                <g transform="matrix(0.59 0 0 0.59 474.51 474.51)" id="SVGRepo_iconCarrier"  >
+<polygon style="stroke: rgb(255,220,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,220,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  points="-18.88,-43.01 53.7,-43.01 53.7,-77.15 -77.14,-77.15 -77.14,53.7 -43.01,53.7 -43.01,-18.87 53.01,77.15 77.14,53.01 " />
+</g>
+                <g transform="matrix(0.59 0 0 0.59 474.51 605.49)" id="SVGRepo_iconCarrier"  >
+<polygon style="stroke: rgb(255,220,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,220,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  points="77.15,-53.01 53.01,-77.14 -43.01,18.88 -43.01,-53.7 -77.14,-53.7 -77.14,77.14 53.7,77.14 53.7,43.01 -18.87,43.01 " />
+</g>
+                <g transform="matrix(0.59 0 0 0.59 605.49 605.49)" id="SVGRepo_iconCarrier"  >
+<polygon style="stroke: rgb(255,220,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,220,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  points="43.01,-53.7 43.01,18.88 -53.01,-77.14 -77.14,-53.01 18.87,43.01 -53.7,43.01 -53.7,77.14 77.14,77.14 77.14,-53.7 " />
+</g>
+                <g transform="matrix(0.59 0 0 0.59 605.49 474.51)" id="SVGRepo_iconCarrier"  >
+<polygon style="stroke: rgb(255,220,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,220,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  points="-53.7,-77.15 -53.7,-43.01 18.88,-43.01 -77.14,53.01 -53.01,77.15 43.01,-18.87 43.01,53.7 77.14,53.7 77.14,-77.15 " />
+</g>
+</svg>
+        </div>
     </div>
 </div>
 <script defer>
+    const unityContainer = document.querySelector("#unity-container");
     const container = document.querySelector("#unity-container");
     const canvas = document.querySelector("#unity-canvas");
     const loadingBar = document.querySelector("#unity-loading-bar");
@@ -80,9 +149,14 @@
     const warningBanner = document.querySelector("#unity-warning");
 
     window.addEventListener('resize', setCanvasDimensions);
+    unityContainer.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            exitFullscreen();
+        }
+    });
 
     setCanvasDimensions();
-
+    
     function setCanvasDimensions() {
         const canvasDimensions = {
             width: canvas.getBoundingClientRect().width,
@@ -123,46 +197,72 @@
         productVersion: "0.1.0",
         showBanner: unityShowBanner,
     };
-
-    /*if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
-        const meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
-
-
-    } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-        if (window.innerWidth >= window.innerHeight) {
-            canvas.style.height = document.body.clientHeight + 'px'
-            canvas.style.width = document.body.clientHeight * (16 / 9) + 'px'
-        } else {
-            canvas.style.width = document.body.clientWidth + 'px'
-            canvas.style.height = document.body.clientWidth * (9 / 16) + 'px'
-        }
-
-    }*/
-
+    
     const script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
             progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
-            loadingBar.style.height = '0';
-            fullscreenButton.onclick = () => {
-                unityInstance.SetFullscreen(1);
-            };
+            loadingBar.style.height = '0'
         }).catch((message) => {
             alert(message);
         });
     };
 
+    fullscreenButton.onclick = async () => {
+        await setFullscreen();
+    };
+    
     document.body.appendChild(script);
+    
+    async function setFullscreen() {
+        await unityContainer.requestFullscreen();
+        await new Promise(resolve => setTimeout(resolve, 250));
+        
+        unityContainer.classList.remove('desktop-padding')
+        canvas.classList.remove('unity-canvas-non-fullscreen')
+        canvas.classList.add('fixed-max-canvas-in-aspect-ratio')
+
+        let width, height
+        
+        const maxWidth = window.screen.width
+        const maxHeight = window.screen.height
+        
+        /*if (window.innerWidth > window.innerHeight) {
+            //TODO: Constrain to max Width
+            width = window.innerHeight * 16 / 9
+            height = window.innerHeight
+        } else {
+            //TODO: Constrain to max Height
+            width = window.innerWidth
+            height = window.innerWidth * 9 / 16
+        }*/
+        
+        if (maxWidth > maxHeight) {
+            width = maxHeight * 16 / 9
+            height = maxHeight
+        } else {
+            width = maxWidth
+            height = maxWidth * 9 / 16
+        }
+        
+        
+
+        canvas.style.width = width + 'px'
+        canvas.style.height = height + 'px'
+
+        setCanvasDimensions()
+    }
+    
+    function exitFullscreen() {
+        unityContainer.classList.add('desktop-padding')
+        canvas.style.removeProperty('width')
+        canvas.style.removeProperty('height')
+        canvas.classList.remove('fixed-max-canvas-in-aspect-ratio')
+        canvas.classList.add('unity-canvas-non-fullscreen')
+        setCanvasDimensions()
+    }
 </script>
 </body>
 </html>
