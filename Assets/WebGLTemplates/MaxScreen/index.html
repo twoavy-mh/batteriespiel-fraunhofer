@@ -229,22 +229,22 @@
         const maxWidth = window.screen.width
         const maxHeight = window.screen.height
         
-        /*if (window.innerWidth > window.innerHeight) {
-            //TODO: Constrain to max Width
-            width = window.innerHeight * 16 / 9
-            height = window.innerHeight
-        } else {
-            //TODO: Constrain to max Height
-            width = window.innerWidth
-            height = window.innerWidth * 9 / 16
-        }*/
-        
         if (maxWidth > maxHeight) {
             width = maxHeight * 16 / 9
-            height = maxHeight
+            if (width > maxWidth) {
+                width = maxWidth
+                height = maxWidth * 9 / 16
+            } else {
+                height = maxHeight
+            }
         } else {
-            width = maxWidth
             height = maxWidth * 9 / 16
+            if (height > maxHeight) {
+                height = maxHeight
+                width = maxHeight * 16 / 9
+            } else {
+                width = maxWidth
+            }
         }
         
         
