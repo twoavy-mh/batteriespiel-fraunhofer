@@ -19,7 +19,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     private bool _isBoosting = false;
     private bool _dead = false;
     private bool _isInit = true;
-
+    private bool _gameStarted = false;
+    
     private float _multiplier = 1f;
 
     public float maxHealth = 330f;
@@ -52,6 +53,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         get => _health;
         set
         {
+            if (!_gameStarted) return;
             _health += (value - _health) * _multiplier;
             if (_health <= 0)
             {
@@ -61,18 +63,11 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
 
             SetColor(GetColor());
 
-            if (_rt)
+            if (_rt && _gameStarted)
             {
                 _rt.DOSizeDelta(
                     new Vector2(_health.MapBetween(0f, maxHealth * efficiency, 0, reference.sizeDelta.x * efficiency),
-                        _rt.sizeDelta.y), 1f).SetEase(Ease.Linear).onComplete = () =>
-                {
-                    if (_isInit)
-                    {
-                        GameObject.Find("Player").GetComponent<PlayerController>().StartRunning();
-                    }
-                };
-                _isInit = false;
+                        _rt.sizeDelta.y), 1f).SetEase(Ease.Linear);
             }
         }
     }
@@ -97,6 +92,12 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         InvokeRepeating(nameof(Check), 0f, 1f);
     }
 
+    public void StartGame()
+    {
+        _gameStarted = true;
+        GameObject.Find("Player").GetComponent<PlayerController>().StartRunning();
+    }
+    
     private void Check()
     {
         if (_dead) return;
@@ -106,7 +107,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         }
         else if (_isBoosting)
         {
-            Health++;
+            Health += 3;
         }
     }
 
@@ -128,13 +129,13 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         {
             case Collectable.BlueLightning:
                 efficiency -= 0.02f;
-                duration = 2f;
-                increaseBy = 5f;
+                duration = 2.5f;
+                increaseBy = 3f;
                 break;
             case Collectable.YellowLightning:
                 efficiency -= 0.05f;
-                duration = 2f;
-                increaseBy = 5f;
+                duration = 2.5f;
+                increaseBy = 3f;
                 break;
         }
 

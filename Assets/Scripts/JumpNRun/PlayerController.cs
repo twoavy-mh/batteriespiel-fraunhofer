@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _isJumping = false;
     private float _jumpTimeCounter;
     private float _jumpTime = 0.2f;
-
+    private bool _started = false;
+    
     private Animator _animator;
     private Coroutine _boink = null;
     private ScoreController _scoreController;
@@ -35,6 +36,16 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private bool _dead = false;
     
     private bool _willjumpInFixedUpdate = false;
+    
+    public float GeneralSpeed
+    {
+        get
+        {
+            float maxSpeed = Settings.MovementSpeed;
+            float minSpeed = -6.5f;
+            return _speed.MapBetween(minSpeed, maxSpeed, -1, 1);
+        }
+    }
 
     void Awake()
     {
@@ -53,6 +64,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     public void StartRunning()
     {
+        _started = true;
         StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
     }
@@ -86,7 +98,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void Update()
     {
-        if (isColliding || _finished || _dead)
+        if (isColliding || _finished || _dead || !_started)
         {
             return;
         }
@@ -115,12 +127,15 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
     private void NowFalling()
     {
         _isJumping = false;
-        StartCoroutine(Utility.AnimateAnything(0.2f, 1f, 3.0f,
+        
+        StartCoroutine(Utility.AnimateAnything(0.2f, 2.0f, 3.0f,
             (progress, start, end) => _rb.gravityScale = Mathf.Lerp(start, end, progress)));
     }
 
     private async void OnTriggerEnter2D(Collider2D other)
     {
+        if (!_started) return;
+        
         if (other.isTrigger)
         {
             switch (other.tag)
@@ -214,8 +229,16 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         }
     }
 
+    public bool hasStarted()
+    {
+        return _started;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
+        
+        if (!_started) return;
+        
         switch (other.transform.tag)
         {
             case "Obstacle":
@@ -230,6 +253,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                     StartCoroutine(Utility.AnimateAnything(1f, 0, Settings.MovementSpeed,
                         (progress, start, end) => _speed = Mathf.Lerp(start, end, progress)));
                 }));
+                _rb.gravityScale = 2f;
                 break;
             case "Floor":
                 if (!_isGrounded)

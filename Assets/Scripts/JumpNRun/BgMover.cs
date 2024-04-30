@@ -67,16 +67,16 @@ public class BgMover : MonoBehaviour, DieEvent.IUseDie
 
     void Update()
     {
+        if (!PlayerController.hasStarted()) return;
+        
         float dt = Time.deltaTime * _deadFactor;
-        if (!PlayerController.isColliding)
+
+        for (var i = 0; i < _children.Length; i++)
         {
-            for (var i = 0; i < _children.Length; i++)
-            {
-                _children[i].position =
-                    new Vector3(_children[i].position.x -
-                                (1f * ParallaxFactor * dt),
-                        _children[i].position.y, _children[i].position.z);
-            }
+            _children[i].position =
+                new Vector3(_children[i].position.x -
+                            ((PlayerController.GeneralSpeed * dt) * ParallaxFactor),
+                    _children[i].position.y, _children[i].position.z);
         }
     }
 
