@@ -35,13 +35,13 @@ public class ScoreController : MonoBehaviour, CollectedEvent.IUseCollectable
         switch (c)
         {
             case Collectable.LevelSpecific:
-                newScore = _score + 1000;
+                newScore = _score + 10;
                 break;
             case Collectable.BlueLightning:
-                newScore = _score + 500;
+                newScore = _score + 5;
                 break;
             case Collectable.YellowLightning:
-                newScore = _score + 100;
+                newScore = _score + 2;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(c), c, null);

@@ -244,9 +244,9 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             case "Obstacle":
                 if (_boink != null)
                 {
-                    return;
+                    break;
                 }
-
+                _isGrounded = true;
                 _boink = StartCoroutine(Boink(other.collider, () =>
                 {
                     _boink = null;
