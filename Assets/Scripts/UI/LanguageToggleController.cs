@@ -20,9 +20,9 @@ public class LanguageToggleController : MonoBehaviour
     void Start()
     {
         _currentLanguage = Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En;
-        if (GameState.Instance.currentGameState != null)
+        if (PlayerPrefs.GetInt("lang", -1) != -1)
         {
-            _currentLanguage = GameState.Instance.currentGameState.language;
+            _currentLanguage = PlayerPrefs.GetInt("lang") == 0 ? Language.De : Language.En;
         }
         LocalizationSettings.SelectedLocale = _currentLanguage == Language.De ? LocalizationSettings.AvailableLocales.GetLocale("de") : LocalizationSettings.AvailableLocales.GetLocale("en");
         _image = GetComponent<Image>();
@@ -48,7 +48,7 @@ public class LanguageToggleController : MonoBehaviour
         {
             return;
         }
-        StartCoroutine(Api.Instance.UpdatePlayer(GameState.Instance.currentGameState, (player) => { }));
+        PlayerPrefs.SetInt("lang", _currentLanguage == Language.De ? 0 : 1);
     }
     
     public Language GetCurrentLanguage()
