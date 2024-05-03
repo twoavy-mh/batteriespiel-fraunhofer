@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void Update()
     {
-        Debug.Log(_rb.velocity.y);
         if (isColliding || _finished || _dead || !_started)
         {
             return;
