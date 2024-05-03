@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Events;
-using Models;
 using UnityEngine;
 using JumpNRun;
 using UnityEngine.UI;
-using UnityEngine.Video;
 using DG.Tweening;
 using Helpers;
 
@@ -15,22 +10,14 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     [Range(0.0f, 1.0f)] public float startWithHealthPercent = 1.0f;
 
     private RectTransform _rt;
-    private bool _isDecaying = true;
-    private bool _isBoosting = false;
     private bool _dead = false;
-    private bool _isInit = true;
     private bool _gameStarted = false;
     
-    private float _multiplier = 1f;
-
-    public float maxHealth = 330f;
+    public float maxHealth = 100f;
     public float efficiency = 1f;
     public RectTransform reference;
     public Image borderImage;
     private Image _bar;
-
-    private Coroutine _regenerationCoroutine;
-    private Coroutine _decayCoroutine;
 
     private float _health = 1f;
 
@@ -54,7 +41,8 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         set
         {
             if (!_gameStarted) return;
-            _health += (value - _health) * _multiplier;
+            Debug.Log("Health set to " + value); 
+            _health = value;
             if (_health <= 0)
             {
                 _health = 0;
@@ -89,7 +77,7 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
         SceneController.Instance.collectEvent.AddListener(UseCollectable);
         SceneController.Instance.dieEvent.AddListener(UseDie);
 
-        InvokeRepeating(nameof(Check), 0f, 1f);
+        InvokeRepeating(nameof(Check), 0f, 0.5f);
     }
 
     public void StartGame()
@@ -100,57 +88,50 @@ public class LifeBar : MonoBehaviour, CollectedEvent.IUseCollectable, DieEvent.I
     
     private void Check()
     {
+        //Debug.Log(Health);
         if (_dead) return;
-        if (_isDecaying)
-        {
-            Health -= 3;
-        }
-        else if (_isBoosting)
-        {
-            Health += 3;
-        }
+        Health -= 1;
     }
 
-    private IEnumerator Regenerate(float duration, float increaseBy)
+    private void Regenerate(float increaseBy)
     {
-        _isBoosting = true;
-        _isDecaying = false;
-        _multiplier = increaseBy;
-        yield return new WaitForSeconds(duration);
-        _multiplier = 1f;
-        _isDecaying = true;
-        _isBoosting = false;
+        Health += increaseBy;
+        if (Health > maxHealth * efficiency)
+        {
+            Health = maxHealth * efficiency;
+        }
     }
 
     public void UseCollectable(Collectable c)
     {
-        float duration = 0, increaseBy = 0;
+        float increaseBy = 0;
         switch (c)
         {
             case Collectable.BlueLightning:
-                efficiency -= 0.02f;
-                duration = 2.5f;
-                increaseBy = 3f;
+                efficiency -= 0.1f;
+                increaseBy = 6f;
                 break;
             case Collectable.YellowLightning:
-                efficiency -= 0.05f;
-                duration = 2.5f;
+                efficiency -= 0.01f;
                 increaseBy = 3f;
+                break;
+            case Collectable.LevelSpecific:
+                increaseBy = 10f;
                 break;
         }
 
-        StartCoroutine(Regenerate(duration, increaseBy));
+        Regenerate(increaseBy);
     }
 
     private Color GetColor()
     {
         Color c;
-        if (_health > maxHealth * 0.3f)
+        if (Health > maxHealth * 0.7f)
         {
             c = Settings.ColorMap[Tailwind.Green3];
             _healthState = HealthState.High;
         }
-        else if (_health < maxHealth * 0.3f && _health > maxHealth * 0.1f)
+        else if (Health < maxHealth * 0.7f && Health > maxHealth * 0.2f)
         {
             c = Settings.ColorMap[Tailwind.Orange3];
             _healthState = HealthState.Mid;
