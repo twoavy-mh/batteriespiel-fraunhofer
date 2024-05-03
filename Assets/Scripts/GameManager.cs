@@ -37,9 +37,11 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     }
 
     // Start is called before the first frame update
-    private void Awake()
+    private async void Awake()
     {
-        LocalizationSettings.InitializationOperation.WaitForCompletion();
+        #if UNITY_WEBGL
+            LocalizationSettings.InitializationOperation.WaitForCompletion();
+        #endif
         _errorPrefab = Resources.Load<GameObject>("Prefabs/UI/ErrorLog");
         apiErrorEvent ??= new ApiErrorEvent();
         fairChangedEvent ??= new FairChanged();
