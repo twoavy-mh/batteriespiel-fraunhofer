@@ -26,11 +26,11 @@ public class VideoSettingsBasedOnPlatform : MonoBehaviour
         {
             if ((GameState.Instance?.currentGameState?.language | Language.De) == Language.En)
             {
-                videoPlayer.url = videoUrlEn;
+                videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, videoUrlEn);
             }
             else
             {
-                videoPlayer.url = videoUrl;
+                videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, videoUrl);
             }
         }
 #else
