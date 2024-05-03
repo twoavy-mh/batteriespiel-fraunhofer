@@ -34,7 +34,7 @@ public class RandomTileSelector : MonoBehaviour
         }
 
 
-        if (Utility.RandomInRange(0, 100) / 100f < 0.1f)
+        if (Utility.RandomInRange(0, 100) / 100f < 0.20f)
         {
             bool isYellow = Random.value > 0.5f;
             GameObject lighting =
