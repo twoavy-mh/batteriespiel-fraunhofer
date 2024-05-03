@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
         _scoreController = GameObject.Find("Canvas").GetComponentInChildren<ScoreController>();
         SceneController.Instance.dieEvent.AddListener(UseDie);
         _animator.speed = 2.5f;
+        _rb.gravityScale = 2f;
     }
 
     public void StartRunning()
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     private void Update()
     {
+        Debug.Log(_rb.velocity.y);
         if (isColliding || _finished || _dead || !_started)
         {
             return;
