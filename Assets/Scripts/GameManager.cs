@@ -6,6 +6,7 @@ using Events;
 using Fair;
 using Helpers;
 using Models;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.SceneManagement;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     // Start is called before the first frame update
     private void Awake()
     {
+        LocalizationSettings.InitializationOperation.WaitForCompletion();
         _errorPrefab = Resources.Load<GameObject>("Prefabs/UI/ErrorLog");
         apiErrorEvent ??= new ApiErrorEvent();
         fairChangedEvent ??= new FairChanged();
