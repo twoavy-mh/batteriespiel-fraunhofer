@@ -37,11 +37,8 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     }
 
     // Start is called before the first frame update
-    private async void Awake()
+    private void Awake()
     {
-        #if UNITY_WEBGL
-            LocalizationSettings.InitializationOperation.WaitForCompletion();
-        #endif
         _errorPrefab = Resources.Load<GameObject>("Prefabs/UI/ErrorLog");
         apiErrorEvent ??= new ApiErrorEvent();
         fairChangedEvent ??= new FairChanged();
@@ -99,6 +96,10 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     private IEnumerator WaitUntilApiIsThere(Action cb)
     {
         yield return new WaitUntil(() => Api.Instance != null);
+#if UNITY_WEBGL
+        yield return LocalizationSettings.InitializationOperation.WaitForCompletion();
+        yield return LocalizationSettings.StringDatabase.PreloadOperation.WaitForCompletion();
+#endif
         cb();
     }
 

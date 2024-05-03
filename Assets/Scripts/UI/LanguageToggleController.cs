@@ -17,8 +17,9 @@ public class LanguageToggleController : MonoBehaviour
     private Language _currentLanguage;
     private Image _image;
     
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.Instance != null);
         _currentLanguage = Application.systemLanguage == SystemLanguage.German ? Language.De : Language.En;
         if (PlayerPrefs.GetInt("lang", -1) != -1)
         {
