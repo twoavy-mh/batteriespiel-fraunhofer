@@ -32,6 +32,14 @@ namespace Minigame4
                 rt.localPosition = new Vector3(rt.localPosition.x, 0, 0);
             }
             gameObject.SetActive(false);
+            if (SceneController.Instance.finishedCount == 6)
+            {
+                GameObject.Find("GoDown").GetComponent<Timebar>().Finished();
+                GameObject[] modals = SceneController.Instance.GetBased();
+                modals[0].GetComponent<MicrogameFourFinished>().SetScore(
+                    SceneController.Instance.fails, 
+                    SceneController.Instance.fails + SceneController.Instance.finishedCount, SceneController.Instance.sec);
+            }
         }
 
         public void SetContent(string header, string text, Sprite sprite, bool isFinal = false)
