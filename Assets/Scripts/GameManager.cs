@@ -97,8 +97,8 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     {
         yield return new WaitUntil(() => Api.Instance != null);
 #if UNITY_WEBGL
-        yield return LocalizationSettings.InitializationOperation.WaitForCompletion();
-        yield return LocalizationSettings.StringDatabase.PreloadOperation.WaitForCompletion();
+        yield return LocalizationSettings.InitializationOperation;
+        yield return LocalizationSettings.StringDatabase.PreloadOperation;
 #endif
         cb();
     }
