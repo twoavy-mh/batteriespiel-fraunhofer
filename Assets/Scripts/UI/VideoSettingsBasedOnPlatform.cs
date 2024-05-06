@@ -20,7 +20,7 @@ public class VideoSettingsBasedOnPlatform : MonoBehaviour
         videoPlayer.source = VideoSource.Url;
         if (!isMultiLang)
         {
-            videoPlayer.url = videoUrl;
+            videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, videoUrl);
         }
         else
         {
