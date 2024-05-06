@@ -142,6 +142,21 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             switch (other.tag)
             {
                 case "Killzone":
+                    if (GameState.Instance.GetCurrentMicrogame() == GameState.Microgames.Microgame6)
+                    {
+                        MicrogameState m = new MicrogameState()
+                        {
+                            game = GameState.Microgames.Microgame6,
+                            jumpAndRunResult = _scoreController.GetScoreForApi(),
+                            result = 0,
+                            finished = false,
+                            unlocked = true
+                        };
+                        StartCoroutine(Api.Instance.SetGame(m, PlayerPrefs.GetString("uuid"), details =>
+                        {
+                            GameState.Instance.currentGameState = details;
+                        }));
+                    }
                     SceneController.Instance.dieEvent.Invoke();
                     break;
                 case "BlueLightning":

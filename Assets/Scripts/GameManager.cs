@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
     private void StartGameManager()
     {
         SceneManager.activeSceneChanged += ChangedActiveScene;
-
+        
         if (!PlayerPrefs.GetString("uuid").Empty())
         {
             try
@@ -74,7 +74,13 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
                     {
                         if (s != null)
                         {
-                            Api.Instance.ReserializeGamestate(s, details => { SceneManager.LoadScene("MainMenu"); });
+                            Api.Instance.ReserializeGamestate(s, details =>
+                            {
+                                Debug.Log("------");
+                                Debug.Log(GameState.Instance.GetCurrentMicrogame());
+                                Debug.Log("------");
+                                SceneManager.LoadScene("MainMenu");
+                            });
                         }
                         else
                         {

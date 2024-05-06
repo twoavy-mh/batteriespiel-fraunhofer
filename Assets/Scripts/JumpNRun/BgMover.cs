@@ -44,11 +44,11 @@ public class BgMover : MonoBehaviour, DieEvent.IUseDie
         {
             spritesLvl1, spritesLvl2, spritesLvl3, spritesLvl4, spritesLvl5, spritesLvl6
         };
-        _children = new RectTransform[_sprites[(int)GameState.Instance.GetCurrentMicrogame()].Length];
+        _children = new RectTransform[_sprites[Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5)].Length];
         RectTransform parentRt = transform.parent.GetComponent<RectTransform>();
         Vector2 parentDimensions = new Vector2(parentRt.rect.width, parentRt.rect.height);
         GetComponent<RectTransform>().sizeDelta = parentDimensions;
-        for (int i = 0; i < _sprites[(int)GameState.Instance.GetCurrentMicrogame()].Length; i++)
+        for (int i = 0; i < _sprites[Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5)].Length; i++)
         {
             GameObject go = new GameObject("Background" + i);
             go.transform.SetParent(transform);
@@ -57,7 +57,7 @@ public class BgMover : MonoBehaviour, DieEvent.IUseDie
             rt.anchorMax = new Vector2(0, 1);
             rt.pivot = new Vector2(0f, 1f);
             Image img = go.AddComponent<Image>();
-            img.sprite = _sprites[(int)GameState.Instance.GetCurrentMicrogame()][i];
+            img.sprite = _sprites[Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5)][i];
             rt.sizeDelta = new Vector2(img.sprite.rect.width, img.sprite.rect.height);
             rt.localScale = new Vector3(1, 1, 1);
             rt.localPosition = new Vector3(1920 * i, 0, 0);

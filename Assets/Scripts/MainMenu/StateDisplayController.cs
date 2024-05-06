@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ public class StateDisplayController : MonoBehaviour
         
         LocalizationSettings.SelectedLocaleChanged += LocalizationChanged;
         
-        switch (GameState.Instance.currentGameState.results.Length)
+        switch (Math.Min(GameState.Instance.currentGameState.results.Length, 5))
         {
             case 1:
             case 2:
@@ -41,7 +42,7 @@ public class StateDisplayController : MonoBehaviour
                 break;
         }
         imageState.SetNativeSize();
-        switch (GameState.Instance.currentGameState.results.Length)
+        switch (Math.Min(GameState.Instance.currentGameState.results.Length, 5))
         {
             case 1: 
             case 2:

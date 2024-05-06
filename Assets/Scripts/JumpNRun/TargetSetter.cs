@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
@@ -12,7 +13,7 @@ namespace JumpNRun
     
         void Start()
         {
-            int cg = (int)GameState.Instance.GetCurrentMicrogame();
+            int cg = Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5);
             if (cg == 5)
             {
                 cg = new System.Random().Next(0, targets.Length - 1);

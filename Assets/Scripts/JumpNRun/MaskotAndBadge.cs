@@ -19,6 +19,14 @@ namespace JumpNRun
         private void Awake()
         {
             int i = (int)GameState.Instance.GetCurrentMicrogame();
+            
+            if (i == 6)
+            {
+                transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                return;
+            };
+            
             if (maskotAndBadgeStructs[i].maskot)
             {
                 transform.GetChild(0).GetComponent<Image>().sprite = maskotAndBadgeStructs[i].maskot;
