@@ -142,21 +142,6 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
             switch (other.tag)
             {
                 case "Killzone":
-                    if (GameState.Instance.GetCurrentMicrogame() == GameState.Microgames.Microgame6)
-                    {
-                        MicrogameState m = new MicrogameState()
-                        {
-                            game = GameState.Microgames.Microgame6,
-                            jumpAndRunResult = _scoreController.GetScoreForApi(),
-                            result = 0,
-                            finished = false,
-                            unlocked = true
-                        };
-                        StartCoroutine(Api.Instance.SetGame(m, PlayerPrefs.GetString("uuid"), details =>
-                        {
-                            GameState.Instance.currentGameState = details;
-                        }));
-                    }
                     SceneController.Instance.dieEvent.Invoke();
                     break;
                 case "BlueLightning":
@@ -184,9 +169,9 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
                         GetComponent<AudioSource>().Play();    
                     }
                     SceneController.Instance.collectEvent.Invoke(Collectable.LevelSpecific);
-                    if (GameState.Instance.GetCurrentMicrogame() == GameState.Microgames.Microgame6)
+                    if (Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5) >= 5)
                     {
-                        return;
+                        break;
                     }
                     if (_collectedCount == 5)
                     {
@@ -302,10 +287,52 @@ public class PlayerController : MonoBehaviour, DieEvent.IUseDie
 
     public void UseDie()
     {
+        Debug.Log("-.-.-.-.-.-.-.-.-");
+        Debug.Log(GameState.Instance.GetCurrentMicrogame());
+        Debug.Log(GameState.Microgames.Microgame6);
+        Debug.Log("-.-.-.-.-.-.-.-.-");
+        if (GameState.Microgames.Microgame6 == (GameState.Microgames)Math.Min((int)GameState.Instance.GetCurrentMicrogame(), 5))
+        {
+            MicrogameState e = GameState.Instance.currentGameState.results.FirstOrDefault(r => r.game == GameState.Microgames.Microgame6);
+
+            if (e == null)
+            {
+                MakeCall();
+            }
+            else
+            {
+                if (e.jumpAndRunResult >= _scoreController.GetScoreForApi())
+                {
+                    Debug.Log("Score is worse than before, consuming...");
+                    return;
+                }
+                else
+                {
+                    MakeCall();
+                }   
+            }
+        }
         _dead = true;
         GetComponent<BoxCollider2D>().isTrigger = true;
         StartCoroutine(Utility.AnimateAnything(2f, _speed, 0,
             (progress, start, end) => _speed = Mathf.Lerp(start, end, progress),
             () => { _animator.SetTrigger("die"); }));
     }
+
+    private void MakeCall()
+    {
+        MicrogameState m = new MicrogameState()
+        {
+            game = GameState.Microgames.Microgame6,
+            jumpAndRunResult = _scoreController.GetScoreForApi(),
+            result = 0,
+            finished = false,
+            unlocked = true
+        };
+        StartCoroutine(Api.Instance.SetGame(m, PlayerPrefs.GetString("uuid"), details =>
+        {
+            GameState.Instance.currentGameState = details;
+        }));
+    }
+    
 }

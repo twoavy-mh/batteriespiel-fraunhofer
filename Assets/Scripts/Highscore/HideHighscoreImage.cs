@@ -48,7 +48,7 @@ namespace Highscore
                 GetComponent<Image>().sprite = low;
                 transform.GetChild(1).gameObject.SetActive(false);
                 o = transform.GetChild(2).gameObject;
-                Set(o, _meh);
+                Set(o, _bad);
             }
 
             GetComponent<Image>().DOColor(Color.white, 0.5f);
