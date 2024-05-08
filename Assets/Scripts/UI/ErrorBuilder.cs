@@ -16,15 +16,22 @@ public class ErrorBuilder : MonoBehaviour, ApiErrorEvent.IUseApiError
         GameManager.Instance.apiErrorEvent.AddListener(UseApiError);
         _errorStack = transform.GetChild(0).GetComponent<TMP_Text>();
         GetComponent<Button>().onClick.AddListener(Close);
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Close()
     {
+        Debug.Log("clear");
         GameManager.Instance.ClearError();
     }
 
     public void NewError(Exception e)
     {
+        if (!_errorStack)
+        {
+            _errorStack = transform.GetChild(0).GetComponent<TMP_Text>();
+            _errorStack.text = "";
+        };
         _errorStack.text += e.ToString() + "\n";
     }
 

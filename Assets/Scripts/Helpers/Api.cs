@@ -6,6 +6,7 @@ using System.Text;
 using Models;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace Helpers
 {
@@ -85,8 +86,16 @@ namespace Helpers
             
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log(request.error);
-                GameManager.Instance.apiErrorEvent.Invoke(new Exception(request.error));
+                if (request.responseCode == 410)
+                {
+                    GameManager.Instance.apiErrorEvent.Invoke(new Exception("Player not found"));
+                    PlayerPrefs.DeleteAll();
+                    SceneManager.LoadScene("Onboarding");
+                }
+                else
+                {
+                    GameManager.Instance.apiErrorEvent.Invoke(new Exception(request.error));    
+                }
                 yield break;
             }
             

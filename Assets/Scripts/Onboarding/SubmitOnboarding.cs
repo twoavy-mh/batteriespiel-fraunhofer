@@ -13,6 +13,7 @@ namespace Onboarding
     
         public TMP_InputField nameInput;
         public Button submitButton;
+        private bool _isSubmitting = false;
     
         // Start is called before the first frame update
         void Start()
@@ -22,6 +23,8 @@ namespace Onboarding
 
         private void Submit()
         {
+            if (_isSubmitting) return;
+            _isSubmitting = true;
             Api.Instance.GetPlayerDetails(nameInput.text, GameObject.Find("LanguageToggle").GetComponent<LanguageToggleController>().GetCurrentLanguage(),
                 s =>
                 {

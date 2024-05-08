@@ -154,17 +154,27 @@ public class GameManager : MonoBehaviour, ApiErrorEvent.IUseApiError
         if (_errorLogInstance == null)
         {
             _errorLogInstance = Instantiate(_errorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            StartCoroutine(_errorLogInstance.transform.GetChild(0).GetChild(0).GetComponent<ErrorBuilder>()
-                .WaitASec(e));
+            DontDestroyOnLoad(_errorLogInstance);
         }
+        _errorLogInstance.SetActive(true);
+        StartCoroutine(_errorLogInstance.transform.GetChild(0).GetChild(0).GetComponent<ErrorBuilder>()
+            .WaitASec(e));
+        StartCoroutine(AutoCloseError());
+    }
+
+    private IEnumerator AutoCloseError()
+    {
+        yield return new WaitForSeconds(3);
+        ClearError();
     }
 
     public void ClearError()
     {
+        Debug.Log("inactivating 0");
         if (_errorLogInstance != null)
         {
-            Destroy(_errorLogInstance);
-            _errorLogInstance = null;
+            Debug.Log("inactivating 1");
+            _errorLogInstance.SetActive(false);
         }
     }
 }
