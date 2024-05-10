@@ -14,6 +14,7 @@ public class PlayerprefClearer : MonoBehaviour
 
     void ClearPlayerPrefs()
     {
+        Debug.Log("Does the PlayerPrefsClearer do this?");
         if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
         {
             PlayerPrefs.DeleteKey("uuid");

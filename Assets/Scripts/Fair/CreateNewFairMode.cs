@@ -10,6 +10,9 @@ namespace Fair
     [RequireComponent(typeof(Button))]
     public class CreateNewFairMode : MonoBehaviour
     {
+
+        private bool _isCreating = false;
+        
         private IEnumerator Start()
         {
             yield return new WaitUntil(() => Api.Instance != null);
@@ -18,9 +21,18 @@ namespace Fair
         
         private void CreateNewFair()
         {
-            //StartCoroutine(Api.Instance)
-            PlayerPrefs.SetInt("fairCode", new Random().Next(1000, 10000));
-            GameManager.Instance.fairChangedEvent.Invoke(PlayerPrefs.GetInt("fairCode"));
+            if (_isCreating) return;
+            
+            _isCreating = true;
+            StartCoroutine(Api.Instance.CreateFair(s =>
+            {
+                _isCreating = false;
+                if (s != null)
+                {
+                    PlayerPrefs.SetInt("fairCode", s.tradeShowCode);
+                    GameManager.Instance.fairChangedEvent.Invoke(PlayerPrefs.GetInt("fairCode"));
+                }
+            }));
         }
     }
 }

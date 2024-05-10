@@ -14,6 +14,8 @@ namespace Helpers
     {
         
         private static Api _instance;
+        //private const string BaseUrl = "https://batterygame.web.fec.ffb.fraunhofer.de";
+        private const string BaseUrl = "http://localhost:8091";
         
         public static Api Instance
         {
@@ -67,12 +69,11 @@ namespace Helpers
         {
             Debug.Log("Registering");
             string requestString = JsonUtility.ToJson(new PlayerRegistrationRequest(name, language));
-            UnityWebRequest request = GetBaseRequest("https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users",
+            UnityWebRequest request = GetBaseRequest($"{BaseUrl}/api/battery-users",
                 "POST", requestString);
             yield return request.SendWebRequest();
 
             string v = request.downloadHandler.text;
-            Debug.Log(v);
 
             callback((PlayerRegistration)v);
         }
@@ -80,7 +81,7 @@ namespace Helpers
         private IEnumerator FetchPlayerDetails(string uuid, Action<PlayerDetails> callback)
         {
             UnityWebRequest request =
-                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}", "GET", null);
+                GetBaseRequest($"{BaseUrl}/api/battery-users/{uuid}", "GET", null);
             request.timeout = 10;
             yield return request.SendWebRequest();
             
@@ -108,7 +109,7 @@ namespace Helpers
         {
             string requestString = JsonUtility.ToJson((PlayerUpdateDetails)newDetails);
             Debug.Log(requestString);
-            UnityWebRequest request = GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users",
+            UnityWebRequest request = GetBaseRequest($"{BaseUrl}/api/battery-users",
                 "POST", requestString);
 
 
@@ -134,7 +135,7 @@ namespace Helpers
             string requestString = JsonUtility.ToJson(m);
             UnityWebRequest request =
                 GetBaseRequest(
-                    $"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{playerId}/battery-results",
+                    $"{BaseUrl}/api/battery-users/{playerId}/battery-results",
                     "POST", requestString);
 
 
@@ -223,21 +224,10 @@ namespace Helpers
             }
         }
 
-        public IEnumerator CreateNewFair(Action<int> callback)
-        {
-            UnityWebRequest request =
-                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/fair",
-                    "POST", null);
-
-            yield return request.SendWebRequest();
-            string v = request.downloadHandler.text;
-            callback(Int32.Parse(v));
-        }
-
         public IEnumerator GetLeaderboard(string uuid, Action<LeaderboardArray> callback)
         {
             UnityWebRequest request =
-                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{uuid}/leaderboard",
+                GetBaseRequest($"{BaseUrl}/api/battery-users/{uuid}/leaderboard",
                     "GET", null);
 
             yield return request.SendWebRequest();
@@ -260,7 +250,7 @@ namespace Helpers
         public IEnumerator LeaveFairMode(Action<PlayerDetails> callback)
         {
             UnityWebRequest request =
-                GetBaseRequest($"https://batterygame.web.fec.ffb.fraunhofer.de/api/battery-users/{PlayerPrefs.GetString("uuid")}/leave-trade-show",
+                GetBaseRequest($"{BaseUrl}/api/battery-users/{PlayerPrefs.GetString("uuid")}/leave-trade-show",
                     "POST", "");
 
             yield return request.SendWebRequest();
@@ -274,6 +264,34 @@ namespace Helpers
                 Debug.Log(e.Message);
             }
         }
+
+        public IEnumerator CreateFair(Action<FairPayload> cb)
+        {
+            UnityWebRequest request =
+                GetBaseRequest($"{BaseUrl}/api/trade-shows",
+                    "POST", "");
+
+            yield return request.SendWebRequest();
+            string v = request.downloadHandler.text;
+            try
+            {
+                cb((FairPayload)v);
+            }
+            catch (Exception e) 
+            {
+                Debug.Log(e.Message);
+            }
+        }
         
+        public IEnumerator FairExists(int fairCode, Action<(bool, int)> cb)
+        {
+            UnityWebRequest request =
+                GetBaseRequest($"{BaseUrl}/api/trade-shows/{fairCode}/exists",
+                    "GET", "");
+
+            yield return request.SendWebRequest();
+            Debug.Log(request.responseCode);
+            cb((request.responseCode == 200, fairCode));
+        }
     }
 }
