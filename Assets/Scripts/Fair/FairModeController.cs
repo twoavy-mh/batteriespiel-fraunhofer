@@ -13,8 +13,13 @@ namespace UI
         
         private GameObject _fairModeCanvas;
         private SelfTranslatingText _fairModeBody;
+        
         private Button _joinLeaveButton;
         private Button _closeButton;
+        
+        private GameObject _inputWrapperGameObject;
+        private GameObject _fairModeCurrentFairGameObject;
+        private GameObject _fairCodeGameObject;
         
         private bool _isInFairMode = false;
         private bool _lock = false;
@@ -27,7 +32,14 @@ namespace UI
             }
             else
             {
+
                 _isInFairMode = GameState.Instance.currentGameState.tradeShowCode > 0;   
+            }
+            
+            
+            if (PlayerPrefs.HasKey("fairCode"))
+            {
+                _isInFairMode = true;
             }
              
             transform.GetComponent<Button>().onClick.AddListener(OpenInfoModal);
@@ -47,18 +59,18 @@ namespace UI
 
             _fairModeBody = GameObject.Find("FairModeBody").GetComponent<SelfTranslatingText>();
             _joinLeaveButton = GameObject.Find("Join/LeaveButton"). GetComponent<Button>();
+            _inputWrapperGameObject = GameObject.Find("inputWrapper");
+            _fairCodeGameObject = GameObject.Find("fairCode");
+            _fairModeCurrentFairGameObject = GameObject.Find("FairModeCurrentFair");
+            
             Debug.Log(_isInFairMode);
             if (_isInFairMode)
             {
-                _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
-                _fairModeBody.translationKey = "fair_mode_leave_body";
-                _joinLeaveButton.onClick.AddListener(LeaveFairMode);
+                JoinActions();
             }
             else
             {
-                _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_join";
-                _fairModeBody.translationKey = "fair_mode_join_body";
-                _joinLeaveButton.onClick.AddListener(JoinFairMode);
+                LeaveActions();
             }
 
             _closeButton = GameObject.Find("FairModeCloseButton"). GetComponent<Button>();
@@ -84,11 +96,7 @@ namespace UI
         {
             if (_lock) return;
             _lock = true;
-            _isInFairMode = true;
-            _joinLeaveButton.onClick.RemoveListener(JoinFairMode);
-            _joinLeaveButton.onClick.AddListener(LeaveFairMode);
-            _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
-            _fairModeBody.translationKey = "fair_mode_leave_body";
+            JoinActions();
             int fairCode = int.Parse(_fairModeCanvas.GetComponentInChildren<TMP_InputField>().text);
             StartCoroutine(Api.Instance.FairExists(fairCode, (t) =>
             {
@@ -105,7 +113,6 @@ namespace UI
                 {
                     Debug.Log("Fair does not exist");
                     LeaveActions();
-
                     PlayerPrefs.DeleteKey("fairCode");
                 }
             }));
@@ -125,12 +132,28 @@ namespace UI
             Destroy(_fairModeCanvas);
         }
         
+        private void JoinActions()  {
+            _isInFairMode = true;
+            _joinLeaveButton.onClick.RemoveListener(JoinFairMode);
+            _joinLeaveButton.onClick.AddListener(LeaveFairMode);
+            _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
+            _fairModeBody.translationKey = "fair_mode_leave_body";
+            
+            _inputWrapperGameObject.SetActive(false);
+            _fairCodeGameObject.SetActive(true);
+            _fairModeCurrentFairGameObject.SetActive(true);
+        }
+        
         private void LeaveActions()  {
             _isInFairMode = false;
             _joinLeaveButton.onClick.RemoveListener(LeaveFairMode);
             _joinLeaveButton.onClick.AddListener(JoinFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_join";
             _fairModeBody.translationKey = "fair_mode_join_body";
+            
+            _inputWrapperGameObject.SetActive(true);
+            _fairCodeGameObject.SetActive(false);
+            _fairModeCurrentFairGameObject.SetActive(false);
         }
         
     }
