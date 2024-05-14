@@ -13,6 +13,7 @@ namespace Minigame4
         private static SceneController _instance;
         
         public HoveringOverDropzoneEvent hoveringOverDropzoneEvent;
+        public CorrectDropzoneEvent correctDropzoneEvent;
         public int finishedCount = 0;
         public int fails = 0;
         public int sec;
@@ -30,6 +31,7 @@ namespace Minigame4
         private void Awake()
         {
             hoveringOverDropzoneEvent ??= new HoveringOverDropzoneEvent();
+            correctDropzoneEvent ??= new CorrectDropzoneEvent();
             _instance = this;
             
         }
