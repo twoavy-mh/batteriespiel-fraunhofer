@@ -115,20 +115,37 @@ namespace Minigame4
             //Raycast using the Graphics Raycaster and mouse click position
             _raycaster.Raycast(eventData, results);
 
-            bool hit = false;
-            GameObject hitGo = null;
+            //bool hit = false;
+            //GameObject hitGo = null;
+            List<GameObject> hitGos = new List<GameObject>();
             foreach (RaycastResult raycastResult in results)
             {
                 if (raycastResult.gameObject.layer == LayerMask.NameToLayer("Dropzone"))
                 {
-                    hit = true;
-                    hitGo = raycastResult.gameObject;
+                    hitGos.Add(raycastResult.gameObject);
                 }
             }
             
-            if (hit && hitGo?.GetComponent<Dropzone>()?.requires == requiredDropZone)
+            bool hit = hitGos.Any(hitGo =>
+            {
+                try
+                {
+                    string possibleDropzone = hitGo.GetComponent<Dropzone>().requires;
+                    return possibleDropzone.Equals(requiredDropZone);   
+                } catch
+                {
+                    return false;
+                }
+            });
+
+            if (hit)
             {
                 SceneController.Instance.correctDropzoneEvent.Invoke(eventData.pointerDrag);
+            }
+            else
+            {
+                SceneController.Instance.fails++;
+                ResetPosition();
             }
             
             if (!fakeBelow)

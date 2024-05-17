@@ -75,9 +75,9 @@ namespace Minigame4
             }
             else
             {
-                Debug.Log(d.requiredDropZone + " != " + requires);
-                SceneController.Instance.fails++;
-                d.ResetPosition();
+                //Debug.Log(d.requiredDropZone + " != " + requires);
+                //SceneController.Instance.fails++;
+                //d.ResetPosition();
             }
             
             /*

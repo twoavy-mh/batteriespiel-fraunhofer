@@ -39,7 +39,7 @@ namespace Minigame4
 
         public void SetScore(int fails, int totalTries, int durInSec)
         {
-            Debug.Log(durInSec);
+            Debug.Log("Failed: " + fails + " Total: " + totalTries + " Dur: " + durInSec);
             int min = (int)Math.Floor(durInSec / 60f);
             float sec = durInSec % 60;
             int score = (int)Math.Floor(Math.Max(0, ((100 / 6f) * (totalTries - fails)) - (fails * 5f)));

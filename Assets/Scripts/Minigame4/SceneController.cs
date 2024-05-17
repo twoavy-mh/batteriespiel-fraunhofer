@@ -44,6 +44,7 @@ namespace Minigame4
         public void DroppedCorrectly(string field, int sec)
         {
             finishedCount++;
+            Debug.Log("finishedCount: " + finishedCount);
             if (finishedCount == 6)
             {
                 this.sec = sec;
