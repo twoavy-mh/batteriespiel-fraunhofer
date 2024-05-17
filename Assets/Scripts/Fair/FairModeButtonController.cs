@@ -21,8 +21,9 @@ namespace Fair
             newFairButton.SetActive(false);
             _couldCreateNewFairCode = true;
 #elif UNITY_EDITOR
+            fairModeButton.SetActive(false);
+            newFairButton.SetActive(false);
             _couldCreateNewFairCode = true;
-            newFairButton.GetComponent<Button>().onClick.AddListener(BtnOpenNewFairOverlay);
 #else
             newFairButton.SetActive(false);
 #endif

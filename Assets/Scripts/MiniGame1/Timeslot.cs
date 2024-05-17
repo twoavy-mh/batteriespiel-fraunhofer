@@ -18,7 +18,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     public Sprite[] maps;
     public Sprite emptyMap;
     public Image mapImage;
-    private int _secondsPerTimeslot = 3;
+    private int _secondsPerTimeslot = 6;
     public RawImage textureRenderedTo;
     
     private int _playedRounds = 0;
@@ -48,7 +48,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 {
                     new ResourceAmount(14, 0, 1, "indonesia"),
                     new ResourceAmount(0, 4, 0, "chile"),
-                    new ResourceAmount(0, 0, 0, "", true),
+                    new ResourceAmount(0, 0, 0, "out_of_order", true),
                 }, maps[1])
             },
             {
@@ -72,7 +72,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 {
                     new ResourceAmount(0, 0, 4, "kongo"),
                     new ResourceAmount(14, 0, 1, "indonesia"),
-                    new ResourceAmount(0, 0, 0, "", true),
+                    new ResourceAmount(0, 0, 0, "out_of_order", true),
                 }, maps[4])
             },
             {
@@ -80,7 +80,6 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
                 {
                     new ResourceAmount(0, 0, 4, "kongo"),
                     new ResourceAmount(5, 6, 1, "australia"),
-                    //next no lithium
                     new ResourceAmount(8, 0, 0, "philippines"),
                 }, maps[5])
             },

@@ -22,7 +22,7 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
         { "cobalt", 3 }
     };
 
-    private string _countryKey;
+    private string _countryKey = "";
 
     private bool _disabled = false;
     private bool _broke = false;
@@ -34,6 +34,10 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
         set
         {
             _broke = value;
+            if (_countryKey.Equals("out_of_order"))
+            {
+                return;
+            }
             if (_broke && !_disabled)
             {
                 transform.GetChild(1).GetComponent<TMP_Text>().color = Settings.ColorMap[Tailwind.Blue5];
@@ -63,26 +67,26 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
     public void SetNewBuyAmount(Dictionary<string, int> newAmount, string countryKey, bool disabled)
     {
         _bought = false;
+        _countryKey = countryKey;
+        _disabled = disabled;
         buyAmount = newAmount;
-        if (countryKey.Equals(""))
+        if (countryKey.Equals("") || countryKey.Equals("out_of_order"))
         {
-            transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+            Utility.GetTranslatedText(countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());
+            transform.GetChild(1).GetComponent<TMP_Text>().DOColor(Settings.ColorMap[Tailwind.Yellow4], 0.5f);
+            transform.parent.GetComponent<ImageColorSetter>().UpdateColor(Tailwind.Yellow4, 1f, true);
         }
         else
         {
-            Utility.GetTranslatedText(countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());    
+            Utility.GetTranslatedText(countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());
+            transform.parent.GetComponent<Image>()
+                .DOColor(Settings.ColorMap[_disabled ? Tailwind.Blue5 : Tailwind.Blue1], 0.5f);
         }
-        
-        _countryKey = countryKey;
-        _disabled = disabled;
 
         CheckBroke();
         KillChildren();
-
-        transform.parent.GetComponent<Image>()
-            .DOColor(Settings.ColorMap[_disabled ? Tailwind.Blue5 : Tailwind.Blue1], 0.5f);
-
-
+        
+        
         int i = 0;
         foreach (var (key, value) in newAmount.Reverse())
         {
@@ -189,15 +193,18 @@ public class BuyButton : MonoBehaviour, MoneySpentEvent.IUseMoneySpentEvent, Sho
             }
             else
             {
-                Utility.GetTranslatedText(_countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());    
+                Utility.GetTranslatedText(_countryKey, s => transform.GetChild(1).GetComponent<TMP_Text>().text = s.ToUpper());
+                if (_countryKey.Equals("out_of_order"))
+                {
+                    transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Yellow4], 0.5f);
+                }
             }
         }
         else
         {
             transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+            transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue1], 0.5f);
         }
         
-
-        transform.parent.GetComponent<Image>().DOColor(Settings.ColorMap[Tailwind.Blue1], 0.5f);
     }
 }

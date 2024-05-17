@@ -4,6 +4,7 @@ using Helpers;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = System.Random;
 
@@ -22,18 +23,23 @@ namespace Fair
         
         private GameObject _leaveButtonGameObject;
         private Button _joinLeaveButton;
+        private Button _resetButton;
         
         private bool _lock = false;
+        private bool _isInFairMode = false;
         
         private IEnumerator Start()
         {
             yield return new WaitUntil(() => Api.Instance != null);
+            _isInFairMode = PlayerPrefs.HasKey("fairCode");
             GetComponent<Button>().onClick.AddListener(CreateNewFair);
             
             _fairModeBodyText = GameObject.Find("FairModeBody").GetComponent<SelfTranslatingText>();
             _createFairMode = GameObject.Find("CreateFairMode");
             _isInFairModeGameObject = GameObject.Find("IsInFairMode");
             _joinLeaveButton = GameObject.Find("Join/LeaveButton").GetComponent<Button>();
+            _resetButton = GameObject.Find("ResetButton").GetComponent<Button>();
+            _resetButton.onClick.AddListener(BackToLoginButWithCode);
             _inputWrapperGameObject = GameObject.Find("inputWrapper");
 
             
@@ -59,9 +65,17 @@ namespace Fair
                 {
                     PlayerPrefs.SetInt("fairCode", s.tradeShowCode);
                     GameManager.Instance.fairChangedEvent.Invoke(PlayerPrefs.GetInt("fairCode"));
+                    
                     IsInFairMode();
                 }
             }));
+        }
+
+        private void BackToLoginButWithCode()
+        {
+            PlayerPrefs.DeleteKey("uuid");
+            PlayerPrefs.DeleteKey("bearer");
+            SceneManager.LoadScene("Onboarding");
         }
 
         private void IsInFairMode()
@@ -73,7 +87,7 @@ namespace Fair
             _joinLeaveButton.onClick.RemoveListener(JoinFairMode);
             _joinLeaveButton.onClick.AddListener(LeaveFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_leave";
-            _inputWrapperGameObject.SetActive(false);
+            _isInFairMode = true;
         }
 
         private void NotInFairMode()
@@ -85,7 +99,7 @@ namespace Fair
             _joinLeaveButton.onClick.RemoveListener(LeaveFairMode);
             _joinLeaveButton.onClick.AddListener(JoinFairMode);
             _joinLeaveButton.GetComponentInChildren<SelfTranslatingText>().translationKey = "fair_mode_label_join";
-            _inputWrapperGameObject.SetActive(true);
+            _isInFairMode = false;
         }
         
         private void JoinFairMode()
