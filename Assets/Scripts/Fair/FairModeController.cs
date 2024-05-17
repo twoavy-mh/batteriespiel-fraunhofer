@@ -96,8 +96,8 @@ namespace UI
         {
             if (_lock) return;
             _lock = true;
-            JoinActions();
             int fairCode = int.Parse(_fairModeCanvas.GetComponentInChildren<TMP_InputField>().text);
+            JoinActions();
             StartCoroutine(Api.Instance.FairExists(fairCode, (t) =>
             {
                 Debug.Log(fairCode);

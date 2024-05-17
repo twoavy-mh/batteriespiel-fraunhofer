@@ -44,7 +44,7 @@ namespace Minigame5
             int seconds = (int) completionTime % 60;
             string time = minutes.ToString().PadLeft(2, '0') + ":" + seconds.ToString().PadLeft(2, '0');  
             
-            Utility.GetTranslatedText("minigame5Score", s => scoreText.text = s
+            Utility.GetTranslatedText(score >= 75 ? "microgame_5_good" : "microgame_5_okay", s => scoreText.text = s
                 .Replace("~i", correctAnswered.ToString())
                 .Replace("~c", questionCount.ToString())
                 .Replace("~t", time)

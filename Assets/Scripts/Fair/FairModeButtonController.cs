@@ -20,12 +20,15 @@ namespace Fair
             fairModeButton.SetActive(false);
             newFairButton.SetActive(false);
             _couldCreateNewFairCode = true;
-#elif UNITY_EDITOR
-            fairModeButton.SetActive(false);
+#elif UNITY_ANDROID
             newFairButton.SetActive(false);
-            _couldCreateNewFairCode = true;
+            fairModeButton.SetActive(true);
+#elif UNITY_WEBGL
+            newFairButton.SetActive(false);
+            fairModeButton.SetActive(false);
 #else
             newFairButton.SetActive(false);
+            fairModeButton.SetActive(false);
 #endif
         }
 
