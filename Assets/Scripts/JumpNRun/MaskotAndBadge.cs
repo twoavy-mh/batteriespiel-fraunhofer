@@ -1,6 +1,7 @@
 using System;
 using Helpers;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace JumpNRun
@@ -12,6 +13,7 @@ namespace JumpNRun
         {
             public Sprite maskot;
             public Sprite badge;
+            public Sprite badgeEn;
         }
         
         [SerializeField] public MaskotAndBadgeStruct[] maskotAndBadgeStructs;
@@ -36,9 +38,10 @@ namespace JumpNRun
                 transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
             }
             
-            if (maskotAndBadgeStructs[i].badge)
+            Sprite posBadge = LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.GetLocale("de") ? maskotAndBadgeStructs[i].badge : maskotAndBadgeStructs[i].badgeEn;
+            if (posBadge)
             {
-                transform.GetChild(1).GetComponent<Image>().sprite = maskotAndBadgeStructs[i].badge;
+                transform.GetChild(1).GetComponent<Image>().sprite = posBadge;
                 transform.GetChild(1).GetComponent<Image>().SetNativeSize();
             }
             else
