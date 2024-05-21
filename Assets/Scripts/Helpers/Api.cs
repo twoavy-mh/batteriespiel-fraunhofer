@@ -14,8 +14,8 @@ namespace Helpers
     {
         
         private static Api _instance;
-        //private const string BaseUrl = "https://batterygame.web.fec.ffb.fraunhofer.de";
-        private const string BaseUrl = "http://localhost:8091";
+        private const string BaseUrl = "https://batterygame.web.fec.ffb.fraunhofer.de";
+        //private const string BaseUrl = "http://localhost:8091";
         
         public static Api Instance
         {

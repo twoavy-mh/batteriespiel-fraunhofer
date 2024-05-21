@@ -1,3 +1,4 @@
+using System;
 using Helpers;
 using TMPro;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace Minigame2
             {
                 Utility.GetTranslatedText(text, s => GameObject.Find("InfoText").GetComponent<TMP_Text>().text = s);
             }
-            Utility.GetTranslatedText(header, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s);
+            Utility.GetTranslatedText(header, s => transform.GetChild(2).GetComponent<TMP_Text>().text = s.Replace("\n", ""));
             
         }
     }

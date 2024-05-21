@@ -143,8 +143,8 @@ namespace Helpers
             { FontStyles.SubheadlineCondensed, new FontDetails(30, 40, FontType.Condensed, FontWeight.Medium500) },
             { FontStyles.FließtextMedium, new FontDetails(24, 30, FontType.Mono, FontWeight.Medium500) },
             { FontStyles.FließtextRegular, new FontDetails(18, 24, FontType.Mono, FontWeight.Regular400) },
-            { FontStyles.Button, new FontDetails(14, 14, FontType.Condensed, FontWeight.Bold700) },
-            { FontStyles.Credit, new FontDetails(14, 14, FontType.Condensed, FontWeight.Regular400) },
+            { FontStyles.Button, new FontDetails(14, 18, FontType.Condensed, FontWeight.Bold700) },
+            { FontStyles.Credit, new FontDetails(14, 18, FontType.Condensed, FontWeight.Regular400) },
         };
 
         public const float MovementSpeed = 8f;
