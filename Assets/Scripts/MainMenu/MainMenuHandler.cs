@@ -16,7 +16,7 @@ public class MainMenuHandler : MonoBehaviour
     public GameObject regularState;
 
     public GameObject InfoLangFairMode;
-    
+
     public TMP_Text finishedGameCounter;
 
     private Boolean menuOpen = false;
@@ -40,18 +40,18 @@ public class MainMenuHandler : MonoBehaviour
         yield return new WaitUntil(() => GameManager.Instance != null);
         yield return new WaitUntil(() => GameState.Instance.currentGameState != null);
         Debug.Log("Start MainMenuHandler.cs");
-        
+
         string finishedGames = "";
         try
         {
-            finishedGames = GameState.Instance.currentGameState.results.Where(state => state.unlocked)
-                .Count().ToString();
+            finishedGames = Math.Min(GameState.Instance.currentGameState.results.Where(state => state.unlocked)
+                .Count(), 5).ToString();
         }
         catch (NullReferenceException)
         {
             finishedGames = "0";
         }
-        
+
         finishedGameCounter.text = $"{finishedGames}/5";
         _parentCanvas = transform.GetComponent<Canvas>();
 
@@ -70,13 +70,15 @@ public class MainMenuHandler : MonoBehaviour
         else
         {
             Transform gameProgressGO = GameObject.Find("GameProgressOutline").transform;
-            gameProgressGO.localPosition = new Vector2(gameProgressGO.localPosition.x + 100f, gameProgressGO.localPosition.y);
+            gameProgressGO.localPosition =
+                new Vector2(gameProgressGO.localPosition.x + 100f, gameProgressGO.localPosition.y);
             InfoLangFairMode.transform.SetSiblingIndex(4);
-            InfoLangFairMode.transform.GetChild(0).transform.localPosition = new Vector2(-740f + InfoLangFairMode.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.x, -530f);
+            InfoLangFairMode.transform.GetChild(0).transform.localPosition = new Vector2(
+                -740f + InfoLangFairMode.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.x, -530f);
             m_MainMenuButton.gameObject.SetActive(false);
             ShowDesktopMenu();
         }
-        
+
         if ((int)GameState.Instance.GetCurrentMicrogame() == 0)
         {
             slideShowState.SetActive(true);
@@ -87,7 +89,7 @@ public class MainMenuHandler : MonoBehaviour
             slideShowState.SetActive(false);
             regularState.SetActive(true);
         }
-        
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(menuItems.GetComponent<RectTransform>());
     }
 
