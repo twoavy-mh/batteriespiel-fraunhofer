@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Events;
+using Helpers;
 using Minigame1;
 using UnityEngine;
 using UnityEngine.Video;
@@ -15,6 +17,8 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     private int _currentTimeslot;
 
     public BuyButton[] buyButtons = new BuyButton[3];
+    public BuyButton[] buyButtonsMobile = new BuyButton[3];
+    private BuyButton[] _useButtons = new BuyButton[3];
     public Sprite[] maps;
     public Sprite emptyMap;
     public Image mapImage;
@@ -23,7 +27,12 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
     
     private int _playedRounds = 0;
     public bool startGame = false;
-    
+
+    private void Awake()
+    {
+        _useButtons = Utility.GetDevice() == Device.Desktop ? buyButtons : buyButtonsMobile;
+    }
+
     void Start()
     {
         SceneController.Instance.brokerBuyEvent.AddListener(UseBrokerBuyEvent);
@@ -118,7 +127,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
         };
 
         int i = 0;
-        foreach (BuyButton buyButton in buyButtons)
+        foreach (BuyButton buyButton in _useButtons)
         {
             buyButton.SetNewBuyAmount(new Dictionary<string, int>()
             {
@@ -162,7 +171,7 @@ public class Timeslot : MonoBehaviour, BrokerBuyEvent.IUseBrokerBuy
             mapImage.sprite = t.map;
             StartCoroutine(EmitBuyableAgain(t.start, t.end));
             int i = 0;
-            foreach (BuyButton buyButton in buyButtons)
+            foreach (BuyButton buyButton in _useButtons)
             {
                 buyButton.SetNewBuyAmount(new Dictionary<string, int>()
                 {
