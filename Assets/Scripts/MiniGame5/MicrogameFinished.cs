@@ -33,7 +33,7 @@ namespace Minigame5
     
         private void Next()
         {
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("Leaderboard");
         }
 
         public void SetScore(int correctAnswered, int questionCount, float completionTime)
